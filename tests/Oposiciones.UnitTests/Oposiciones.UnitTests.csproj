@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Oposiciones.Application\Oposiciones.Application.csproj" />
+    <ProjectReference Include="..\..\src\Oposiciones.Domain\Oposiciones.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Oposiciones.Infrastructure\Oposiciones.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <!-- El contenido real del repositorio se prueba tal cual se publica. -->
+  <ItemGroup>
+    <Content Include="..\..\content\**\*.json"
+             Link="content\%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

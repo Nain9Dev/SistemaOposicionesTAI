@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Oposiciones.Api\Oposiciones.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+  </ItemGroup>
+
+  <!--
+    La Api resuelve el contenido desde el directorio del binario, de modo que las pruebas de
+    integracion necesitan la misma carpeta junto a su propio ensamblado.
+  -->
+  <ItemGroup>
+    <Content Include="..\..\content\**\*.json"
+             Link="content\%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
