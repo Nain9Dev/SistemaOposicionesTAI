@@ -1,0 +1,256 @@
+{
+  "code": "TAI",
+  "name": "Cuerpo de Tecnicos Auxiliares de Informatica de la Administracion del Estado",
+  "authority": "INAP - Instituto Nacional de Administracion Publica",
+  "description": "Programa oficial de 33 temas repartidos en cuatro bloques. El primer ejercicio consta de 80 preguntas mas 5 de reserva, con 120 minutos de duracion, penalizacion de un tercio por respuesta erronea y calificacion de 0 a 50 puntos, siendo necesarios 25 para superarlo.",
+  "source": {
+    "reference": "Resolucion de 9 de julio de 2024, de la Secretaria de Estado de Funcion Publica, por la que se convoca proceso selectivo para ingreso en el Cuerpo de Tecnicos Auxiliares de Informatica de la Administracion del Estado",
+    "publication": "BOE num. 166, de 10 de julio de 2024",
+    "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2024-14139"
+  },
+  "scoring": {
+    "correctPoints": 1.0,
+    "incorrectPoints": -0.333333,
+    "blankPoints": 0.0,
+    "maxScore": 50.0,
+    "passMark": 25.0
+  },
+  "format": {
+    "questionCount": 80,
+    "reserveQuestions": 5,
+    "durationMinutes": 120,
+    "optionsPerQuestion": 4
+  },
+  "blocks": [
+    {
+      "code": "I",
+      "name": "Organizacion del Estado y Administracion electronica",
+      "displayOrder": 1,
+      "examWeightPercent": 27.27,
+      "topics": [
+        {
+          "number": 1,
+          "title": "La Constitucion Espanola de 1978: estructura y contenido. Derechos y deberes fundamentales, su garantia y suspension. El Tribunal Constitucional. El Defensor del Pueblo.",
+          "slug": "constitucion-espanola-1978",
+          "keywords": ["Constitucion Espanola 1978", "Tribunal Constitucional", "Defensor del Pueblo"]
+        },
+        {
+          "number": 2,
+          "title": "La Corona. Las Cortes Generales: composicion y atribuciones del Congreso de los Diputados y del Senado. El Poder Judicial.",
+          "slug": "corona-cortes-generales-poder-judicial",
+          "keywords": ["Cortes Generales", "Congreso", "Senado", "Poder Judicial"]
+        },
+        {
+          "number": 3,
+          "title": "El Gobierno y la Administracion. Composicion, nombramiento y cese del Gobierno. La Administracion General del Estado: organizacion central y periferica. Los organismos publicos.",
+          "slug": "gobierno-y-administracion-general-del-estado",
+          "keywords": ["Gobierno", "Ley 50/1997", "Ley 40/2015", "Administracion General del Estado"]
+        },
+        {
+          "number": 4,
+          "title": "La organizacion territorial del Estado: las Comunidades Autonomas y la Administracion local. La Union Europea: instituciones y ordenamiento juridico comunitario.",
+          "slug": "organizacion-territorial-y-union-europea",
+          "keywords": ["Comunidades Autonomas", "Administracion local", "Union Europea"]
+        },
+        {
+          "number": 5,
+          "title": "El personal al servicio de las Administraciones publicas: el Estatuto Basico del Empleado Publico. Derechos y deberes, regimen disciplinario e incompatibilidades. Politicas de igualdad y contra la violencia de genero.",
+          "slug": "empleo-publico-igualdad",
+          "keywords": ["TREBEP", "Real Decreto Legislativo 5/2015", "Ley Organica 3/2007", "Ley Organica 1/2004"]
+        },
+        {
+          "number": 6,
+          "title": "El procedimiento administrativo comun de las Administraciones publicas: interesados, actos administrativos, terminos y plazos, fases del procedimiento y revision de actos. Los recursos administrativos.",
+          "slug": "procedimiento-administrativo-comun",
+          "keywords": ["Ley 39/2015", "acto administrativo", "silencio administrativo", "recursos administrativos"]
+        },
+        {
+          "number": 7,
+          "title": "El regimen juridico del sector publico: principios de actuacion, organos colegiados, convenios y funcionamiento electronico del sector publico. Transparencia y reutilizacion de la informacion del sector publico.",
+          "slug": "regimen-juridico-sector-publico-transparencia",
+          "keywords": ["Ley 40/2015", "Ley 19/2013", "Ley 37/2007", "datos abiertos"]
+        },
+        {
+          "number": 8,
+          "title": "La proteccion de datos personales y su regimen juridico: principios, derechos de las personas, obligaciones del responsable y del encargado, el delegado de proteccion de datos y las autoridades de control.",
+          "slug": "proteccion-de-datos-personales",
+          "keywords": ["Reglamento (UE) 2016/679", "RGPD", "Ley Organica 3/2018", "AEPD"]
+        },
+        {
+          "number": 9,
+          "title": "Administracion electronica: sede electronica, identificacion y firma electronica, registro y notificaciones electronicas, archivo electronico. El Esquema Nacional de Interoperabilidad y el Esquema Nacional de Seguridad.",
+          "slug": "administracion-electronica-eni-ens",
+          "keywords": ["sede electronica", "Real Decreto 4/2010", "Real Decreto 311/2022", "Cl@ve"]
+        }
+      ]
+    },
+    {
+      "code": "II",
+      "name": "Tecnologia basica",
+      "displayOrder": 2,
+      "examWeightPercent": 15.15,
+      "topics": [
+        {
+          "number": 10,
+          "title": "Conceptos de informatica basica. Representacion de la informacion. Arquitectura de computadores: unidad central de proceso, memoria, buses y unidades de entrada y salida.",
+          "slug": "informatica-basica-arquitectura-de-computadores",
+          "keywords": ["representacion de la informacion", "arquitectura von Neumann", "CPU", "memoria"]
+        },
+        {
+          "number": 11,
+          "title": "Perifericos y dispositivos de almacenamiento. Interfaces y buses de conexion. Elementos de un puesto de usuario.",
+          "slug": "perifericos-y-almacenamiento",
+          "keywords": ["perifericos", "discos", "SSD", "USB", "RAID"]
+        },
+        {
+          "number": 12,
+          "title": "Estructuras de datos. Organizacion de ficheros y registros. Algoritmos elementales de busqueda y ordenacion.",
+          "slug": "estructuras-de-datos-y-ficheros",
+          "keywords": ["pila", "cola", "arbol", "tabla hash", "complejidad"]
+        },
+        {
+          "number": 13,
+          "title": "Sistemas operativos: conceptos y componentes. Gestion de procesos, de memoria, de entrada y salida y de sistemas de ficheros.",
+          "slug": "sistemas-operativos-conceptos",
+          "keywords": ["procesos", "planificacion", "memoria virtual", "sistemas de ficheros"]
+        },
+        {
+          "number": 14,
+          "title": "Sistemas de gestion de bases de datos. El modelo relacional. Nociones de SQL. Bases de datos no relacionales.",
+          "slug": "sistemas-gestores-de-bases-de-datos",
+          "keywords": ["SGBD", "modelo relacional", "SQL", "NoSQL", "ACID"]
+        }
+      ]
+    },
+    {
+      "code": "III",
+      "name": "Desarrollo de sistemas",
+      "displayOrder": 3,
+      "examWeightPercent": 27.27,
+      "topics": [
+        {
+          "number": 15,
+          "title": "Modelado de datos: metodologias y reglas. Entidades, atributos y relaciones. Diseno logico y fisico. Normalizacion.",
+          "slug": "modelado-de-datos-y-normalizacion",
+          "keywords": ["entidad-relacion", "clave primaria", "normalizacion", "formas normales"]
+        },
+        {
+          "number": 16,
+          "title": "Lenguajes de programacion. Tipos de datos y operadores. Instrucciones condicionales, bucles y recursividad. Procedimientos, funciones y parametros. Vectores y registros. Estructura de un programa.",
+          "slug": "lenguajes-de-programacion",
+          "keywords": ["tipos de datos", "recursividad", "paso de parametros", "compilacion"]
+        },
+        {
+          "number": 17,
+          "title": "Lenguajes de interrogacion de bases de datos. El estandar ANSI SQL. Procedimientos almacenados. Eventos y disparadores.",
+          "slug": "sql-procedimientos-y-disparadores",
+          "keywords": ["ANSI SQL", "DDL", "DML", "trigger", "procedimiento almacenado"]
+        },
+        {
+          "number": 18,
+          "title": "Diseno y programacion orientada a objetos. Objetos, clases, herencia, metodos, sobrecarga y polimorfismo. Ventajas e inconvenientes.",
+          "slug": "programacion-orientada-a-objetos",
+          "keywords": ["encapsulamiento", "herencia", "polimorfismo", "interfaz"]
+        },
+        {
+          "number": 19,
+          "title": "Patrones de diseno y lenguaje unificado de modelado (UML). Arquitectura Java EE / Jakarta EE y plataforma .NET: componentes, persistencia y seguridad.",
+          "slug": "patrones-uml-java-dotnet",
+          "keywords": ["UML", "patrones de diseno", "Jakarta EE", ".NET"]
+        },
+        {
+          "number": 20,
+          "title": "Aplicaciones web. Desarrollo en cliente y en servidor, multiplataforma y multidispositivo. Lenguajes HTML y XML y sus derivaciones. Navegadores y lenguajes de programacion web. Servicios web y API REST.",
+          "slug": "aplicaciones-web-y-servicios",
+          "keywords": ["HTML", "XML", "JSON", "REST", "JavaScript"]
+        },
+        {
+          "number": 21,
+          "title": "Accesibilidad, diseno universal y usabilidad. Acceso y usabilidad de las tecnologias, productos y servicios relacionados con la sociedad de la informacion. Seguridad en el desarrollo de sistemas.",
+          "slug": "accesibilidad-usabilidad-y-desarrollo-seguro",
+          "keywords": ["WCAG", "Real Decreto 1112/2018", "UNE-EN 301549", "OWASP"]
+        },
+        {
+          "number": 22,
+          "title": "Ciclo de vida del software. Metodologias de desarrollo predictivas y agiles. Pruebas y calidad del software.",
+          "slug": "ciclo-de-vida-y-metodologias",
+          "keywords": ["ciclo de vida", "Metrica v3", "Scrum", "pruebas"]
+        },
+        {
+          "number": 23,
+          "title": "Repositorios de codigo y control de versiones: estructura y actualizacion. Integracion y despliegue continuos.",
+          "slug": "control-de-versiones-e-integracion-continua",
+          "keywords": ["Git", "control de versiones", "CI/CD", "rama"]
+        }
+      ]
+    },
+    {
+      "code": "IV",
+      "name": "Sistemas y comunicaciones",
+      "displayOrder": 4,
+      "examWeightPercent": 30.31,
+      "topics": [
+        {
+          "number": 24,
+          "title": "Administracion del sistema operativo y del software de base. Sistemas Windows y sistemas Unix y Linux. Gestion de usuarios y permisos.",
+          "slug": "administracion-de-sistemas-operativos",
+          "keywords": ["Windows", "Linux", "permisos", "Active Directory"]
+        },
+        {
+          "number": 25,
+          "title": "Administracion de bases de datos: instalacion, usuarios y privilegios, monitorizacion y optimizacion del rendimiento.",
+          "slug": "administracion-de-bases-de-datos",
+          "keywords": ["indices", "plan de ejecucion", "privilegios", "transacciones"]
+        },
+        {
+          "number": 26,
+          "title": "Sistemas de almacenamiento y su virtualizacion. Politicas, sistemas y procedimientos de copia de seguridad y recuperacion.",
+          "slug": "almacenamiento-y-copias-de-seguridad",
+          "keywords": ["SAN", "NAS", "RAID", "backup", "RTO", "RPO"]
+        },
+        {
+          "number": 27,
+          "title": "Virtualizacion de sistemas y de puestos de usuario. Contenedores y orquestacion. Computacion en la nube y modelos de servicio.",
+          "slug": "virtualizacion-contenedores-y-nube",
+          "keywords": ["hipervisor", "contenedores", "Kubernetes", "IaaS", "PaaS", "SaaS"]
+        },
+        {
+          "number": 28,
+          "title": "Conceptos de seguridad de los sistemas de informacion: seguridad fisica y logica, amenazas y vulnerabilidades. Tecnicas criptograficas y protocolos seguros.",
+          "slug": "seguridad-de-los-sistemas-de-informacion",
+          "keywords": ["cifrado simetrico", "clave publica", "hash", "firma electronica", "PKI"]
+        },
+        {
+          "number": 29,
+          "title": "Comunicaciones. Medios de transmision, modos de comunicacion, equipos terminales y equipos de interconexion y conmutacion.",
+          "slug": "comunicaciones-y-medios-de-transmision",
+          "keywords": ["par trenzado", "fibra optica", "conmutador", "encaminador"]
+        },
+        {
+          "number": 30,
+          "title": "Redes de comunicaciones. Redes de area local, metropolitana y extensa. Redes inalambricas. El modelo de referencia OSI.",
+          "slug": "redes-de-comunicaciones-y-modelo-osi",
+          "keywords": ["modelo OSI", "LAN", "WAN", "Ethernet", "IEEE 802.11", "VLAN"]
+        },
+        {
+          "number": 31,
+          "title": "El modelo TCP/IP y sus protocolos. Direccionamiento IPv4 e IPv6. Encaminamiento. Servicios DNS y DHCP.",
+          "slug": "modelo-tcp-ip-y-direccionamiento",
+          "keywords": ["TCP", "UDP", "IPv4", "IPv6", "DNS", "DHCP"]
+        },
+        {
+          "number": 32,
+          "title": "Internet: arquitectura de red, origen, evolucion y estado actual. Principales servicios. Protocolos HTTP, HTTPS y TLS.",
+          "slug": "internet-y-protocolos-web",
+          "keywords": ["HTTP", "HTTPS", "TLS", "URI", "correo electronico"]
+        },
+        {
+          "number": 33,
+          "title": "Seguridad y proteccion en redes de comunicaciones. Cortafuegos, sistemas de deteccion de intrusiones, redes privadas virtuales y seguridad perimetral. Gestion de incidentes.",
+          "slug": "seguridad-en-redes-y-gestion-de-incidentes",
+          "keywords": ["cortafuegos", "IDS", "IPS", "VPN", "CCN-CERT", "SIEM"]
+        }
+      ]
+    }
+  ]
+}

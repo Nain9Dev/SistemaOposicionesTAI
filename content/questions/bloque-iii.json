@@ -1,0 +1,672 @@
+{
+  "examCode": "TAI",
+  "questions": [
+    {
+      "id": "TAI-B3-T15-001",
+      "blockCode": "III",
+      "topicNumber": 15,
+      "difficulty": 2,
+      "statement": "Una relación se encuentra en Segunda Forma Normal (2FN) cuando está en 1FN y además:",
+      "options": [
+        "No existen grupos repetitivos ni atributos multivaluados",
+        "Todos los atributos no clave dependen funcionalmente de forma completa de la clave primaria",
+        "No existe ninguna dependencia funcional transitiva entre atributos no clave",
+        "Todo determinante es una clave candidata"
+      ],
+      "correctIndex": 1,
+      "explanation": "La 2FN exige que la relación esté en 1FN y que todo atributo no perteneciente a la clave dependa funcionalmente de forma completa de la clave primaria, es decir, que no existan dependencias parciales sobre parte de una clave compuesta. La eliminación de dependencias transitivas corresponde a la 3FN y la condición sobre determinantes a la forma normal de Boyce-Codd.",
+      "source": {
+        "reference": "Normalización de bases de datos relacionales. Formas normales",
+        "publication": "Temario TAI, Bloque III, tema 15"
+      },
+      "tags": ["modelado-de-datos", "normalizacion"]
+    },
+    {
+      "id": "TAI-B3-T15-002",
+      "blockCode": "III",
+      "topicNumber": 15,
+      "difficulty": 3,
+      "statement": "En el modelo entidad-relación, ¿cómo se transforma habitualmente al modelo relacional una relación N:M entre dos entidades?",
+      "options": [
+        "Añadiendo una clave ajena en cualquiera de las dos tablas",
+        "Creando una nueva tabla cuya clave primaria está formada por las claves ajenas de ambas entidades",
+        "Fusionando ambas entidades en una única tabla",
+        "Duplicando los atributos de una entidad dentro de la otra"
+      ],
+      "correctIndex": 1,
+      "explanation": "Una interrelación de cardinalidad N:M no puede representarse mediante una simple clave ajena. Se transforma en una tabla intermedia cuya clave primaria es la combinación de las claves ajenas que referencian a ambas entidades, y donde se ubican además los atributos propios de la interrelación.",
+      "source": {
+        "reference": "Transformación del modelo entidad-relación al modelo relacional",
+        "publication": "Temario TAI, Bloque III, tema 15"
+      },
+      "tags": ["modelado-de-datos", "entidad-relacion"]
+    },
+    {
+      "id": "TAI-B3-T15-003",
+      "blockCode": "III",
+      "topicNumber": 15,
+      "difficulty": 3,
+      "statement": "Una relación está en Tercera Forma Normal (3FN) si está en 2FN y:",
+      "options": [
+        "Ningún atributo no clave depende transitivamente de la clave primaria",
+        "Todos sus atributos son atómicos",
+        "No admite valores nulos en ninguna columna",
+        "Tiene una única clave candidata"
+      ],
+      "correctIndex": 0,
+      "explanation": "La 3FN elimina las dependencias funcionales transitivas: ningún atributo no perteneciente a la clave puede depender de otro atributo que tampoco forme parte de ella.",
+      "source": {
+        "reference": "Normalización de bases de datos relacionales. Tercera forma normal",
+        "publication": "Temario TAI, Bloque III, tema 15"
+      },
+      "tags": ["modelado-de-datos", "normalizacion"]
+    },
+
+    {
+      "id": "TAI-B3-T16-001",
+      "blockCode": "III",
+      "topicNumber": 16,
+      "difficulty": 2,
+      "statement": "En el paso de parámetros por valor:",
+      "options": [
+        "La función recibe una copia del argumento y las modificaciones no afectan al original",
+        "La función recibe la dirección de memoria del argumento y puede modificarlo",
+        "El argumento solo se evalúa si se utiliza dentro de la función",
+        "El argumento se convierte automáticamente en una constante global"
+      ],
+      "correctIndex": 0,
+      "explanation": "En el paso por valor se copia el valor del argumento en el parámetro formal, de modo que cualquier modificación dentro del subprograma se realiza sobre la copia y no trasciende al ámbito llamador. El paso por referencia sí permite modificar el original.",
+      "source": {
+        "reference": "Procedimientos, funciones y paso de parámetros",
+        "publication": "Temario TAI, Bloque III, tema 16"
+      },
+      "tags": ["programacion", "parametros"]
+    },
+    {
+      "id": "TAI-B3-T16-002",
+      "blockCode": "III",
+      "topicNumber": 16,
+      "difficulty": 3,
+      "statement": "Toda función recursiva correctamente construida debe disponer necesariamente de:",
+      "options": [
+        "Al menos dos llamadas recursivas por rama",
+        "Un caso base que detenga la recursión y una reducción del problema en cada llamada",
+        "Una variable global que cuente las llamadas realizadas",
+        "Un bucle que sustituya a la última llamada"
+      ],
+      "correctIndex": 1,
+      "explanation": "Sin caso base la recursión no termina y agota la pila de llamadas. Además, cada llamada recursiva debe aproximarse al caso base reduciendo el tamaño del problema; en otro caso tampoco se alcanzaría la condición de parada.",
+      "source": {
+        "reference": "Recursividad. Diseño de algoritmos recursivos",
+        "publication": "Temario TAI, Bloque III, tema 16"
+      },
+      "tags": ["programacion", "recursividad"]
+    },
+    {
+      "id": "TAI-B3-T16-003",
+      "blockCode": "III",
+      "topicNumber": 16,
+      "difficulty": 2,
+      "statement": "La diferencia esencial entre un lenguaje compilado y uno interpretado es que:",
+      "options": [
+        "El compilado traduce el programa completo a código objeto antes de su ejecución, mientras que el interpretado traduce y ejecuta instrucción a instrucción",
+        "El interpretado siempre genera un fichero ejecutable independiente",
+        "El compilado no admite comprobación de tipos",
+        "El interpretado no puede acceder al sistema de ficheros"
+      ],
+      "correctIndex": 0,
+      "explanation": "El compilador realiza una traducción previa y completa del código fuente a código objeto o máquina, que se ejecuta después. El intérprete analiza y ejecuta el programa sentencia a sentencia en tiempo de ejecución, sin generar necesariamente un ejecutable.",
+      "source": {
+        "reference": "Traductores: compiladores e intérpretes",
+        "publication": "Temario TAI, Bloque III, tema 16"
+      },
+      "tags": ["programacion", "compilacion"]
+    },
+
+    {
+      "id": "TAI-B3-T17-001",
+      "blockCode": "III",
+      "topicNumber": 17,
+      "difficulty": 2,
+      "statement": "En SQL, ¿a qué sublenguaje pertenece la sentencia GRANT?",
+      "options": [
+        "DDL (lenguaje de definición de datos)",
+        "DML (lenguaje de manipulación de datos)",
+        "DCL (lenguaje de control de datos)",
+        "TCL (lenguaje de control de transacciones)"
+      ],
+      "correctIndex": 2,
+      "explanation": "GRANT y REVOKE forman parte del DCL, que gobierna los permisos y privilegios sobre los objetos de la base de datos. CREATE, ALTER y DROP son DDL; SELECT, INSERT, UPDATE y DELETE son DML; COMMIT y ROLLBACK son control de transacciones.",
+      "source": {
+        "reference": "ISO/IEC 9075, Information technology - Database languages - SQL",
+        "publication": "Estándar ANSI/ISO SQL",
+        "url": "https://www.iso.org/standard/76583.html"
+      },
+      "tags": ["sql", "dcl", "bases-de-datos"]
+    },
+    {
+      "id": "TAI-B3-T17-002",
+      "blockCode": "III",
+      "topicNumber": 17,
+      "difficulty": 3,
+      "statement": "Un LEFT OUTER JOIN entre las tablas A y B devuelve:",
+      "options": [
+        "Solo las filas de A que tienen correspondencia en B",
+        "Todas las filas de A, con valores nulos en las columnas de B cuando no hay correspondencia",
+        "Todas las filas de B, con nulos en las columnas de A cuando no hay correspondencia",
+        "El producto cartesiano de A y B"
+      ],
+      "correctIndex": 1,
+      "explanation": "El LEFT OUTER JOIN conserva todas las filas de la tabla situada a la izquierda de la cláusula, completando con valores nulos las columnas de la tabla derecha cuando no existe fila coincidente. El INNER JOIN devolvería solo las coincidencias.",
+      "source": {
+        "reference": "ISO/IEC 9075, operaciones de combinación en SQL",
+        "publication": "Estándar ANSI/ISO SQL",
+        "url": "https://www.iso.org/standard/76583.html"
+      },
+      "tags": ["sql", "joins", "bases-de-datos"]
+    },
+    {
+      "id": "TAI-B3-T17-003",
+      "blockCode": "III",
+      "topicNumber": 17,
+      "difficulty": 3,
+      "statement": "En una consulta SQL con agregación, la cláusula HAVING se diferencia de WHERE en que:",
+      "options": [
+        "HAVING filtra filas antes de agrupar y WHERE después",
+        "HAVING filtra los grupos resultantes tras aplicar GROUP BY, permitiendo usar funciones de agregación",
+        "HAVING solo puede emplearse con la función COUNT",
+        "No existe diferencia funcional entre ambas"
+      ],
+      "correctIndex": 1,
+      "explanation": "WHERE se aplica a las filas antes de la agrupación, mientras que HAVING actúa sobre los grupos ya formados por GROUP BY y admite condiciones sobre funciones de agregación como SUM, AVG o COUNT.",
+      "source": {
+        "reference": "ISO/IEC 9075, cláusulas GROUP BY y HAVING",
+        "publication": "Estándar ANSI/ISO SQL",
+        "url": "https://www.iso.org/standard/76583.html"
+      },
+      "tags": ["sql", "agregacion", "bases-de-datos"]
+    },
+    {
+      "id": "TAI-B3-T17-004",
+      "blockCode": "III",
+      "topicNumber": 17,
+      "difficulty": 3,
+      "statement": "Un disparador o trigger de base de datos es:",
+      "options": [
+        "Un procedimiento almacenado que el usuario invoca explícitamente por su nombre",
+        "Un bloque de código que el gestor ejecuta automáticamente ante un evento sobre una tabla, como INSERT, UPDATE o DELETE",
+        "Una restricción declarativa equivalente a una clave ajena",
+        "Un índice que se reconstruye periódicamente"
+      ],
+      "correctIndex": 1,
+      "explanation": "El disparador se asocia a una tabla y a uno o varios eventos de manipulación de datos, y el propio gestor lo ejecuta automáticamente cuando se producen, antes o después de la operación. A diferencia de un procedimiento almacenado, no se invoca explícitamente.",
+      "source": {
+        "reference": "ISO/IEC 9075, disparadores y procedimientos almacenados",
+        "publication": "Estándar ANSI/ISO SQL",
+        "url": "https://www.iso.org/standard/76583.html"
+      },
+      "tags": ["sql", "triggers", "bases-de-datos"]
+    },
+    {
+      "id": "TAI-B3-T17-005",
+      "blockCode": "III",
+      "topicNumber": 17,
+      "difficulty": 2,
+      "statement": "¿Qué diferencia fundamental existe entre las sentencias DELETE y TRUNCATE?",
+      "options": [
+        "DELETE elimina la estructura de la tabla y TRUNCATE solo sus filas",
+        "DELETE es una sentencia DML que admite cláusula WHERE y registro individual de filas; TRUNCATE es DDL y elimina todas las filas sin condición",
+        "TRUNCATE permite filtrar filas mediante WHERE y DELETE no",
+        "Ambas son idénticas y solo cambia el nombre según el gestor"
+      ],
+      "correctIndex": 1,
+      "explanation": "DELETE pertenece al DML, permite filtrar con WHERE y registra el borrado fila a fila. TRUNCATE se considera DDL, vacía la tabla completa sin condición y suele ser mucho más rápido por no registrar cada fila individualmente.",
+      "source": {
+        "reference": "ISO/IEC 9075, sentencias de manipulación y definición de datos",
+        "publication": "Estándar ANSI/ISO SQL",
+        "url": "https://www.iso.org/standard/76583.html"
+      },
+      "tags": ["sql", "dml", "ddl"]
+    },
+
+    {
+      "id": "TAI-B3-T18-001",
+      "blockCode": "III",
+      "topicNumber": 18,
+      "difficulty": 2,
+      "statement": "En programación orientada a objetos, el encapsulamiento consiste en:",
+      "options": [
+        "Permitir que una clase herede el comportamiento de otra",
+        "Ocultar el estado interno de un objeto y exponerlo únicamente a través de una interfaz controlada",
+        "Definir varios métodos con el mismo nombre y distinta signatura",
+        "Sustituir en tiempo de ejecución la implementación de un método heredado"
+      ],
+      "correctIndex": 1,
+      "explanation": "El encapsulamiento agrupa datos y comportamiento y restringe el acceso directo al estado interno, que solo se manipula mediante los métodos públicos que la clase decide exponer. La herencia, la sobrecarga y el polimorfismo son conceptos distintos.",
+      "source": {
+        "reference": "Principios de la programación orientada a objetos",
+        "publication": "Temario TAI, Bloque III, tema 18"
+      },
+      "tags": ["poo", "encapsulamiento"]
+    },
+    {
+      "id": "TAI-B3-T18-002",
+      "blockCode": "III",
+      "topicNumber": 18,
+      "difficulty": 3,
+      "statement": "¿Cuál es la diferencia entre sobrecarga (overloading) y sobrescritura (overriding) de métodos?",
+      "options": [
+        "La sobrecarga define varios métodos con el mismo nombre y distintos parámetros en la misma clase; la sobrescritura redefine en una subclase un método heredado con la misma signatura",
+        "La sobrecarga solo es posible entre clases relacionadas por herencia",
+        "La sobrescritura exige cambiar el nombre del método en la subclase",
+        "Ambos términos designan exactamente el mismo mecanismo"
+      ],
+      "correctIndex": 0,
+      "explanation": "La sobrecarga se resuelve normalmente en tiempo de compilación en función de la lista de parámetros. La sobrescritura sustituye la implementación de un método heredado manteniendo su signatura y se resuelve en tiempo de ejecución, siendo la base del polimorfismo dinámico.",
+      "source": {
+        "reference": "Herencia, sobrecarga y polimorfismo en la orientación a objetos",
+        "publication": "Temario TAI, Bloque III, tema 18"
+      },
+      "tags": ["poo", "polimorfismo", "herencia"]
+    },
+    {
+      "id": "TAI-B3-T18-003",
+      "blockCode": "III",
+      "topicNumber": 18,
+      "difficulty": 3,
+      "statement": "Una clase abstracta se diferencia de una interfaz en que:",
+      "options": [
+        "La clase abstracta no puede contener ningún método implementado",
+        "La clase abstracta puede aportar estado y una implementación parcial, mientras que la interfaz define fundamentalmente un contrato de comportamiento",
+        "La interfaz puede instanciarse directamente y la clase abstracta no",
+        "Una clase puede heredar de varias clases abstractas en todos los lenguajes"
+      ],
+      "correctIndex": 1,
+      "explanation": "La clase abstracta puede declarar campos y métodos ya implementados, sirviendo de base parcial para sus subclases, mientras que la interfaz establece un contrato que las clases se comprometen a cumplir. Ninguna de las dos es instanciable directamente.",
+      "source": {
+        "reference": "Clases abstractas e interfaces en la orientación a objetos",
+        "publication": "Temario TAI, Bloque III, tema 18"
+      },
+      "tags": ["poo", "abstraccion", "interfaces"]
+    },
+
+    {
+      "id": "TAI-B3-T19-001",
+      "blockCode": "III",
+      "topicNumber": 19,
+      "difficulty": 3,
+      "statement": "El patrón de diseño Singleton tiene como propósito:",
+      "options": [
+        "Definir una interfaz para crear objetos delegando en las subclases la clase concreta a instanciar",
+        "Garantizar que una clase tenga una única instancia y proporcionar un punto de acceso global a ella",
+        "Convertir la interfaz de una clase en otra que los clientes esperan",
+        "Notificar automáticamente a varios objetos los cambios de estado de otro"
+      ],
+      "correctIndex": 1,
+      "explanation": "Singleton es un patrón creacional que restringe la instanciación de una clase a un único objeto y ofrece un punto de acceso global. Las otras descripciones corresponden a Factory Method, Adapter y Observer respectivamente.",
+      "source": {
+        "reference": "Patrones de diseño. Catálogo de patrones creacionales, estructurales y de comportamiento",
+        "publication": "Temario TAI, Bloque III, tema 19"
+      },
+      "tags": ["patrones-de-diseno", "singleton"]
+    },
+    {
+      "id": "TAI-B3-T19-002",
+      "blockCode": "III",
+      "topicNumber": 19,
+      "difficulty": 3,
+      "statement": "En UML, ¿qué diagrama muestra la interacción entre objetos ordenada temporalmente a lo largo de líneas de vida?",
+      "options": [
+        "El diagrama de clases",
+        "El diagrama de secuencia",
+        "El diagrama de despliegue",
+        "El diagrama de casos de uso"
+      ],
+      "correctIndex": 1,
+      "explanation": "El diagrama de secuencia es un diagrama de interacción que representa el intercambio de mensajes entre objetos a lo largo del tiempo, mediante líneas de vida verticales. El de clases es estructural, el de despliegue describe nodos físicos y el de casos de uso el comportamiento desde la perspectiva del actor.",
+      "source": {
+        "reference": "OMG Unified Modeling Language (UML), diagramas de interacción",
+        "publication": "Object Management Group",
+        "url": "https://www.omg.org/spec/UML/"
+      },
+      "tags": ["uml", "modelado", "diagramas"]
+    },
+    {
+      "id": "TAI-B3-T19-003",
+      "blockCode": "III",
+      "topicNumber": 19,
+      "difficulty": 3,
+      "statement": "El patrón Modelo-Vista-Controlador (MVC) persigue principalmente:",
+      "options": [
+        "Reducir el número de clases de una aplicación",
+        "Separar la lógica de negocio, la presentación y la gestión de la interacción del usuario",
+        "Sustituir el uso de bases de datos relacionales",
+        "Garantizar la ejecución concurrente de las peticiones"
+      ],
+      "correctIndex": 1,
+      "explanation": "MVC divide la aplicación en tres responsabilidades: el modelo mantiene los datos y las reglas de negocio, la vista presenta la información y el controlador gestiona la entrada del usuario y coordina a ambos. El objetivo es la separación de responsabilidades y la mantenibilidad.",
+      "source": {
+        "reference": "Patrones arquitectónicos. Modelo-Vista-Controlador",
+        "publication": "Temario TAI, Bloque III, tema 19"
+      },
+      "tags": ["patrones-de-diseno", "mvc", "arquitectura"]
+    },
+    {
+      "id": "TAI-B3-T19-004",
+      "blockCode": "III",
+      "topicNumber": 19,
+      "difficulty": 3,
+      "statement": "En la plataforma Jakarta EE, la especificación encargada de la persistencia de objetos en bases de datos relacionales es:",
+      "options": ["JPA", "JSF", "JMS", "JAX-WS"],
+      "correctIndex": 0,
+      "explanation": "JPA (Jakarta Persistence API) define el mapeo objeto-relacional y la gestión de entidades. JSF corresponde a la capa de presentación, JMS a la mensajería asíncrona y JAX-WS a los servicios web basados en SOAP.",
+      "source": {
+        "reference": "Especificaciones de la plataforma Jakarta EE",
+        "publication": "Eclipse Foundation",
+        "url": "https://jakarta.ee/specifications/"
+      },
+      "tags": ["jakarta-ee", "persistencia", "jpa"]
+    },
+
+    {
+      "id": "TAI-B3-T20-001",
+      "blockCode": "III",
+      "topicNumber": 20,
+      "difficulty": 2,
+      "statement": "En una arquitectura REST, ¿qué método HTTP se considera idempotente y se emplea para sustituir por completo un recurso?",
+      "options": ["POST", "PUT", "PATCH", "CONNECT"],
+      "correctIndex": 1,
+      "explanation": "PUT sustituye la representación completa del recurso identificado por la URI y es idempotente: repetir la misma petición produce el mismo estado final. POST no es idempotente y PATCH aplica modificaciones parciales sin garantía general de idempotencia.",
+      "source": {
+        "reference": "RFC 9110, HTTP Semantics, sección de métodos",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9110"
+      },
+      "tags": ["rest", "http", "servicios-web"]
+    },
+    {
+      "id": "TAI-B3-T20-002",
+      "blockCode": "III",
+      "topicNumber": 20,
+      "difficulty": 2,
+      "statement": "¿Cuál de las siguientes afirmaciones sobre XML es correcta?",
+      "options": [
+        "XML define un conjunto cerrado de etiquetas predefinidas",
+        "XML es un metalenguaje extensible que permite definir lenguajes de marcado propios, y exige documentos bien formados",
+        "XML no distingue entre mayúsculas y minúsculas en los nombres de etiqueta",
+        "XML solo puede utilizarse para describir páginas web"
+      ],
+      "correctIndex": 1,
+      "explanation": "XML es un metalenguaje que permite definir vocabularios de marcado propios. Todo documento debe estar bien formado (etiquetas correctamente anidadas y cerradas, un único elemento raíz) y es sensible a mayúsculas y minúsculas.",
+      "source": {
+        "reference": "Extensible Markup Language (XML) 1.0",
+        "publication": "World Wide Web Consortium (W3C)",
+        "url": "https://www.w3.org/TR/xml/"
+      },
+      "tags": ["xml", "web", "marcado"]
+    },
+    {
+      "id": "TAI-B3-T20-003",
+      "blockCode": "III",
+      "topicNumber": 20,
+      "difficulty": 3,
+      "statement": "El mecanismo CORS (Cross-Origin Resource Sharing) tiene por objeto:",
+      "options": [
+        "Cifrar las comunicaciones entre navegador y servidor",
+        "Permitir de forma controlada que una página solicite recursos a un origen distinto del suyo, relajando la política del mismo origen",
+        "Comprimir las respuestas HTTP para reducir el ancho de banda",
+        "Autenticar al usuario mediante certificados de cliente"
+      ],
+      "correctIndex": 1,
+      "explanation": "La política del mismo origen impide por defecto que un documento acceda a recursos de otro origen. CORS define un conjunto de cabeceras HTTP mediante las cuales el servidor autoriza explícitamente esos accesos cruzados.",
+      "source": {
+        "reference": "Fetch Standard, sección CORS protocol",
+        "publication": "WHATWG",
+        "url": "https://fetch.spec.whatwg.org/"
+      },
+      "tags": ["web", "cors", "seguridad"]
+    },
+    {
+      "id": "TAI-B3-T20-004",
+      "blockCode": "III",
+      "topicNumber": 20,
+      "difficulty": 2,
+      "statement": "¿Qué código de estado HTTP indica que el recurso solicitado no existe en el servidor?",
+      "options": ["400", "401", "404", "500"],
+      "correctIndex": 2,
+      "explanation": "El código 404 Not Found indica que el servidor no ha encontrado una representación actual para el recurso solicitado. El 400 señala una petición mal formada, el 401 falta de autenticación y el 500 un error interno del servidor.",
+      "source": {
+        "reference": "RFC 9110, HTTP Semantics, códigos de estado",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9110"
+      },
+      "tags": ["http", "web", "codigos-de-estado"]
+    },
+    {
+      "id": "TAI-B3-T20-005",
+      "blockCode": "III",
+      "topicNumber": 20,
+      "difficulty": 3,
+      "statement": "El diseño web adaptativo o responsive se apoya principalmente en:",
+      "options": [
+        "La detección del sistema operativo del servidor",
+        "Rejillas flexibles, imágenes fluidas y consultas de medios (media queries) de CSS",
+        "El uso exclusivo de aplicaciones nativas por dispositivo",
+        "La compresión de las hojas de estilo"
+      ],
+      "correctIndex": 1,
+      "explanation": "El diseño responsive combina maquetación flexible, imágenes que se adaptan al contenedor y media queries de CSS, que aplican reglas distintas según características del dispositivo como la anchura del viewport.",
+      "source": {
+        "reference": "CSS Media Queries",
+        "publication": "World Wide Web Consortium (W3C)",
+        "url": "https://www.w3.org/TR/mediaqueries-4/"
+      },
+      "tags": ["web", "css", "responsive"]
+    },
+
+    {
+      "id": "TAI-B3-T21-001",
+      "blockCode": "III",
+      "topicNumber": 21,
+      "difficulty": 3,
+      "statement": "El Real Decreto 1112/2018 exige que los sitios web y aplicaciones móviles del sector público cumplan un nivel de conformidad con las pautas de accesibilidad de:",
+      "options": [
+        "Nivel A",
+        "Nivel AA",
+        "Nivel AAA",
+        "No fija ningún nivel concreto"
+      ],
+      "correctIndex": 1,
+      "explanation": "El Real Decreto 1112/2018, que traspone la Directiva (UE) 2016/2102, remite al estándar europeo EN 301 549 y exige el cumplimiento del nivel AA de las Pautas de Accesibilidad para el Contenido Web (WCAG).",
+      "source": {
+        "reference": "Real Decreto 1112/2018, de 7 de septiembre, sobre accesibilidad de los sitios web y aplicaciones para dispositivos móviles del sector público",
+        "publication": "BOE núm. 227, de 19 de septiembre de 2018",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-12699"
+      },
+      "tags": ["accesibilidad", "wcag", "rd-1112-2018"]
+    },
+    {
+      "id": "TAI-B3-T21-002",
+      "blockCode": "III",
+      "topicNumber": 21,
+      "difficulty": 3,
+      "statement": "¿Cuáles son los cuatro principios en los que se organizan las Pautas de Accesibilidad para el Contenido Web (WCAG)?",
+      "options": [
+        "Perceptible, operable, comprensible y robusto",
+        "Accesible, usable, adaptable y seguro",
+        "Visible, navegable, legible y compatible",
+        "Universal, flexible, tolerante y equitativo"
+      ],
+      "correctIndex": 0,
+      "explanation": "Las WCAG se estructuran en cuatro principios: perceptible, operable, comprensible y robusto, de los que cuelgan las pautas y los criterios de conformidad de niveles A, AA y AAA.",
+      "source": {
+        "reference": "Web Content Accessibility Guidelines (WCAG)",
+        "publication": "World Wide Web Consortium (W3C)",
+        "url": "https://www.w3.org/TR/WCAG22/"
+      },
+      "tags": ["accesibilidad", "wcag"]
+    },
+    {
+      "id": "TAI-B3-T21-003",
+      "blockCode": "III",
+      "topicNumber": 21,
+      "difficulty": 3,
+      "statement": "En materia de desarrollo seguro, la inyección SQL se previene fundamentalmente mediante:",
+      "options": [
+        "El cifrado del canal de comunicaciones con TLS",
+        "El uso de consultas parametrizadas junto con la validación de la entrada",
+        "La ofuscación del código fuente de la aplicación",
+        "La restricción del tamaño máximo del formulario"
+      ],
+      "correctIndex": 1,
+      "explanation": "La inyección SQL se produce al concatenar entrada no confiable dentro de una sentencia. La defensa principal son las consultas parametrizadas o sentencias preparadas, que separan el código de los datos, complementadas con validación de entrada y el principio de mínimo privilegio.",
+      "source": {
+        "reference": "OWASP Top 10, categoría de inyección",
+        "publication": "Open Worldwide Application Security Project",
+        "url": "https://owasp.org/www-project-top-ten/"
+      },
+      "tags": ["seguridad", "owasp", "inyeccion-sql"]
+    },
+    {
+      "id": "TAI-B3-T21-004",
+      "blockCode": "III",
+      "topicNumber": 21,
+      "difficulty": 3,
+      "statement": "Un ataque de Cross-Site Scripting (XSS) consiste en:",
+      "options": [
+        "Inyectar código script malicioso que se ejecuta en el navegador de otros usuarios",
+        "Interceptar el tráfico entre cliente y servidor para modificarlo",
+        "Agotar los recursos del servidor mediante peticiones masivas",
+        "Suplantar la dirección IP de origen de las peticiones"
+      ],
+      "correctIndex": 0,
+      "explanation": "En un XSS el atacante consigue que la aplicación devuelva contenido no saneado que el navegador de la víctima interpreta como script. La defensa pasa por codificar la salida según el contexto y validar la entrada, además de aplicar políticas de seguridad de contenido.",
+      "source": {
+        "reference": "OWASP Top 10, Cross-Site Scripting",
+        "publication": "Open Worldwide Application Security Project",
+        "url": "https://owasp.org/www-project-top-ten/"
+      },
+      "tags": ["seguridad", "owasp", "xss"]
+    },
+
+    {
+      "id": "TAI-B3-T22-001",
+      "blockCode": "III",
+      "topicNumber": 22,
+      "difficulty": 2,
+      "statement": "En el marco Scrum, el artefacto que contiene la lista ordenada de todo lo que se conoce que es necesario para el producto se denomina:",
+      "options": ["Sprint Backlog", "Product Backlog", "Incremento", "Definición de Terminado"],
+      "correctIndex": 1,
+      "explanation": "El Product Backlog es la lista emergente y ordenada de todo lo necesario para mejorar el producto, y es la única fuente de trabajo del equipo Scrum. El Sprint Backlog es el subconjunto seleccionado para un Sprint junto con el plan para entregarlo.",
+      "source": {
+        "reference": "La Guía de Scrum. Artefactos de Scrum",
+        "publication": "Scrum.org",
+        "url": "https://scrumguides.org/"
+      },
+      "tags": ["metodologias-agiles", "scrum"]
+    },
+    {
+      "id": "TAI-B3-T22-002",
+      "blockCode": "III",
+      "topicNumber": 22,
+      "difficulty": 3,
+      "statement": "El modelo en cascada del ciclo de vida del software se caracteriza por:",
+      "options": [
+        "Iterar sobre incrementos funcionales entregables cada pocas semanas",
+        "Ejecutar las fases de forma secuencial, iniciando cada una al finalizar la anterior",
+        "Prescindir de la fase de documentación",
+        "Basarse en la construcción de prototipos desechables"
+      ],
+      "correctIndex": 1,
+      "explanation": "El modelo en cascada organiza el desarrollo en fases secuenciales (análisis, diseño, codificación, pruebas y mantenimiento), donde cada fase comienza cuando la anterior ha concluido. Su rigidez frente al cambio de requisitos es su principal limitación.",
+      "source": {
+        "reference": "Modelos de ciclo de vida del software",
+        "publication": "Temario TAI, Bloque III, tema 22"
+      },
+      "tags": ["ciclo-de-vida", "metodologias"]
+    },
+    {
+      "id": "TAI-B3-T22-003",
+      "blockCode": "III",
+      "topicNumber": 22,
+      "difficulty": 3,
+      "statement": "Las pruebas de caja blanca se caracterizan por:",
+      "options": [
+        "Diseñarse a partir de la estructura interna del código, buscando cobertura de sentencias y caminos",
+        "Basarse exclusivamente en la especificación funcional, sin conocer la implementación",
+        "Ejecutarse siempre en el entorno de producción",
+        "Ser realizadas únicamente por el usuario final"
+      ],
+      "correctIndex": 0,
+      "explanation": "Las pruebas de caja blanca o estructurales se diseñan conociendo el código y persiguen criterios de cobertura como sentencias, decisiones o caminos. Las de caja negra parten únicamente de la especificación de entradas y salidas esperadas.",
+      "source": {
+        "reference": "Pruebas del software: técnicas estructurales y funcionales",
+        "publication": "Temario TAI, Bloque III, tema 22"
+      },
+      "tags": ["pruebas", "calidad", "ciclo-de-vida"]
+    },
+
+    {
+      "id": "TAI-B3-T23-001",
+      "blockCode": "III",
+      "topicNumber": 23,
+      "difficulty": 2,
+      "statement": "Git es un sistema de control de versiones:",
+      "options": [
+        "Centralizado, donde el histórico reside únicamente en el servidor",
+        "Distribuido, donde cada copia de trabajo contiene el repositorio completo con su histórico",
+        "De bloqueo obligatorio de ficheros antes de editarlos",
+        "Que solo admite un único usuario por repositorio"
+      ],
+      "correctIndex": 1,
+      "explanation": "Git es distribuido: al clonar un repositorio se obtiene todo el histórico localmente, lo que permite trabajar y consultar el historial sin conexión y facilita los flujos con ramas. Subversion o CVS responden al modelo centralizado.",
+      "source": {
+        "reference": "Git, sistema de control de versiones distribuido",
+        "publication": "Documentación oficial de Git",
+        "url": "https://git-scm.com/doc"
+      },
+      "tags": ["control-de-versiones", "git"]
+    },
+    {
+      "id": "TAI-B3-T23-002",
+      "blockCode": "III",
+      "topicNumber": 23,
+      "difficulty": 3,
+      "statement": "En Git, ¿qué diferencia existe entre las órdenes 'git fetch' y 'git pull'?",
+      "options": [
+        "No hay diferencia, son sinónimos",
+        "'git fetch' descarga los cambios remotos sin integrarlos en la rama local, mientras que 'git pull' los descarga e integra",
+        "'git fetch' envía los cambios locales al remoto",
+        "'git pull' solo actualiza las etiquetas del repositorio"
+      ],
+      "correctIndex": 1,
+      "explanation": "'git fetch' actualiza las referencias remotas descargando los objetos nuevos, pero deja intacta la rama de trabajo. 'git pull' equivale a un fetch seguido de una integración (merge o rebase) sobre la rama actual.",
+      "source": {
+        "reference": "Documentación de Git: git-fetch y git-pull",
+        "publication": "Documentación oficial de Git",
+        "url": "https://git-scm.com/docs/git-pull"
+      },
+      "tags": ["control-de-versiones", "git"]
+    },
+    {
+      "id": "TAI-B3-T23-003",
+      "blockCode": "III",
+      "topicNumber": 23,
+      "difficulty": 3,
+      "statement": "La integración continua (CI) consiste fundamentalmente en:",
+      "options": [
+        "Desplegar automáticamente cada cambio en el entorno de producción",
+        "Integrar con frecuencia el trabajo de los desarrolladores en una rama común, verificándolo mediante compilación y pruebas automatizadas",
+        "Mantener una única rama sin permitir el trabajo en paralelo",
+        "Sustituir las pruebas manuales por revisiones de código"
+      ],
+      "correctIndex": 1,
+      "explanation": "La integración continua busca reducir el coste de integrar trabajo divergente mediante fusiones frecuentes en una rama común, cada una validada automáticamente con compilación y batería de pruebas. El despliegue automático en producción corresponde al despliegue continuo.",
+      "source": {
+        "reference": "Integración y entrega continuas en el ciclo de vida del software",
+        "publication": "Temario TAI, Bloque III, tema 23"
+      },
+      "tags": ["ci-cd", "integracion-continua", "devops"]
+    }
+  ]
+}

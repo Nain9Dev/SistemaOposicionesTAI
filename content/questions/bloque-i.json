@@ -1,0 +1,975 @@
+{
+  "examCode": "TAI",
+  "questions": [
+    {
+      "id": "TAI-B1-T01-001",
+      "blockCode": "I",
+      "topicNumber": 1,
+      "difficulty": 1,
+      "statement": "Según el artículo 1.1 de la Constitución Española, ¿cuáles son los valores superiores del ordenamiento jurídico?",
+      "options": [
+        "La libertad, la justicia, la igualdad y el pluralismo político",
+        "La libertad, la seguridad, la solidaridad y la democracia",
+        "La dignidad, la libertad, la igualdad y la justicia social",
+        "La justicia, la igualdad, la solidaridad y la unidad nacional"
+      ],
+      "correctIndex": 0,
+      "explanation": "El artículo 1.1 CE proclama que España se constituye en un Estado social y democrático de Derecho, que propugna como valores superiores de su ordenamiento jurídico la libertad, la justicia, la igualdad y el pluralismo político.",
+      "source": {
+        "reference": "Constitución Española, artículo 1.1",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "titulo-preliminar"]
+    },
+    {
+      "id": "TAI-B1-T01-002",
+      "blockCode": "I",
+      "topicNumber": 1,
+      "difficulty": 1,
+      "statement": "De acuerdo con el artículo 1.3 de la Constitución Española, la forma política del Estado español es:",
+      "options": [
+        "La República parlamentaria",
+        "La Monarquía parlamentaria",
+        "La Monarquía constitucional",
+        "El Estado autonómico"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 1.3 CE establece literalmente que la forma política del Estado español es la Monarquía parlamentaria.",
+      "source": {
+        "reference": "Constitución Española, artículo 1.3",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "titulo-preliminar"]
+    },
+    {
+      "id": "TAI-B1-T01-003",
+      "blockCode": "I",
+      "topicNumber": 1,
+      "difficulty": 2,
+      "statement": "¿En quién reside la soberanía nacional según el artículo 1.2 de la Constitución Española?",
+      "options": [
+        "En las Cortes Generales, que representan al pueblo español",
+        "En el Rey, como Jefe del Estado",
+        "En el pueblo español, del que emanan los poderes del Estado",
+        "En el conjunto de las instituciones del Estado y de las Comunidades Autónomas"
+      ],
+      "correctIndex": 2,
+      "explanation": "El artículo 1.2 CE dispone que la soberanía nacional reside en el pueblo español, del que emanan los poderes del Estado.",
+      "source": {
+        "reference": "Constitución Española, artículo 1.2",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "titulo-preliminar"]
+    },
+    {
+      "id": "TAI-B1-T01-004",
+      "blockCode": "I",
+      "topicNumber": 1,
+      "difficulty": 2,
+      "statement": "¿Cuántos artículos tiene la Constitución Española de 1978?",
+      "options": ["155", "169", "175", "182"],
+      "correctIndex": 1,
+      "explanation": "La Constitución Española consta de un preámbulo, 169 artículos distribuidos en un Título Preliminar y diez Títulos, además de disposiciones adicionales, transitorias, derogatoria y final.",
+      "source": {
+        "reference": "Constitución Española, texto consolidado",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "estructura"]
+    },
+    {
+      "id": "TAI-B1-T01-005",
+      "blockCode": "I",
+      "topicNumber": 1,
+      "difficulty": 3,
+      "statement": "El recurso de amparo ante el Tribunal Constitucional protege, conforme al artículo 53.2 de la Constitución, los derechos reconocidos en:",
+      "options": [
+        "Todo el Título I de la Constitución",
+        "Los artículos 14 a 29 y la objeción de conciencia del artículo 30.2",
+        "Los artículos 15 a 38 de la Constitución",
+        "Únicamente la Sección 1.ª del Capítulo II del Título I"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 53.2 CE reserva la tutela mediante recurso de amparo ante el Tribunal Constitucional a las libertades y derechos reconocidos en el artículo 14 y en la Sección 1.ª del Capítulo II (artículos 15 a 29), así como a la objeción de conciencia del artículo 30.2.",
+      "source": {
+        "reference": "Constitución Española, artículo 53.2",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "derechos-fundamentales", "amparo"]
+    },
+    {
+      "id": "TAI-B1-T01-006",
+      "blockCode": "I",
+      "topicNumber": 1,
+      "difficulty": 3,
+      "statement": "El artículo 18.4 de la Constitución Española contiene una previsión de especial relevancia informática. ¿Cuál es?",
+      "options": [
+        "Que se garantiza el acceso universal a Internet como derecho fundamental",
+        "Que la ley limitará el uso de la informática para garantizar el honor y la intimidad personal y familiar de los ciudadanos y el pleno ejercicio de sus derechos",
+        "Que los ficheros públicos deben inscribirse en un registro dependiente del Ministerio del Interior",
+        "Que toda persona tiene derecho a la portabilidad de sus datos personales"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 18.4 CE establece que la ley limitará el uso de la informática para garantizar el honor y la intimidad personal y familiar de los ciudadanos y el pleno ejercicio de sus derechos. Es el fundamento constitucional de la protección de datos en España.",
+      "source": {
+        "reference": "Constitución Española, artículo 18.4",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "proteccion-de-datos", "derechos-fundamentales"]
+    },
+    {
+      "id": "TAI-B1-T01-007",
+      "blockCode": "I",
+      "topicNumber": 1,
+      "difficulty": 3,
+      "statement": "¿Cómo se compone el Tribunal Constitucional según el artículo 159 de la Constitución?",
+      "options": [
+        "Por 10 miembros: 4 propuestos por el Congreso, 4 por el Senado y 2 por el Gobierno",
+        "Por 12 miembros: 4 propuestos por el Congreso, 4 por el Senado, 2 por el Gobierno y 2 por el Consejo General del Poder Judicial",
+        "Por 15 miembros elegidos íntegramente por las Cortes Generales",
+        "Por 12 miembros elegidos por el Consejo General del Poder Judicial"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 159.1 CE dispone que el Tribunal Constitucional se compone de 12 miembros nombrados por el Rey: 4 a propuesta del Congreso por mayoría de tres quintos, 4 a propuesta del Senado con idéntica mayoría, 2 a propuesta del Gobierno y 2 a propuesta del Consejo General del Poder Judicial.",
+      "source": {
+        "reference": "Constitución Española, artículo 159.1",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "tribunal-constitucional"]
+    },
+    {
+      "id": "TAI-B1-T01-008",
+      "blockCode": "I",
+      "topicNumber": 1,
+      "difficulty": 2,
+      "statement": "Conforme al artículo 54 de la Constitución Española, el Defensor del Pueblo es:",
+      "options": [
+        "Un órgano del Poder Judicial encargado de la tutela de los derechos fundamentales",
+        "Un alto comisionado de las Cortes Generales designado por éstas para la defensa de los derechos del Título I",
+        "Un órgano consultivo del Gobierno en materia de derechos humanos",
+        "Un miembro nato del Tribunal Constitucional"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 54 CE configura al Defensor del Pueblo como alto comisionado de las Cortes Generales, designado por éstas para la defensa de los derechos comprendidos en el Título I, a cuyo efecto podrá supervisar la actividad de la Administración, dando cuenta a las Cortes Generales.",
+      "source": {
+        "reference": "Constitución Española, artículo 54",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "defensor-del-pueblo"]
+    },
+    {
+      "id": "TAI-B1-T01-009",
+      "blockCode": "I",
+      "topicNumber": 1,
+      "difficulty": 4,
+      "statement": "La reforma agravada del artículo 168 de la Constitución se aplica, entre otros supuestos, a la revisión total del texto constitucional y a la revisión parcial que afecte a:",
+      "options": [
+        "El Título VIII, relativo a la organización territorial del Estado",
+        "El Título Preliminar, la Sección 1.ª del Capítulo II del Título I y el Título II",
+        "Cualquier precepto del Título I de la Constitución",
+        "El Título VII, relativo a economía y hacienda"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 168.1 CE reserva el procedimiento agravado a la revisión total de la Constitución o a una parcial que afecte al Título Preliminar, a la Sección 1.ª del Capítulo II del Título I (derechos fundamentales y libertades públicas) o al Título II (De la Corona).",
+      "source": {
+        "reference": "Constitución Española, artículo 168.1",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "reforma-constitucional"]
+    },
+    {
+      "id": "TAI-B1-T01-010",
+      "blockCode": "I",
+      "topicNumber": 1,
+      "difficulty": 2,
+      "statement": "El artículo 10.1 de la Constitución Española señala como fundamento del orden político y de la paz social:",
+      "options": [
+        "La soberanía nacional y la unidad de la Nación española",
+        "La dignidad de la persona, los derechos inviolables que le son inherentes, el libre desarrollo de la personalidad, el respeto a la ley y a los derechos de los demás",
+        "La igualdad de todos los españoles ante la ley",
+        "El sometimiento de los poderes públicos a la Constitución y al resto del ordenamiento jurídico"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 10.1 CE enumera la dignidad de la persona, los derechos inviolables que le son inherentes, el libre desarrollo de la personalidad, el respeto a la ley y a los derechos de los demás como fundamento del orden político y de la paz social.",
+      "source": {
+        "reference": "Constitución Española, artículo 10.1",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "derechos-fundamentales"]
+    },
+
+    {
+      "id": "TAI-B1-T02-001",
+      "blockCode": "I",
+      "topicNumber": 2,
+      "difficulty": 2,
+      "statement": "Según el artículo 68.1 de la Constitución Española, el Congreso de los Diputados se compone de:",
+      "options": [
+        "Un mínimo de 250 y un máximo de 400 diputados",
+        "Un mínimo de 300 y un máximo de 400 diputados",
+        "Exactamente 350 diputados",
+        "Un mínimo de 350 y un máximo de 450 diputados"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 68.1 CE establece que el Congreso se compone de un mínimo de 300 y un máximo de 400 diputados, elegidos por sufragio universal, libre, igual, directo y secreto. La cifra concreta de 350 la fija la legislación electoral, no la Constitución.",
+      "source": {
+        "reference": "Constitución Española, artículo 68.1",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "cortes-generales"]
+    },
+    {
+      "id": "TAI-B1-T02-002",
+      "blockCode": "I",
+      "topicNumber": 2,
+      "difficulty": 2,
+      "statement": "¿Cómo define la Constitución Española al Senado en su artículo 69.1?",
+      "options": [
+        "Cámara de representación territorial",
+        "Cámara de segunda lectura legislativa",
+        "Cámara de representación de las Comunidades Autónomas",
+        "Cámara alta de designación autonómica"
+      ],
+      "correctIndex": 0,
+      "explanation": "El artículo 69.1 CE dispone que el Senado es la Cámara de representación territorial.",
+      "source": {
+        "reference": "Constitución Española, artículo 69.1",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "cortes-generales", "senado"]
+    },
+    {
+      "id": "TAI-B1-T02-003",
+      "blockCode": "I",
+      "topicNumber": 2,
+      "difficulty": 3,
+      "statement": "El Consejo General del Poder Judicial, según el artículo 122.3 de la Constitución, está integrado por:",
+      "options": [
+        "El Presidente del Tribunal Supremo, que lo preside, y 20 miembros nombrados por el Rey por un período de cinco años",
+        "El Ministro de Justicia y 20 vocales elegidos por las Cortes Generales por seis años",
+        "El Presidente del Tribunal Constitucional y 12 vocales por un período de nueve años",
+        "Únicamente 20 vocales de procedencia judicial elegidos por sus pares"
+      ],
+      "correctIndex": 0,
+      "explanation": "El artículo 122.3 CE establece que el Consejo General del Poder Judicial estará integrado por el Presidente del Tribunal Supremo, que lo presidirá, y por 20 miembros nombrados por el Rey por un período de cinco años.",
+      "source": {
+        "reference": "Constitución Española, artículo 122.3",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "poder-judicial"]
+    },
+    {
+      "id": "TAI-B1-T02-004",
+      "blockCode": "I",
+      "topicNumber": 2,
+      "difficulty": 3,
+      "statement": "De acuerdo con el artículo 123.1 de la Constitución, el Tribunal Supremo es el órgano jurisdiccional superior en todos los órdenes:",
+      "options": [
+        "Sin excepción alguna",
+        "Salvo lo dispuesto en materia de garantías constitucionales",
+        "Salvo en el orden contencioso-administrativo",
+        "Salvo en los territorios con derecho foral propio"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 123.1 CE señala que el Tribunal Supremo, con jurisdicción en toda España, es el órgano jurisdiccional superior en todos los órdenes, salvo lo dispuesto en materia de garantías constitucionales, competencia que corresponde al Tribunal Constitucional.",
+      "source": {
+        "reference": "Constitución Española, artículo 123.1",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "poder-judicial"]
+    },
+    {
+      "id": "TAI-B1-T02-005",
+      "blockCode": "I",
+      "topicNumber": 2,
+      "difficulty": 2,
+      "statement": "Conforme al artículo 117.1 de la Constitución Española, la justicia emana:",
+      "options": [
+        "Del Rey, en cuyo nombre se administra",
+        "De las Cortes Generales",
+        "Del pueblo y se administra en nombre del Rey por Jueces y Magistrados",
+        "Del Consejo General del Poder Judicial"
+      ],
+      "correctIndex": 2,
+      "explanation": "El artículo 117.1 CE dispone que la justicia emana del pueblo y se administra en nombre del Rey por Jueces y Magistrados integrantes del poder judicial, independientes, inamovibles, responsables y sometidos únicamente al imperio de la ley.",
+      "source": {
+        "reference": "Constitución Española, artículo 117.1",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "poder-judicial"]
+    },
+
+    {
+      "id": "TAI-B1-T03-001",
+      "blockCode": "I",
+      "topicNumber": 3,
+      "difficulty": 2,
+      "statement": "Según el artículo 98.1 de la Constitución Española, el Gobierno se compone de:",
+      "options": [
+        "El Presidente, los Vicepresidentes en su caso, los Ministros y los demás miembros que establezca la ley",
+        "El Presidente, los Ministros y los Secretarios de Estado",
+        "El Presidente y los Ministros exclusivamente",
+        "El Presidente, los Vicepresidentes, los Ministros y los Subsecretarios"
+      ],
+      "correctIndex": 0,
+      "explanation": "El artículo 98.1 CE establece que el Gobierno se compone del Presidente, de los Vicepresidentes, en su caso, de los Ministros y de los demás miembros que establezca la ley. Los Secretarios de Estado son órganos superiores de la Administración, pero no miembros del Gobierno.",
+      "source": {
+        "reference": "Constitución Española, artículo 98.1",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "gobierno"]
+    },
+    {
+      "id": "TAI-B1-T03-002",
+      "blockCode": "I",
+      "topicNumber": 3,
+      "difficulty": 3,
+      "statement": "En la organización central de la Administración General del Estado regulada en la Ley 40/2015, ¿cuáles son órganos superiores?",
+      "options": [
+        "Los Ministros y los Secretarios de Estado",
+        "Los Subsecretarios y los Secretarios generales",
+        "Los Directores generales y los Subdirectores generales",
+        "Los Secretarios generales técnicos y los Directores generales"
+      ],
+      "correctIndex": 0,
+      "explanation": "El artículo 55.3 de la Ley 40/2015 distingue entre órganos superiores (Ministros y Secretarios de Estado) y órganos directivos (Subsecretarios, Secretarios generales, Secretarios generales técnicos, Directores generales y Subdirectores generales).",
+      "source": {
+        "reference": "Ley 40/2015, de 1 de octubre, de Régimen Jurídico del Sector Público, artículo 55",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566"
+      },
+      "tags": ["ley-40-2015", "age", "organizacion"]
+    },
+    {
+      "id": "TAI-B1-T03-003",
+      "blockCode": "I",
+      "topicNumber": 3,
+      "difficulty": 3,
+      "statement": "¿Cuál de las siguientes NO es una entidad integrante del sector público institucional estatal según la Ley 40/2015?",
+      "options": [
+        "Los organismos autónomos",
+        "Las entidades públicas empresariales",
+        "Las autoridades administrativas independientes",
+        "Las delegaciones del Gobierno en las Comunidades Autónomas"
+      ],
+      "correctIndex": 3,
+      "explanation": "Las Delegaciones del Gobierno en las Comunidades Autónomas forman parte de la organización periférica de la Administración General del Estado, no del sector público institucional. El artículo 84 de la Ley 40/2015 enumera entre este último los organismos autónomos, las entidades públicas empresariales, las autoridades administrativas independientes, las sociedades mercantiles estatales, los consorcios, las fundaciones del sector público y los fondos carentes de personalidad jurídica.",
+      "source": {
+        "reference": "Ley 40/2015, de 1 de octubre, artículo 84",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566"
+      },
+      "tags": ["ley-40-2015", "sector-publico-institucional"]
+    },
+
+    {
+      "id": "TAI-B1-T04-001",
+      "blockCode": "I",
+      "topicNumber": 4,
+      "difficulty": 2,
+      "statement": "Según el artículo 137 de la Constitución Española, el Estado se organiza territorialmente en:",
+      "options": [
+        "Municipios, comarcas y Comunidades Autónomas",
+        "Municipios, provincias y las Comunidades Autónomas que se constituyan",
+        "Provincias y Comunidades Autónomas",
+        "Municipios, provincias, regiones y Comunidades Autónomas"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 137 CE establece que el Estado se organiza territorialmente en municipios, en provincias y en las Comunidades Autónomas que se constituyan, entidades que gozan de autonomía para la gestión de sus respectivos intereses.",
+      "source": {
+        "reference": "Constitución Española, artículo 137",
+        "publication": "BOE núm. 311, de 29 de diciembre de 1978",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229"
+      },
+      "tags": ["constitucion", "organizacion-territorial"]
+    },
+    {
+      "id": "TAI-B1-T04-002",
+      "blockCode": "I",
+      "topicNumber": 4,
+      "difficulty": 3,
+      "statement": "En el Derecho de la Unión Europea, ¿cuál es la característica esencial de un Reglamento frente a una Directiva?",
+      "options": [
+        "El Reglamento obliga solo en cuanto al resultado y deja libertad de forma y medios a los Estados",
+        "El Reglamento tiene alcance general, es obligatorio en todos sus elementos y directamente aplicable en cada Estado miembro",
+        "El Reglamento requiere siempre una norma nacional de transposición",
+        "El Reglamento solo vincula a los destinatarios expresamente designados"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 288 del Tratado de Funcionamiento de la Unión Europea define el Reglamento como norma de alcance general, obligatoria en todos sus elementos y directamente aplicable en cada Estado miembro. La Directiva, en cambio, obliga al Estado destinatario en cuanto al resultado, dejando a las autoridades nacionales la elección de la forma y de los medios.",
+      "source": {
+        "reference": "Tratado de Funcionamiento de la Unión Europea, artículo 288",
+        "publication": "Versión consolidada, DOUE C 202, de 7 de junio de 2016",
+        "url": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=celex%3A12016E%2FTXT"
+      },
+      "tags": ["union-europea", "derecho-comunitario"]
+    },
+    {
+      "id": "TAI-B1-T04-003",
+      "blockCode": "I",
+      "topicNumber": 4,
+      "difficulty": 3,
+      "statement": "¿Cuál de las siguientes NO es una institución de la Unión Europea según el artículo 13 del Tratado de la Unión Europea?",
+      "options": [
+        "El Consejo Europeo",
+        "El Tribunal de Cuentas",
+        "El Banco Central Europeo",
+        "El Comité Económico y Social Europeo"
+      ],
+      "correctIndex": 3,
+      "explanation": "El artículo 13 TUE enumera siete instituciones: el Parlamento Europeo, el Consejo Europeo, el Consejo, la Comisión Europea, el Tribunal de Justicia de la Unión Europea, el Banco Central Europeo y el Tribunal de Cuentas. El Comité Económico y Social Europeo es un órgano consultivo, no una institución.",
+      "source": {
+        "reference": "Tratado de la Unión Europea, artículo 13",
+        "publication": "Versión consolidada, DOUE C 202, de 7 de junio de 2016",
+        "url": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=celex%3A12016M%2FTXT"
+      },
+      "tags": ["union-europea", "instituciones"]
+    },
+
+    {
+      "id": "TAI-B1-T05-001",
+      "blockCode": "I",
+      "topicNumber": 5,
+      "difficulty": 2,
+      "statement": "¿Qué clases de personal al servicio de las Administraciones Públicas reconoce el artículo 8 del texto refundido de la Ley del Estatuto Básico del Empleado Público?",
+      "options": [
+        "Funcionarios de carrera, funcionarios interinos, personal laboral y personal eventual",
+        "Funcionarios de carrera, personal laboral y personal directivo",
+        "Funcionarios de carrera, funcionarios interinos y personal estatutario",
+        "Funcionarios, contratados administrativos y personal eventual"
+      ],
+      "correctIndex": 0,
+      "explanation": "El artículo 8.2 del Real Decreto Legislativo 5/2015 (TREBEP) clasifica a los empleados públicos en funcionarios de carrera, funcionarios interinos, personal laboral (fijo, por tiempo indefinido o temporal) y personal eventual.",
+      "source": {
+        "reference": "Real Decreto Legislativo 5/2015, texto refundido del Estatuto Básico del Empleado Público, artículo 8",
+        "publication": "BOE núm. 261, de 31 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11719"
+      },
+      "tags": ["trebep", "empleo-publico"]
+    },
+    {
+      "id": "TAI-B1-T05-002",
+      "blockCode": "I",
+      "topicNumber": 5,
+      "difficulty": 3,
+      "statement": "Según el artículo 97 del TREBEP, ¿cuál es el plazo de prescripción de las faltas muy graves?",
+      "options": ["Seis meses", "Un año", "Dos años", "Tres años"],
+      "correctIndex": 3,
+      "explanation": "El artículo 97 del TREBEP fija la prescripción de las infracciones muy graves a los 3 años, las graves a los 2 años y las leves a los 6 meses.",
+      "source": {
+        "reference": "Real Decreto Legislativo 5/2015, artículo 97",
+        "publication": "BOE núm. 261, de 31 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11719"
+      },
+      "tags": ["trebep", "regimen-disciplinario"]
+    },
+    {
+      "id": "TAI-B1-T05-003",
+      "blockCode": "I",
+      "topicNumber": 5,
+      "difficulty": 3,
+      "statement": "De acuerdo con la Ley Orgánica 3/2007, para la igualdad efectiva de mujeres y hombres, un plan de igualdad es:",
+      "options": [
+        "Un código de conducta voluntario sin efectos jurídicos",
+        "Un conjunto ordenado de medidas adoptadas tras realizar un diagnóstico de situación, tendentes a alcanzar la igualdad de trato y de oportunidades y a eliminar la discriminación por razón de sexo",
+        "Un informe anual que las empresas remiten a la Inspección de Trabajo",
+        "Una autorización administrativa previa para la contratación de personal"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 46.1 de la Ley Orgánica 3/2007 define los planes de igualdad como un conjunto ordenado de medidas, adoptadas después de realizar un diagnóstico de situación, tendentes a alcanzar en la empresa la igualdad de trato y de oportunidades entre mujeres y hombres y a eliminar la discriminación por razón de sexo.",
+      "source": {
+        "reference": "Ley Orgánica 3/2007, de 22 de marzo, artículo 46",
+        "publication": "BOE núm. 71, de 23 de marzo de 2007",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2007-6115"
+      },
+      "tags": ["igualdad", "ley-organica-3-2007"]
+    },
+
+    {
+      "id": "TAI-B1-T06-001",
+      "blockCode": "I",
+      "topicNumber": 6,
+      "difficulty": 2,
+      "statement": "Según el artículo 21.3 de la Ley 39/2015, cuando las normas reguladoras del procedimiento no fijen plazo máximo para resolver y notificar, éste será de:",
+      "options": ["Un mes", "Tres meses", "Seis meses", "Un año"],
+      "correctIndex": 1,
+      "explanation": "El artículo 21.3 de la Ley 39/2015 establece que cuando las normas reguladoras de los procedimientos no fijen el plazo máximo, éste será de tres meses, contados desde la fecha del acuerdo de iniciación en los procedimientos de oficio o desde la entrada de la solicitud en el registro electrónico de la Administración competente en los iniciados a solicitud del interesado.",
+      "source": {
+        "reference": "Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común, artículo 21.3",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565"
+      },
+      "tags": ["ley-39-2015", "plazos"]
+    },
+    {
+      "id": "TAI-B1-T06-002",
+      "blockCode": "I",
+      "topicNumber": 6,
+      "difficulty": 3,
+      "statement": "En los procedimientos iniciados a solicitud del interesado, el vencimiento del plazo máximo sin haberse notificado resolución expresa produce, con carácter general:",
+      "options": [
+        "La desestimación de la solicitud por silencio administrativo",
+        "La estimación de la solicitud por silencio administrativo, salvo las excepciones legalmente previstas",
+        "La caducidad del procedimiento",
+        "La suspensión del procedimiento hasta que se resuelva"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 24.1 de la Ley 39/2015 establece la regla general del silencio positivo en procedimientos iniciados a solicitud del interesado, salvo que una norma con rango de ley o de Derecho de la Unión Europea o de Derecho internacional aplicable en España establezca lo contrario, y salvo los supuestos expresamente exceptuados en el propio precepto.",
+      "source": {
+        "reference": "Ley 39/2015, artículo 24",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565"
+      },
+      "tags": ["ley-39-2015", "silencio-administrativo"]
+    },
+    {
+      "id": "TAI-B1-T06-003",
+      "blockCode": "I",
+      "topicNumber": 6,
+      "difficulty": 3,
+      "statement": "En el cómputo de plazos señalados por días en la Ley 39/2015, se entiende que:",
+      "options": [
+        "Son siempre días naturales",
+        "Son hábiles, excluyéndose del cómputo los sábados, los domingos y los declarados festivos",
+        "Son hábiles, excluyéndose únicamente los domingos y festivos",
+        "Son naturales salvo que la norma diga expresamente lo contrario"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 30.2 de la Ley 39/2015 dispone que, siempre que por ley o Derecho de la Unión Europea no se exprese otro cómputo, cuando los plazos se señalen por días se entiende que éstos son hábiles, excluyéndose del cómputo los sábados, los domingos y los declarados festivos.",
+      "source": {
+        "reference": "Ley 39/2015, artículo 30.2",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565"
+      },
+      "tags": ["ley-39-2015", "plazos"]
+    },
+    {
+      "id": "TAI-B1-T06-004",
+      "blockCode": "I",
+      "topicNumber": 6,
+      "difficulty": 3,
+      "statement": "Una notificación practicada por medios electrónicos se entenderá rechazada cuando hayan transcurrido, sin acceder a su contenido:",
+      "options": [
+        "Cinco días hábiles desde su puesta a disposición",
+        "Diez días naturales desde su puesta a disposición",
+        "Quince días hábiles desde su puesta a disposición",
+        "Un mes desde su puesta a disposición"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 43.2 de la Ley 39/2015 establece que, cuando la notificación por medios electrónicos sea de carácter obligatorio o haya sido expresamente elegida por el interesado, se entenderá rechazada cuando hayan transcurrido diez días naturales desde la puesta a disposición de la notificación sin que se acceda a su contenido.",
+      "source": {
+        "reference": "Ley 39/2015, artículo 43.2",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565"
+      },
+      "tags": ["ley-39-2015", "notificaciones-electronicas", "administracion-electronica"]
+    },
+    {
+      "id": "TAI-B1-T06-005",
+      "blockCode": "I",
+      "topicNumber": 6,
+      "difficulty": 3,
+      "statement": "¿Cuál de los siguientes sujetos NO está obligado a relacionarse electrónicamente con las Administraciones Públicas según el artículo 14.2 de la Ley 39/2015?",
+      "options": [
+        "Las personas jurídicas",
+        "Las entidades sin personalidad jurídica",
+        "Las personas físicas que no ejerzan actividad profesional con colegiación obligatoria",
+        "Quienes representen a un interesado que esté obligado a relacionarse electrónicamente"
+      ],
+      "correctIndex": 2,
+      "explanation": "El artículo 14.2 de la Ley 39/2015 obliga a relacionarse electrónicamente a las personas jurídicas, las entidades sin personalidad jurídica, quienes ejerzan una actividad profesional para la que se requiera colegiación obligatoria, quienes representen a un interesado obligado y los empleados públicos en los trámites que realicen por razón de su condición. Las personas físicas no incluidas en esos supuestos pueden elegir el medio.",
+      "source": {
+        "reference": "Ley 39/2015, artículo 14",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565"
+      },
+      "tags": ["ley-39-2015", "administracion-electronica"]
+    },
+    {
+      "id": "TAI-B1-T06-006",
+      "blockCode": "I",
+      "topicNumber": 6,
+      "difficulty": 3,
+      "statement": "El plazo para interponer recurso de alzada contra un acto expreso es de:",
+      "options": ["Diez días hábiles", "Quince días hábiles", "Un mes", "Tres meses"],
+      "correctIndex": 2,
+      "explanation": "El artículo 122.1 de la Ley 39/2015 establece que el plazo para la interposición del recurso de alzada será de un mes si el acto fuera expreso. Si no lo fuera, el recurso podrá interponerse en cualquier momento a partir del día siguiente a aquel en que se produzcan los efectos del silencio administrativo.",
+      "source": {
+        "reference": "Ley 39/2015, artículo 122.1",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565"
+      },
+      "tags": ["ley-39-2015", "recursos-administrativos"]
+    },
+    {
+      "id": "TAI-B1-T06-007",
+      "blockCode": "I",
+      "topicNumber": 6,
+      "difficulty": 4,
+      "statement": "¿Cuál de los siguientes supuestos determina la nulidad de pleno derecho de un acto administrativo conforme al artículo 47 de la Ley 39/2015?",
+      "options": [
+        "Cualquier infracción del ordenamiento jurídico, incluida la desviación de poder",
+        "Los actos dictados por órgano manifiestamente incompetente por razón de la materia o del territorio",
+        "Los defectos de forma que no impidan al acto alcanzar su fin",
+        "La actuación administrativa realizada fuera del tiempo establecido, con carácter general"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 47.1.b) de la Ley 39/2015 declara nulos de pleno derecho los actos dictados por órgano manifiestamente incompetente por razón de la materia o del territorio. Los demás supuestos citados corresponden a la anulabilidad del artículo 48 o carecen de efecto invalidante.",
+      "source": {
+        "reference": "Ley 39/2015, artículos 47 y 48",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565"
+      },
+      "tags": ["ley-39-2015", "acto-administrativo", "nulidad"]
+    },
+
+    {
+      "id": "TAI-B1-T07-001",
+      "blockCode": "I",
+      "topicNumber": 7,
+      "difficulty": 3,
+      "statement": "Según el artículo 49 de la Ley 40/2015, los convenios administrativos tendrán una duración determinada que no podrá ser superior a:",
+      "options": [
+        "Dos años, prorrogables por otros dos",
+        "Cuatro años, salvo que normativamente se prevea un plazo superior, pudiendo acordarse una prórroga de hasta cuatro años adicionales",
+        "Seis años improrrogables",
+        "Diez años, prorrogables indefinidamente"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 49.h) de la Ley 40/2015 fija en cuatro años la duración máxima de los convenios, salvo que normativamente se prevea un plazo superior, y permite acordar unánimemente una prórroga o su extinción, con un máximo de cuatro años adicionales.",
+      "source": {
+        "reference": "Ley 40/2015, artículo 49",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566"
+      },
+      "tags": ["ley-40-2015", "convenios"]
+    },
+    {
+      "id": "TAI-B1-T07-002",
+      "blockCode": "I",
+      "topicNumber": 7,
+      "difficulty": 3,
+      "statement": "En la Ley 19/2013, de transparencia, acceso a la información pública y buen gobierno, el plazo máximo para resolver una solicitud de acceso a la información es de:",
+      "options": [
+        "Diez días hábiles",
+        "Un mes desde la recepción de la solicitud por el órgano competente para resolver",
+        "Tres meses",
+        "Seis meses"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 20.1 de la Ley 19/2013 establece que la resolución se notificará al solicitante y a los terceros afectados en el plazo máximo de un mes desde la recepción de la solicitud por el órgano competente para resolver, ampliable por otro mes en caso de volumen o complejidad de la información.",
+      "source": {
+        "reference": "Ley 19/2013, de 9 de diciembre, artículo 20",
+        "publication": "BOE núm. 295, de 10 de diciembre de 2013",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2013-12887"
+      },
+      "tags": ["transparencia", "ley-19-2013"]
+    },
+    {
+      "id": "TAI-B1-T07-003",
+      "blockCode": "I",
+      "topicNumber": 7,
+      "difficulty": 3,
+      "statement": "La reutilización de la información del sector público en España se regula principalmente en:",
+      "options": [
+        "La Ley 37/2007, de 16 de noviembre, sobre reutilización de la información del sector público",
+        "La Ley 11/2007, de acceso electrónico de los ciudadanos a los servicios públicos",
+        "El Real Decreto 4/2010, por el que se regula el Esquema Nacional de Interoperabilidad",
+        "La Ley 9/2017, de Contratos del Sector Público"
+      ],
+      "correctIndex": 0,
+      "explanation": "La Ley 37/2007, de 16 de noviembre, sobre reutilización de la información del sector público, traspone la normativa europea en materia de datos abiertos y regula la reutilización de los documentos elaborados o custodiados por las Administraciones y organismos del sector público.",
+      "source": {
+        "reference": "Ley 37/2007, de 16 de noviembre, sobre reutilización de la información del sector público",
+        "publication": "BOE núm. 276, de 17 de noviembre de 2007",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2007-19814"
+      },
+      "tags": ["reutilizacion", "datos-abiertos", "ley-37-2007"]
+    },
+
+    {
+      "id": "TAI-B1-T08-001",
+      "blockCode": "I",
+      "topicNumber": 8,
+      "difficulty": 2,
+      "statement": "¿Cuál de los siguientes NO es un principio relativo al tratamiento de datos personales del artículo 5 del Reglamento General de Protección de Datos?",
+      "options": [
+        "Minimización de datos",
+        "Limitación de la finalidad",
+        "Gratuidad del tratamiento",
+        "Integridad y confidencialidad"
+      ],
+      "correctIndex": 2,
+      "explanation": "El artículo 5 del RGPD enumera los principios de licitud, lealtad y transparencia; limitación de la finalidad; minimización de datos; exactitud; limitación del plazo de conservación; integridad y confidencialidad; y responsabilidad proactiva. La gratuidad del tratamiento no es uno de ellos.",
+      "source": {
+        "reference": "Reglamento (UE) 2016/679, artículo 5",
+        "publication": "DOUE L 119, de 4 de mayo de 2016",
+        "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+      },
+      "tags": ["rgpd", "proteccion-de-datos", "principios"]
+    },
+    {
+      "id": "TAI-B1-T08-002",
+      "blockCode": "I",
+      "topicNumber": 8,
+      "difficulty": 3,
+      "statement": "El responsable del tratamiento debe notificar una violación de la seguridad de los datos personales a la autoridad de control, salvo que sea improbable que constituya un riesgo, sin dilación indebida y a más tardar en:",
+      "options": ["24 horas", "48 horas", "72 horas", "5 días hábiles"],
+      "correctIndex": 2,
+      "explanation": "El artículo 33.1 del RGPD exige notificar la violación de seguridad a la autoridad de control competente sin dilación indebida y, de ser posible, a más tardar 72 horas después de que haya tenido constancia de ella, salvo que sea improbable que la violación suponga un riesgo para los derechos y libertades de las personas físicas.",
+      "source": {
+        "reference": "Reglamento (UE) 2016/679, artículo 33",
+        "publication": "DOUE L 119, de 4 de mayo de 2016",
+        "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+      },
+      "tags": ["rgpd", "brechas-de-seguridad", "proteccion-de-datos"]
+    },
+    {
+      "id": "TAI-B1-T08-003",
+      "blockCode": "I",
+      "topicNumber": 8,
+      "difficulty": 3,
+      "statement": "Respecto al delegado de protección de datos, el RGPD establece que su designación es obligatoria cuando:",
+      "options": [
+        "El tratamiento lo lleve a cabo una autoridad u organismo público, excepto los tribunales que actúen en ejercicio de su función judicial",
+        "La entidad tenga más de 250 empleados, en todo caso",
+        "Se traten datos de más de 100.000 personas al año",
+        "El responsable esté establecido fuera de la Unión Europea"
+      ],
+      "correctIndex": 0,
+      "explanation": "El artículo 37.1.a) del RGPD impone la designación de delegado de protección de datos cuando el tratamiento lo lleve a cabo una autoridad u organismo público, excepto los tribunales que actúen en ejercicio de su función judicial, además de los supuestos de observación habitual y sistemática a gran escala y de tratamiento a gran escala de categorías especiales de datos.",
+      "source": {
+        "reference": "Reglamento (UE) 2016/679, artículo 37",
+        "publication": "DOUE L 119, de 4 de mayo de 2016",
+        "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+      },
+      "tags": ["rgpd", "dpd", "proteccion-de-datos"]
+    },
+    {
+      "id": "TAI-B1-T08-004",
+      "blockCode": "I",
+      "topicNumber": 8,
+      "difficulty": 4,
+      "statement": "Las multas administrativas más graves previstas en el artículo 83.5 del RGPD pueden alcanzar:",
+      "options": [
+        "10.000.000 de euros o el 2 % del volumen de negocio total anual global del ejercicio financiero anterior",
+        "20.000.000 de euros o el 4 % del volumen de negocio total anual global del ejercicio financiero anterior",
+        "600.000 euros como límite absoluto",
+        "El 10 % del volumen de negocio, sin límite absoluto"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 83.5 del RGPD prevé, para las infracciones más graves, multas de hasta 20.000.000 de euros o, tratándose de una empresa, de una cuantía equivalente al 4 % como máximo del volumen de negocio total anual global del ejercicio financiero anterior, optándose por la de mayor cuantía.",
+      "source": {
+        "reference": "Reglamento (UE) 2016/679, artículo 83.5",
+        "publication": "DOUE L 119, de 4 de mayo de 2016",
+        "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+      },
+      "tags": ["rgpd", "sanciones", "proteccion-de-datos"]
+    },
+    {
+      "id": "TAI-B1-T08-005",
+      "blockCode": "I",
+      "topicNumber": 8,
+      "difficulty": 3,
+      "statement": "¿Qué norma española adapta el ordenamiento interno al Reglamento General de Protección de Datos y regula los derechos digitales?",
+      "options": [
+        "La Ley Orgánica 15/1999, de Protección de Datos de Carácter Personal",
+        "La Ley Orgánica 3/2018, de Protección de Datos Personales y garantía de los derechos digitales",
+        "La Ley 34/2002, de servicios de la sociedad de la información",
+        "El Real Decreto 1720/2007"
+      ],
+      "correctIndex": 1,
+      "explanation": "La Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD), adapta el ordenamiento español al RGPD y dedica su Título X a la garantía de los derechos digitales.",
+      "source": {
+        "reference": "Ley Orgánica 3/2018, de 5 de diciembre",
+        "publication": "BOE núm. 294, de 6 de diciembre de 2018",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673"
+      },
+      "tags": ["lopdgdd", "proteccion-de-datos", "derechos-digitales"]
+    },
+    {
+      "id": "TAI-B1-T08-006",
+      "blockCode": "I",
+      "topicNumber": 8,
+      "difficulty": 3,
+      "statement": "¿Cuál de los siguientes derechos NO está expresamente reconocido en el Capítulo III del RGPD?",
+      "options": [
+        "Derecho a la portabilidad de los datos",
+        "Derecho de supresión o derecho al olvido",
+        "Derecho a la limitación del tratamiento",
+        "Derecho a la titularidad exclusiva del algoritmo de tratamiento"
+      ],
+      "correctIndex": 3,
+      "explanation": "El Capítulo III del RGPD reconoce los derechos de información, acceso, rectificación, supresión, limitación del tratamiento, portabilidad, oposición y a no ser objeto de decisiones individuales automatizadas. No existe un derecho a la titularidad del algoritmo.",
+      "source": {
+        "reference": "Reglamento (UE) 2016/679, artículos 12 a 22",
+        "publication": "DOUE L 119, de 4 de mayo de 2016",
+        "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+      },
+      "tags": ["rgpd", "derechos", "proteccion-de-datos"]
+    },
+
+    {
+      "id": "TAI-B1-T09-001",
+      "blockCode": "I",
+      "topicNumber": 9,
+      "difficulty": 3,
+      "statement": "El Esquema Nacional de Seguridad vigente se aprueba por:",
+      "options": [
+        "El Real Decreto 3/2010, de 8 de enero",
+        "El Real Decreto 311/2022, de 3 de mayo",
+        "El Real Decreto 4/2010, de 8 de enero",
+        "El Real Decreto 1112/2018, de 7 de septiembre"
+      ],
+      "correctIndex": 1,
+      "explanation": "El Real Decreto 311/2022, de 3 de mayo, regula el Esquema Nacional de Seguridad y deroga el anterior Real Decreto 3/2010. El Real Decreto 4/2010 corresponde al Esquema Nacional de Interoperabilidad y el 1112/2018 a la accesibilidad de sitios web y aplicaciones móviles.",
+      "source": {
+        "reference": "Real Decreto 311/2022, de 3 de mayo, por el que se regula el Esquema Nacional de Seguridad",
+        "publication": "BOE núm. 106, de 4 de mayo de 2022",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-7191"
+      },
+      "tags": ["ens", "seguridad", "administracion-electronica"]
+    },
+    {
+      "id": "TAI-B1-T09-002",
+      "blockCode": "I",
+      "topicNumber": 9,
+      "difficulty": 3,
+      "statement": "¿Cuáles son las dimensiones de seguridad consideradas en el Esquema Nacional de Seguridad?",
+      "options": [
+        "Confidencialidad, integridad y disponibilidad",
+        "Disponibilidad, autenticidad, integridad, confidencialidad y trazabilidad",
+        "Autenticidad, no repudio, integridad y disponibilidad",
+        "Confidencialidad, integridad, disponibilidad y resiliencia"
+      ],
+      "correctIndex": 1,
+      "explanation": "El Esquema Nacional de Seguridad considera cinco dimensiones de seguridad: disponibilidad, autenticidad, integridad, confidencialidad y trazabilidad, sobre las que se determina la categoría del sistema.",
+      "source": {
+        "reference": "Real Decreto 311/2022, Anexo I",
+        "publication": "BOE núm. 106, de 4 de mayo de 2022",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-7191"
+      },
+      "tags": ["ens", "seguridad", "dimensiones"]
+    },
+    {
+      "id": "TAI-B1-T09-003",
+      "blockCode": "I",
+      "topicNumber": 9,
+      "difficulty": 3,
+      "statement": "Las categorías de seguridad de un sistema en el Esquema Nacional de Seguridad son:",
+      "options": [
+        "Baja, media y alta",
+        "Básica, media y alta",
+        "Nivel 1, nivel 2 y nivel 3",
+        "Ordinaria, reforzada y crítica"
+      ],
+      "correctIndex": 1,
+      "explanation": "El Esquema Nacional de Seguridad clasifica los sistemas en tres categorías: BÁSICA, MEDIA y ALTA, determinadas en función del nivel más alto alcanzado por sus dimensiones de seguridad.",
+      "source": {
+        "reference": "Real Decreto 311/2022, artículo 40 y Anexo I",
+        "publication": "BOE núm. 106, de 4 de mayo de 2022",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-7191"
+      },
+      "tags": ["ens", "seguridad", "categorias"]
+    },
+    {
+      "id": "TAI-B1-T09-004",
+      "blockCode": "I",
+      "topicNumber": 9,
+      "difficulty": 3,
+      "statement": "El Esquema Nacional de Interoperabilidad se aprueba por el Real Decreto 4/2010 y se desarrolla mediante:",
+      "options": [
+        "Normas Técnicas de Interoperabilidad",
+        "Instrucciones Técnicas de Seguridad",
+        "Guías CCN-STIC de obligado cumplimiento",
+        "Órdenes ministeriales de cada departamento"
+      ],
+      "correctIndex": 0,
+      "explanation": "El Real Decreto 4/2010, por el que se regula el Esquema Nacional de Interoperabilidad, se desarrolla mediante Normas Técnicas de Interoperabilidad (NTI), que abordan aspectos como el documento electrónico, el expediente electrónico, la política de firma o el catálogo de estándares. Las Instrucciones Técnicas de Seguridad corresponden al Esquema Nacional de Seguridad.",
+      "source": {
+        "reference": "Real Decreto 4/2010, de 8 de enero, Esquema Nacional de Interoperabilidad",
+        "publication": "BOE núm. 25, de 29 de enero de 2010",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2010-1331"
+      },
+      "tags": ["eni", "interoperabilidad", "administracion-electronica"]
+    },
+    {
+      "id": "TAI-B1-T09-005",
+      "blockCode": "I",
+      "topicNumber": 9,
+      "difficulty": 3,
+      "statement": "Según el artículo 38 de la Ley 40/2015, la sede electrónica es aquella dirección electrónica disponible para los ciudadanos a través de redes de telecomunicaciones cuya titularidad corresponde a:",
+      "options": [
+        "Una empresa proveedora de servicios acreditada",
+        "Una Administración Pública, o bien a una o varios organismos públicos o entidades de Derecho Público en el ejercicio de sus competencias",
+        "El Ministerio competente en materia de transformación digital, en exclusiva",
+        "Cualquier entidad que preste servicios públicos, sea pública o privada"
+      ],
+      "correctIndex": 1,
+      "explanation": "El artículo 38.1 de la Ley 40/2015 define la sede electrónica como aquella dirección electrónica, disponible para los ciudadanos a través de redes de telecomunicaciones, cuya titularidad corresponde a una Administración Pública, o bien a una o varios organismos públicos o entidades de Derecho Público en el ejercicio de sus competencias.",
+      "source": {
+        "reference": "Ley 40/2015, artículo 38",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566"
+      },
+      "tags": ["administracion-electronica", "sede-electronica", "ley-40-2015"]
+    },
+    {
+      "id": "TAI-B1-T09-006",
+      "blockCode": "I",
+      "topicNumber": 9,
+      "difficulty": 4,
+      "statement": "Conforme al Esquema Nacional de Seguridad, los sistemas de categoría MEDIA y ALTA deben ser objeto de una auditoría ordinaria de seguridad, al menos:",
+      "options": [
+        "Cada seis meses",
+        "Cada año",
+        "Cada dos años",
+        "Cada cinco años"
+      ],
+      "correctIndex": 2,
+      "explanation": "El artículo 31 del Real Decreto 311/2022 exige que los sistemas de información de categoría MEDIA o ALTA sean objeto de una auditoría ordinaria al menos cada dos años, además de auditorías extraordinarias cuando se produzcan modificaciones sustanciales. Los de categoría BÁSICA pueden sustituirla por una autoevaluación.",
+      "source": {
+        "reference": "Real Decreto 311/2022, artículo 31",
+        "publication": "BOE núm. 106, de 4 de mayo de 2022",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-7191"
+      },
+      "tags": ["ens", "auditoria", "seguridad"]
+    },
+    {
+      "id": "TAI-B1-T09-007",
+      "blockCode": "I",
+      "topicNumber": 9,
+      "difficulty": 2,
+      "statement": "Cl@ve es, en el ámbito de la Administración electrónica española:",
+      "options": [
+        "Un sistema de identificación, autenticación y firma electrónica común para el conjunto del sector público administrativo estatal",
+        "Un registro centralizado de apoderamientos",
+        "Una plataforma de intermediación de datos entre Administraciones",
+        "El punto de acceso general electrónico de la Administración"
+      ],
+      "correctIndex": 0,
+      "explanation": "Cl@ve es el sistema de identificación, autenticación y firma electrónica común para el sector público administrativo estatal, que admite tanto claves concertadas como certificados electrónicos y el DNI electrónico. La intermediación de datos corresponde a la plataforma SVD y el punto de acceso general es un servicio distinto.",
+      "source": {
+        "reference": "Ley 39/2015, artículos 9 y 10, sobre sistemas de identificación y firma de los interesados",
+        "publication": "BOE núm. 236, de 2 de octubre de 2015",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565"
+      },
+      "tags": ["administracion-electronica", "identificacion", "clave"]
+    }
+  ]
+}

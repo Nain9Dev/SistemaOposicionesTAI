@@ -1,0 +1,798 @@
+{
+  "examCode": "TAI",
+  "questions": [
+    {
+      "id": "TAI-B4-T24-001",
+      "blockCode": "IV",
+      "topicNumber": 24,
+      "difficulty": 2,
+      "statement": "En un sistema de ficheros Unix o Linux, los permisos representados por el valor octal 750 sobre un directorio significan:",
+      "options": [
+        "Lectura, escritura y ejecución para el propietario; lectura y ejecución para el grupo; ningún permiso para el resto",
+        "Lectura y escritura para todos los usuarios",
+        "Solo lectura para el propietario y el grupo",
+        "Lectura, escritura y ejecución para todos los usuarios"
+      ],
+      "correctIndex": 0,
+      "explanation": "Cada dígito octal codifica lectura (4), escritura (2) y ejecución (1). El 7 concede rwx al propietario, el 5 concede r-x al grupo y el 0 no concede ningún permiso al resto de usuarios.",
+      "source": {
+        "reference": "Permisos de ficheros en sistemas POSIX",
+        "publication": "Temario TAI, Bloque IV, tema 24"
+      },
+      "tags": ["linux", "administracion-de-sistemas", "permisos"]
+    },
+    {
+      "id": "TAI-B4-T24-002",
+      "blockCode": "IV",
+      "topicNumber": 24,
+      "difficulty": 3,
+      "statement": "En un sistema Linux, ¿qué contiene el fichero /etc/shadow?",
+      "options": [
+        "La lista de grupos del sistema y sus miembros",
+        "Los resúmenes criptográficos de las contraseñas de los usuarios y su información de caducidad",
+        "Los puntos de montaje de los sistemas de ficheros",
+        "Las rutas de los ejecutables del sistema"
+      ],
+      "correctIndex": 1,
+      "explanation": "/etc/shadow almacena el hash de la contraseña de cada usuario y los datos de envejecimiento de la misma, con permisos restringidos. La información pública de las cuentas está en /etc/passwd, los grupos en /etc/group y los puntos de montaje en /etc/fstab.",
+      "source": {
+        "reference": "Gestión de usuarios y contraseñas en sistemas Linux",
+        "publication": "Temario TAI, Bloque IV, tema 24"
+      },
+      "tags": ["linux", "administracion-de-sistemas", "seguridad"]
+    },
+    {
+      "id": "TAI-B4-T24-003",
+      "blockCode": "IV",
+      "topicNumber": 24,
+      "difficulty": 3,
+      "statement": "En un dominio de Active Directory, una Unidad Organizativa (OU) sirve principalmente para:",
+      "options": [
+        "Delimitar un límite de replicación independiente entre dominios",
+        "Agrupar objetos con el fin de delegar la administración y aplicar directivas de grupo",
+        "Sustituir a los grupos de seguridad en la asignación de permisos",
+        "Definir el esquema de la base de datos del directorio"
+      ],
+      "correctIndex": 1,
+      "explanation": "Las unidades organizativas son contenedores dentro de un dominio que permiten estructurar los objetos, delegar su administración y vincular objetos de directiva de grupo (GPO). No son un límite de replicación ni sustituyen a los grupos de seguridad.",
+      "source": {
+        "reference": "Servicios de directorio. Estructura lógica de Active Directory",
+        "publication": "Temario TAI, Bloque IV, tema 24"
+      },
+      "tags": ["windows", "active-directory", "administracion-de-sistemas"]
+    },
+    {
+      "id": "TAI-B4-T24-004",
+      "blockCode": "IV",
+      "topicNumber": 24,
+      "difficulty": 2,
+      "statement": "El gestor de servicios y de inicio predominante en las distribuciones Linux modernas es:",
+      "options": ["init de System V", "systemd", "upstart", "cron"],
+      "correctIndex": 1,
+      "explanation": "systemd es el sistema de inicio y gestor de servicios adoptado por la mayoría de distribuciones actuales, con unidades de servicio, arranque paralelo y la orden systemctl como interfaz. cron es un planificador de tareas, no un gestor de servicios.",
+      "source": {
+        "reference": "Administración de servicios en sistemas Linux",
+        "publication": "Temario TAI, Bloque IV, tema 24"
+      },
+      "tags": ["linux", "systemd", "administracion-de-sistemas"]
+    },
+
+    {
+      "id": "TAI-B4-T25-001",
+      "blockCode": "IV",
+      "topicNumber": 25,
+      "difficulty": 3,
+      "statement": "¿Cuál es el efecto habitual de crear un índice sobre una columna muy consultada de una tabla grande?",
+      "options": [
+        "Acelera las consultas de búsqueda por esa columna y penaliza ligeramente las operaciones de inserción y actualización",
+        "Acelera por igual todas las operaciones sobre la tabla",
+        "Reduce el espacio total ocupado por la base de datos",
+        "Impide el uso de la columna en cláusulas de ordenación"
+      ],
+      "correctIndex": 0,
+      "explanation": "El índice proporciona una vía de acceso alternativa que evita recorrer la tabla completa, mejorando las búsquedas y ordenaciones por esa columna. A cambio ocupa espacio adicional y debe mantenerse en cada inserción, actualización o borrado.",
+      "source": {
+        "reference": "Optimización de bases de datos. Índices y planes de ejecución",
+        "publication": "Temario TAI, Bloque IV, tema 25"
+      },
+      "tags": ["bases-de-datos", "indices", "rendimiento"]
+    },
+    {
+      "id": "TAI-B4-T25-002",
+      "blockCode": "IV",
+      "topicNumber": 25,
+      "difficulty": 3,
+      "statement": "El nivel de aislamiento de transacciones READ COMMITTED evita:",
+      "options": [
+        "Únicamente las lecturas fantasma",
+        "Las lecturas sucias, pero no necesariamente las lecturas no repetibles ni las fantasma",
+        "Todos los fenómenos de concurrencia",
+        "Los interbloqueos entre transacciones"
+      ],
+      "correctIndex": 1,
+      "explanation": "READ COMMITTED garantiza que solo se leen datos confirmados, evitando las lecturas sucias, pero permite lecturas no repetibles y fantasma. Evitarlas todas exige el nivel SERIALIZABLE.",
+      "source": {
+        "reference": "ISO/IEC 9075, niveles de aislamiento de transacciones",
+        "publication": "Estándar ANSI/ISO SQL",
+        "url": "https://www.iso.org/standard/76583.html"
+      },
+      "tags": ["bases-de-datos", "transacciones", "aislamiento"]
+    },
+    {
+      "id": "TAI-B4-T25-003",
+      "blockCode": "IV",
+      "topicNumber": 25,
+      "difficulty": 2,
+      "statement": "El principio de mínimo privilegio aplicado a la administración de una base de datos implica que:",
+      "options": [
+        "Todas las aplicaciones deben conectarse con la cuenta de administrador para simplificar la gestión",
+        "Cada usuario o aplicación debe recibir únicamente los privilegios estrictamente necesarios para su función",
+        "Los privilegios deben concederse siempre a nivel de base de datos completa",
+        "Los permisos deben revisarse solo cuando se produce un incidente"
+      ],
+      "correctIndex": 1,
+      "explanation": "El mínimo privilegio limita el alcance de un compromiso: si una aplicación solo necesita leer determinadas tablas, no debe disponer de permisos de escritura ni de administración. Es además una exigencia expresa de los marcos de seguridad como el Esquema Nacional de Seguridad.",
+      "source": {
+        "reference": "Real Decreto 311/2022, principio de mínimo privilegio",
+        "publication": "BOE núm. 106, de 4 de mayo de 2022",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-7191"
+      },
+      "tags": ["bases-de-datos", "seguridad", "privilegios"]
+    },
+
+    {
+      "id": "TAI-B4-T26-001",
+      "blockCode": "IV",
+      "topicNumber": 26,
+      "difficulty": 3,
+      "statement": "En una política de copias de seguridad, el RPO (Recovery Point Objective) mide:",
+      "options": [
+        "El tiempo máximo admisible para restaurar el servicio",
+        "La cantidad máxima de datos que la organización está dispuesta a perder, expresada como intervalo de tiempo",
+        "El número de copias que deben conservarse fuera de las instalaciones",
+        "La capacidad total del sistema de respaldo"
+      ],
+      "correctIndex": 1,
+      "explanation": "El RPO indica hasta qué punto del pasado es aceptable retroceder, es decir, cuántos datos pueden perderse como máximo, y condiciona la frecuencia de las copias. El tiempo máximo de restauración del servicio es el RTO (Recovery Time Objective).",
+      "source": {
+        "reference": "Continuidad de negocio. Objetivos de recuperación RPO y RTO",
+        "publication": "Temario TAI, Bloque IV, tema 26"
+      },
+      "tags": ["copias-de-seguridad", "continuidad", "rpo-rto"]
+    },
+    {
+      "id": "TAI-B4-T26-002",
+      "blockCode": "IV",
+      "topicNumber": 26,
+      "difficulty": 3,
+      "statement": "¿Qué diferencia una copia de seguridad diferencial de una incremental?",
+      "options": [
+        "La diferencial copia los cambios desde la última copia completa; la incremental copia los cambios desde la última copia de cualquier tipo",
+        "La diferencial copia siempre todos los datos y la incremental solo los ficheros nuevos",
+        "La incremental exige detener el servicio y la diferencial no",
+        "No existe diferencia técnica entre ambas"
+      ],
+      "correctIndex": 0,
+      "explanation": "La copia diferencial acumula todos los cambios producidos desde la última copia completa, por lo que su restauración requiere la completa más la última diferencial. La incremental guarda solo lo modificado desde la copia anterior, sea completa o incremental, y su restauración exige la completa más toda la cadena.",
+      "source": {
+        "reference": "Tipos de copia de seguridad: completa, diferencial e incremental",
+        "publication": "Temario TAI, Bloque IV, tema 26"
+      },
+      "tags": ["copias-de-seguridad", "backup"]
+    },
+    {
+      "id": "TAI-B4-T26-003",
+      "blockCode": "IV",
+      "topicNumber": 26,
+      "difficulty": 2,
+      "statement": "¿Cuál es la diferencia fundamental entre una arquitectura de almacenamiento SAN y una NAS?",
+      "options": [
+        "La SAN ofrece acceso a nivel de bloque a través de una red dedicada, mientras que la NAS ofrece acceso a nivel de fichero sobre la red de datos",
+        "La NAS solo admite discos de estado sólido",
+        "La SAN no permite la redundancia de caminos",
+        "La NAS requiere obligatoriamente fibra óptica"
+      ],
+      "correctIndex": 0,
+      "explanation": "Una SAN presenta volúmenes al servidor como si fueran discos locales, operando a nivel de bloque sobre protocolos como Fibre Channel o iSCSI. Una NAS expone recursos compartidos a nivel de fichero mediante protocolos como NFS o SMB sobre la red IP.",
+      "source": {
+        "reference": "Arquitecturas de almacenamiento en red: SAN y NAS",
+        "publication": "Temario TAI, Bloque IV, tema 26"
+      },
+      "tags": ["almacenamiento", "san", "nas"]
+    },
+
+    {
+      "id": "TAI-B4-T27-001",
+      "blockCode": "IV",
+      "topicNumber": 27,
+      "difficulty": 3,
+      "statement": "Un hipervisor de tipo 1 se caracteriza por:",
+      "options": [
+        "Ejecutarse como una aplicación sobre un sistema operativo anfitrión",
+        "Ejecutarse directamente sobre el hardware, sin sistema operativo anfitrión subyacente",
+        "Requerir un contenedor por cada máquina virtual",
+        "No permitir la asignación dinámica de memoria"
+      ],
+      "correctIndex": 1,
+      "explanation": "El hipervisor de tipo 1 o bare-metal se instala directamente sobre el hardware y gestiona por sí mismo los recursos físicos. El de tipo 2 se ejecuta como una aplicación sobre un sistema operativo anfitrión, con la sobrecarga que ello conlleva.",
+      "source": {
+        "reference": "Virtualización de sistemas. Tipos de hipervisor",
+        "publication": "Temario TAI, Bloque IV, tema 27"
+      },
+      "tags": ["virtualizacion", "hipervisor"]
+    },
+    {
+      "id": "TAI-B4-T27-002",
+      "blockCode": "IV",
+      "topicNumber": 27,
+      "difficulty": 3,
+      "statement": "¿Cuál es la diferencia esencial entre un contenedor y una máquina virtual?",
+      "options": [
+        "El contenedor comparte el núcleo del sistema operativo anfitrión, mientras que la máquina virtual incluye un sistema operativo invitado completo",
+        "El contenedor requiere más recursos que una máquina virtual equivalente",
+        "La máquina virtual no permite aislar procesos",
+        "El contenedor no puede ejecutarse en entornos de producción"
+      ],
+      "correctIndex": 0,
+      "explanation": "Los contenedores virtualizan a nivel de sistema operativo: comparten el núcleo del anfitrión y aíslan procesos y sistema de ficheros mediante mecanismos como espacios de nombres y grupos de control. Cada máquina virtual, en cambio, ejecuta su propio sistema operativo invitado sobre hardware virtualizado.",
+      "source": {
+        "reference": "Virtualización ligera. Contenedores frente a máquinas virtuales",
+        "publication": "Temario TAI, Bloque IV, tema 27"
+      },
+      "tags": ["virtualizacion", "contenedores"]
+    },
+    {
+      "id": "TAI-B4-T27-003",
+      "blockCode": "IV",
+      "topicNumber": 27,
+      "difficulty": 2,
+      "statement": "En el modelo de servicio IaaS de computación en la nube, el cliente es responsable de:",
+      "options": [
+        "Únicamente de los datos que introduce en la aplicación",
+        "Del sistema operativo invitado, el middleware, las aplicaciones y los datos, mientras el proveedor gestiona la infraestructura física y de virtualización",
+        "De la infraestructura física del centro de datos",
+        "De nada, ya que el proveedor asume la responsabilidad completa"
+      ],
+      "correctIndex": 1,
+      "explanation": "En Infraestructura como Servicio el proveedor aporta cómputo, almacenamiento y red virtualizados, y el cliente gestiona desde el sistema operativo invitado hacia arriba. En PaaS el proveedor asume además la plataforma de ejecución y en SaaS también la aplicación.",
+      "source": {
+        "reference": "NIST SP 800-145, The NIST Definition of Cloud Computing",
+        "publication": "National Institute of Standards and Technology",
+        "url": "https://csrc.nist.gov/pubs/sp/800/145/final"
+      },
+      "tags": ["cloud", "iaas", "modelos-de-servicio"]
+    },
+    {
+      "id": "TAI-B4-T27-004",
+      "blockCode": "IV",
+      "topicNumber": 27,
+      "difficulty": 3,
+      "statement": "Según la definición del NIST, ¿cuál de las siguientes NO es una característica esencial de la computación en la nube?",
+      "options": [
+        "Autoservicio bajo demanda",
+        "Elasticidad rápida",
+        "Servicio medido",
+        "Ubicación física conocida y fija de los recursos"
+      ],
+      "correctIndex": 3,
+      "explanation": "El NIST define cinco características esenciales: autoservicio bajo demanda, amplio acceso a la red, agrupación de recursos, elasticidad rápida y servicio medido. Precisamente la agrupación de recursos implica independencia de la ubicación, no una ubicación fija conocida.",
+      "source": {
+        "reference": "NIST SP 800-145, The NIST Definition of Cloud Computing",
+        "publication": "National Institute of Standards and Technology",
+        "url": "https://csrc.nist.gov/pubs/sp/800/145/final"
+      },
+      "tags": ["cloud", "nist"]
+    },
+
+    {
+      "id": "TAI-B4-T28-001",
+      "blockCode": "IV",
+      "topicNumber": 28,
+      "difficulty": 2,
+      "statement": "En criptografía de clave pública, para enviar un mensaje confidencial a un destinatario se cifra con:",
+      "options": [
+        "La clave privada del emisor",
+        "La clave pública del destinatario",
+        "La clave privada del destinatario",
+        "Una clave simétrica conocida solo por el emisor"
+      ],
+      "correctIndex": 1,
+      "explanation": "La confidencialidad se obtiene cifrando con la clave pública del destinatario, ya que solo él posee la clave privada correspondiente para descifrarlo. Cifrar con la clave privada del emisor proporciona autenticidad e integridad, que es el fundamento de la firma electrónica.",
+      "source": {
+        "reference": "Criptografía asimétrica. Confidencialidad y firma electrónica",
+        "publication": "Temario TAI, Bloque IV, tema 28"
+      },
+      "tags": ["criptografia", "clave-publica", "seguridad"]
+    },
+    {
+      "id": "TAI-B4-T28-002",
+      "blockCode": "IV",
+      "topicNumber": 28,
+      "difficulty": 3,
+      "statement": "Una función hash criptográfica debe cumplir, entre otras, la propiedad de resistencia a colisiones, que significa:",
+      "options": [
+        "Que es computacionalmente inviable encontrar dos entradas distintas con el mismo resumen",
+        "Que el resumen puede invertirse para recuperar el mensaje original",
+        "Que la longitud del resumen varía con la del mensaje",
+        "Que dos mensajes parecidos producen resúmenes parecidos"
+      ],
+      "correctIndex": 0,
+      "explanation": "Las propiedades exigibles a una función hash criptográfica son la resistencia a preimagen, a segunda preimagen y a colisiones. Esta última implica que resulta computacionalmente inviable hallar dos mensajes distintos con idéntico resumen. Además, el resumen tiene longitud fija y un cambio mínimo en la entrada altera radicalmente la salida.",
+      "source": {
+        "reference": "Funciones resumen criptográficas",
+        "publication": "Temario TAI, Bloque IV, tema 28"
+      },
+      "tags": ["criptografia", "hash", "seguridad"]
+    },
+    {
+      "id": "TAI-B4-T28-003",
+      "blockCode": "IV",
+      "topicNumber": 28,
+      "difficulty": 3,
+      "statement": "AES es un algoritmo de cifrado:",
+      "options": [
+        "Asimétrico, con longitudes de clave de 1024 y 2048 bits",
+        "Simétrico de bloque, con tamaño de bloque de 128 bits y claves de 128, 192 o 256 bits",
+        "De flujo, empleado exclusivamente en redes inalámbricas",
+        "De resumen, que produce una salida de 256 bits"
+      ],
+      "correctIndex": 1,
+      "explanation": "AES (Advanced Encryption Standard) es un cifrador simétrico de bloque que opera sobre bloques de 128 bits y admite claves de 128, 192 o 256 bits. RSA es el algoritmo asimétrico con las longitudes de clave citadas en la primera opción.",
+      "source": {
+        "reference": "FIPS 197, Advanced Encryption Standard (AES)",
+        "publication": "National Institute of Standards and Technology",
+        "url": "https://csrc.nist.gov/pubs/fips/197/final"
+      },
+      "tags": ["criptografia", "aes", "seguridad"]
+    },
+    {
+      "id": "TAI-B4-T28-004",
+      "blockCode": "IV",
+      "topicNumber": 28,
+      "difficulty": 3,
+      "statement": "En una infraestructura de clave pública (PKI), la Autoridad de Certificación (CA) tiene como función principal:",
+      "options": [
+        "Verificar presencialmente la identidad de los solicitantes",
+        "Emitir y firmar los certificados electrónicos, así como gestionar su revocación",
+        "Custodiar las claves privadas de todos los usuarios",
+        "Sellar temporalmente todos los documentos electrónicos"
+      ],
+      "correctIndex": 1,
+      "explanation": "La Autoridad de Certificación emite y firma los certificados, vinculando una clave pública a una identidad, y publica la información de revocación (CRL u OCSP). La comprobación de la identidad del solicitante corresponde típicamente a la Autoridad de Registro, y el sellado de tiempo a una autoridad específica.",
+      "source": {
+        "reference": "RFC 5280, Internet X.509 Public Key Infrastructure Certificate and CRL Profile",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc5280"
+      },
+      "tags": ["pki", "certificados", "seguridad"]
+    },
+
+    {
+      "id": "TAI-B4-T29-001",
+      "blockCode": "IV",
+      "topicNumber": 29,
+      "difficulty": 2,
+      "statement": "Frente al par trenzado de cobre, la fibra óptica presenta como ventaja destacada:",
+      "options": [
+        "Su menor coste de instalación en tiradas cortas",
+        "Su inmunidad a las interferencias electromagnéticas y su mayor alcance sin repetidores",
+        "La posibilidad de alimentar dispositivos por el propio cable",
+        "Su mayor facilidad de empalme en campo"
+      ],
+      "correctIndex": 1,
+      "explanation": "Al transmitir mediante pulsos de luz, la fibra óptica es inmune a las interferencias electromagnéticas y permite distancias muy superiores con gran ancho de banda. La alimentación por el cable (PoE) es propia del par trenzado, cuyo empalme es además más sencillo y económico en distancias cortas.",
+      "source": {
+        "reference": "Medios de transmisión guiados",
+        "publication": "Temario TAI, Bloque IV, tema 29"
+      },
+      "tags": ["comunicaciones", "medios-de-transmision", "fibra-optica"]
+    },
+    {
+      "id": "TAI-B4-T29-002",
+      "blockCode": "IV",
+      "topicNumber": 29,
+      "difficulty": 2,
+      "statement": "Un modo de comunicación full-dúplex permite:",
+      "options": [
+        "Transmitir en un único sentido de forma permanente",
+        "Transmitir en ambos sentidos, pero no simultáneamente",
+        "Transmitir y recibir simultáneamente en ambos sentidos",
+        "Transmitir únicamente en difusión a todos los nodos"
+      ],
+      "correctIndex": 2,
+      "explanation": "En full-dúplex ambos extremos pueden transmitir y recibir a la vez. El half-dúplex permite los dos sentidos pero alternándolos, y el símplex un único sentido fijo.",
+      "source": {
+        "reference": "Modos de comunicación: símplex, half-dúplex y full-dúplex",
+        "publication": "Temario TAI, Bloque IV, tema 29"
+      },
+      "tags": ["comunicaciones", "modos-de-comunicacion"]
+    },
+    {
+      "id": "TAI-B4-T29-003",
+      "blockCode": "IV",
+      "topicNumber": 29,
+      "difficulty": 3,
+      "statement": "Un conmutador (switch) Ethernet, a diferencia de un concentrador (hub):",
+      "options": [
+        "Reenvía cada trama por todos los puertos, aumentando las colisiones",
+        "Aprende las direcciones MAC y reenvía cada trama solo por el puerto correspondiente, creando un dominio de colisión por puerto",
+        "Trabaja en el nivel de red decidiendo por dirección IP",
+        "No permite la conexión de más de dos equipos"
+      ],
+      "correctIndex": 1,
+      "explanation": "El conmutador opera en el nivel de enlace, construye una tabla de direcciones MAC asociadas a puertos y conmuta cada trama solo hacia su destino, de modo que cada puerto constituye un dominio de colisión independiente. El concentrador repite la señal por todos los puertos.",
+      "source": {
+        "reference": "Equipos de interconexión: concentradores, conmutadores y encaminadores",
+        "publication": "Temario TAI, Bloque IV, tema 29"
+      },
+      "tags": ["redes", "conmutacion", "ethernet"]
+    },
+
+    {
+      "id": "TAI-B4-T30-001",
+      "blockCode": "IV",
+      "topicNumber": 30,
+      "difficulty": 2,
+      "statement": "¿Cuántos niveles tiene el modelo de referencia OSI y en qué orden ascendente se ordenan?",
+      "options": [
+        "Cinco: físico, enlace, red, transporte y aplicación",
+        "Siete: físico, enlace de datos, red, transporte, sesión, presentación y aplicación",
+        "Siete: físico, red, enlace, transporte, sesión, aplicación y presentación",
+        "Cuatro: acceso a red, internet, transporte y aplicación"
+      ],
+      "correctIndex": 1,
+      "explanation": "El modelo OSI de ISO define siete niveles: 1 físico, 2 enlace de datos, 3 red, 4 transporte, 5 sesión, 6 presentación y 7 aplicación. El modelo de cuatro capas de la última opción corresponde a TCP/IP.",
+      "source": {
+        "reference": "ISO/IEC 7498-1, Modelo de referencia básico de interconexión de sistemas abiertos",
+        "publication": "ISO",
+        "url": "https://www.iso.org/standard/20269.html"
+      },
+      "tags": ["redes", "modelo-osi"]
+    },
+    {
+      "id": "TAI-B4-T30-002",
+      "blockCode": "IV",
+      "topicNumber": 30,
+      "difficulty": 3,
+      "statement": "El uso de VLAN en una red conmutada permite fundamentalmente:",
+      "options": [
+        "Aumentar la velocidad física de los enlaces",
+        "Segmentar lógicamente la red en dominios de difusión independientes con independencia de la ubicación física de los equipos",
+        "Sustituir la necesidad de encaminadores para comunicar subredes",
+        "Cifrar automáticamente el tráfico entre puertos"
+      ],
+      "correctIndex": 1,
+      "explanation": "Una VLAN agrupa lógicamente puertos o equipos en un mismo dominio de difusión sin depender de su ubicación física, lo que mejora la segmentación y la seguridad. La comunicación entre VLAN distintas sigue requiriendo encaminamiento.",
+      "source": {
+        "reference": "IEEE 802.1Q, Virtual Bridged Local Area Networks",
+        "publication": "IEEE Standards Association",
+        "url": "https://standards.ieee.org/ieee/802.1Q/10323/"
+      },
+      "tags": ["redes", "vlan", "ieee-802-1q"]
+    },
+    {
+      "id": "TAI-B4-T30-003",
+      "blockCode": "IV",
+      "topicNumber": 30,
+      "difficulty": 2,
+      "statement": "La familia de estándares IEEE 802.11 corresponde a:",
+      "options": [
+        "Redes de área local por cable Ethernet",
+        "Redes de área local inalámbricas",
+        "Redes de área personal por Bluetooth",
+        "Redes de área extensa por conmutación de circuitos"
+      ],
+      "correctIndex": 1,
+      "explanation": "IEEE 802.11 define las redes de área local inalámbricas (WLAN), conocidas comercialmente como Wi-Fi. Ethernet cableada corresponde a IEEE 802.3 y Bluetooth se recogió inicialmente en IEEE 802.15.1.",
+      "source": {
+        "reference": "IEEE 802.11, Wireless LAN Medium Access Control and Physical Layer Specifications",
+        "publication": "IEEE Standards Association",
+        "url": "https://standards.ieee.org/ieee/802.11/7028/"
+      },
+      "tags": ["redes", "wifi", "ieee-802-11"]
+    },
+
+    {
+      "id": "TAI-B4-T31-001",
+      "blockCode": "IV",
+      "topicNumber": 31,
+      "difficulty": 2,
+      "statement": "¿Cuál es la diferencia esencial entre los protocolos TCP y UDP?",
+      "options": [
+        "TCP es orientado a conexión y fiable, con control de flujo y congestión; UDP no es orientado a conexión ni garantiza entrega ni orden",
+        "UDP es orientado a conexión y TCP no",
+        "TCP opera en el nivel de red y UDP en el de transporte",
+        "UDP incorpora control de congestión y TCP no"
+      ],
+      "correctIndex": 0,
+      "explanation": "TCP establece una conexión previa, numera los segmentos, confirma su recepción y aplica control de flujo y de congestión. UDP es un servicio de datagramas sin conexión, sin confirmación ni reordenación, con menor sobrecarga y latencia.",
+      "source": {
+        "reference": "RFC 9293 (TCP) y RFC 768 (UDP)",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9293"
+      },
+      "tags": ["tcp-ip", "transporte", "redes"]
+    },
+    {
+      "id": "TAI-B4-T31-002",
+      "blockCode": "IV",
+      "topicNumber": 31,
+      "difficulty": 3,
+      "statement": "La dirección IPv4 192.168.10.0 con máscara 255.255.255.192 (/26) permite direccionar:",
+      "options": [
+        "64 direcciones totales y 62 hosts utilizables",
+        "32 direcciones totales y 30 hosts utilizables",
+        "128 direcciones totales y 126 hosts utilizables",
+        "256 direcciones totales y 254 hosts utilizables"
+      ],
+      "correctIndex": 0,
+      "explanation": "Una máscara /26 deja 6 bits para host, es decir, 2^6 = 64 direcciones por subred. Descontando la dirección de red y la de difusión quedan 62 direcciones asignables a equipos.",
+      "source": {
+        "reference": "RFC 4632, Classless Inter-domain Routing (CIDR)",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc4632"
+      },
+      "tags": ["tcp-ip", "direccionamiento", "subredes"]
+    },
+    {
+      "id": "TAI-B4-T31-003",
+      "blockCode": "IV",
+      "topicNumber": 31,
+      "difficulty": 2,
+      "statement": "¿Cuál es la longitud de una dirección IPv6?",
+      "options": ["32 bits", "64 bits", "128 bits", "256 bits"],
+      "correctIndex": 2,
+      "explanation": "IPv6 emplea direcciones de 128 bits, frente a los 32 bits de IPv4, lo que amplía enormemente el espacio de direccionamiento. Se representan en ocho grupos de cuatro dígitos hexadecimales separados por dos puntos.",
+      "source": {
+        "reference": "RFC 8200, Internet Protocol, Version 6 (IPv6) Specification",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc8200"
+      },
+      "tags": ["tcp-ip", "ipv6", "direccionamiento"]
+    },
+    {
+      "id": "TAI-B4-T31-004",
+      "blockCode": "IV",
+      "topicNumber": 31,
+      "difficulty": 2,
+      "statement": "El protocolo DHCP tiene como finalidad:",
+      "options": [
+        "Resolver nombres de dominio en direcciones IP",
+        "Asignar dinámicamente parámetros de configuración de red, como la dirección IP, la máscara, la puerta de enlace y los servidores DNS",
+        "Encaminar paquetes entre sistemas autónomos",
+        "Cifrar el tráfico entre cliente y servidor"
+      ],
+      "correctIndex": 1,
+      "explanation": "DHCP automatiza la configuración de los equipos de una red asignando dirección IP y parámetros asociados mediante un intercambio de mensajes (Discover, Offer, Request y Acknowledge). La resolución de nombres corresponde al DNS.",
+      "source": {
+        "reference": "RFC 2131, Dynamic Host Configuration Protocol",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc2131"
+      },
+      "tags": ["tcp-ip", "dhcp", "redes"]
+    },
+    {
+      "id": "TAI-B4-T31-005",
+      "blockCode": "IV",
+      "topicNumber": 31,
+      "difficulty": 3,
+      "statement": "En el sistema de nombres de dominio, un registro de tipo MX indica:",
+      "options": [
+        "La dirección IPv6 asociada a un nombre",
+        "El servidor de correo responsable de aceptar mensajes para un dominio",
+        "Un alias de un nombre canónico",
+        "Los servidores autorizados del dominio"
+      ],
+      "correctIndex": 1,
+      "explanation": "El registro MX (Mail eXchanger) identifica los servidores de correo del dominio y su prioridad. El registro AAAA aporta la dirección IPv6, el CNAME define alias y el NS los servidores de nombres autorizados.",
+      "source": {
+        "reference": "RFC 1035, Domain Names - Implementation and Specification",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc1035"
+      },
+      "tags": ["dns", "redes", "correo"]
+    },
+    {
+      "id": "TAI-B4-T31-006",
+      "blockCode": "IV",
+      "topicNumber": 31,
+      "difficulty": 3,
+      "statement": "El rango de direcciones IPv4 privadas definido en la RFC 1918 para la clase B es:",
+      "options": [
+        "10.0.0.0 a 10.255.255.255",
+        "172.16.0.0 a 172.31.255.255",
+        "192.168.0.0 a 192.168.255.255",
+        "169.254.0.0 a 169.254.255.255"
+      ],
+      "correctIndex": 1,
+      "explanation": "La RFC 1918 reserva tres bloques privados: 10.0.0.0/8, 172.16.0.0/12 (de 172.16.0.0 a 172.31.255.255) y 192.168.0.0/16. El rango 169.254.0.0/16 corresponde a la autoconfiguración de enlace local.",
+      "source": {
+        "reference": "RFC 1918, Address Allocation for Private Internets",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc1918"
+      },
+      "tags": ["tcp-ip", "direccionamiento", "rfc-1918"]
+    },
+
+    {
+      "id": "TAI-B4-T32-001",
+      "blockCode": "IV",
+      "topicNumber": 32,
+      "difficulty": 2,
+      "statement": "¿Qué puertos utilizan por defecto los protocolos HTTP y HTTPS respectivamente?",
+      "options": ["80 y 443", "8080 y 8443", "21 y 22", "25 y 465"],
+      "correctIndex": 0,
+      "explanation": "HTTP emplea por defecto el puerto TCP 80 y HTTPS el 443. Los puertos 8080 y 8443 son alternativas habituales pero no las asignadas oficialmente por IANA.",
+      "source": {
+        "reference": "Registro de nombres de servicio y números de puerto de IANA",
+        "publication": "IANA",
+        "url": "https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml"
+      },
+      "tags": ["http", "puertos", "redes"]
+    },
+    {
+      "id": "TAI-B4-T32-002",
+      "blockCode": "IV",
+      "topicNumber": 32,
+      "difficulty": 3,
+      "statement": "En una conexión HTTPS, el protocolo TLS proporciona:",
+      "options": [
+        "Únicamente el cifrado del contenido",
+        "Confidencialidad, integridad de los datos y autenticación del servidor, y opcionalmente del cliente",
+        "Solo la autenticación mutua, sin cifrado",
+        "Compresión obligatoria de la carga útil"
+      ],
+      "correctIndex": 1,
+      "explanation": "TLS establece un canal seguro que aporta confidencialidad mediante cifrado simétrico, integridad mediante códigos de autenticación de mensaje y autenticación del servidor a través de su certificado, pudiendo exigirse también la del cliente.",
+      "source": {
+        "reference": "RFC 8446, The Transport Layer Security (TLS) Protocol Version 1.3",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc8446"
+      },
+      "tags": ["tls", "https", "seguridad"]
+    },
+    {
+      "id": "TAI-B4-T32-003",
+      "blockCode": "IV",
+      "topicNumber": 32,
+      "difficulty": 3,
+      "statement": "¿Qué caracteriza al protocolo HTTP como protocolo de aplicación?",
+      "options": [
+        "Que mantiene el estado de la sesión entre peticiones de forma nativa",
+        "Que es un protocolo sin estado, en el que cada petición se procesa con independencia de las anteriores",
+        "Que requiere obligatoriamente una conexión UDP",
+        "Que solo admite transferencia de documentos HTML"
+      ],
+      "correctIndex": 1,
+      "explanation": "HTTP es un protocolo sin estado: el servidor no conserva por sí mismo información entre peticiones. El mantenimiento de sesión se construye por encima mediante cookies, tokens u otros mecanismos.",
+      "source": {
+        "reference": "RFC 9110, HTTP Semantics",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9110"
+      },
+      "tags": ["http", "web", "protocolos"]
+    },
+
+    {
+      "id": "TAI-B4-T33-001",
+      "blockCode": "IV",
+      "topicNumber": 33,
+      "difficulty": 2,
+      "statement": "La diferencia principal entre un sistema de detección de intrusiones (IDS) y uno de prevención (IPS) es que:",
+      "options": [
+        "El IDS detecta y alerta, mientras que el IPS puede además bloquear activamente el tráfico malicioso",
+        "El IPS solo funciona en redes inalámbricas",
+        "El IDS actúa en línea y el IPS fuera de línea",
+        "No existe diferencia funcional entre ambos"
+      ],
+      "correctIndex": 0,
+      "explanation": "El IDS supervisa el tráfico o los sistemas y genera alertas ante actividad sospechosa. El IPS se sitúa en línea con el tráfico y, además de detectar, puede descartar paquetes o cortar la conexión en tiempo real.",
+      "source": {
+        "reference": "Seguridad perimetral. Sistemas de detección y prevención de intrusiones",
+        "publication": "Temario TAI, Bloque IV, tema 33"
+      },
+      "tags": ["seguridad", "ids", "ips"]
+    },
+    {
+      "id": "TAI-B4-T33-002",
+      "blockCode": "IV",
+      "topicNumber": 33,
+      "difficulty": 3,
+      "statement": "Una zona desmilitarizada (DMZ) en una arquitectura de red se emplea para:",
+      "options": [
+        "Alojar los servidores accesibles desde el exterior, aislándolos de la red interna",
+        "Concentrar las copias de seguridad de la organización",
+        "Sustituir al cortafuegos perimetral",
+        "Conectar directamente la red interna a Internet sin filtrado"
+      ],
+      "correctIndex": 0,
+      "explanation": "La DMZ es un segmento intermedio donde se ubican los servicios que deben ser accesibles desde redes no confiables. Si uno de ellos se ve comprometido, el atacante no obtiene acceso directo a la red interna, que permanece protegida por reglas de filtrado adicionales.",
+      "source": {
+        "reference": "Arquitecturas de seguridad perimetral",
+        "publication": "Temario TAI, Bloque IV, tema 33"
+      },
+      "tags": ["seguridad", "dmz", "redes"]
+    },
+    {
+      "id": "TAI-B4-T33-003",
+      "blockCode": "IV",
+      "topicNumber": 33,
+      "difficulty": 3,
+      "statement": "Una red privada virtual (VPN) de acceso remoto proporciona:",
+      "options": [
+        "Un aumento del ancho de banda disponible del usuario",
+        "Un túnel cifrado sobre una red no confiable que permite acceder a los recursos internos de la organización",
+        "La eliminación de la necesidad de autenticar al usuario",
+        "El acceso anónimo a los servicios internos sin registro alguno"
+      ],
+      "correctIndex": 1,
+      "explanation": "La VPN encapsula y cifra el tráfico sobre una red pública, de modo que el usuario remoto opera como si estuviera conectado a la red corporativa, con confidencialidad e integridad de las comunicaciones. Sigue requiriendo autenticación del usuario y del dispositivo.",
+      "source": {
+        "reference": "Redes privadas virtuales y protocolos de tunelización",
+        "publication": "Temario TAI, Bloque IV, tema 33"
+      },
+      "tags": ["seguridad", "vpn", "redes"]
+    },
+    {
+      "id": "TAI-B4-T33-004",
+      "blockCode": "IV",
+      "topicNumber": 33,
+      "difficulty": 3,
+      "statement": "El CCN-CERT es:",
+      "options": [
+        "La capacidad de respuesta a incidentes de seguridad de la información del Centro Criptológico Nacional",
+        "El registro estatal de certificados electrónicos",
+        "El organismo europeo de certificación de productos criptográficos",
+        "La autoridad de control en materia de protección de datos"
+      ],
+      "correctIndex": 0,
+      "explanation": "El CCN-CERT es la capacidad de respuesta a incidentes de ciberseguridad del Centro Criptológico Nacional, competente en el ámbito del sector público y de las empresas de interés estratégico. La autoridad de control en protección de datos es la Agencia Española de Protección de Datos.",
+      "source": {
+        "reference": "Real Decreto 311/2022, referencias al Centro Criptológico Nacional y su capacidad de respuesta a incidentes",
+        "publication": "BOE núm. 106, de 4 de mayo de 2022",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-7191"
+      },
+      "tags": ["seguridad", "ccn-cert", "incidentes"]
+    },
+    {
+      "id": "TAI-B4-T33-005",
+      "blockCode": "IV",
+      "topicNumber": 33,
+      "difficulty": 3,
+      "statement": "Un cortafuegos de inspección de estado (stateful) se diferencia de uno de filtrado de paquetes sin estado en que:",
+      "options": [
+        "Solo examina las direcciones IP de origen y destino",
+        "Mantiene una tabla con el estado de las conexiones y evalúa cada paquete en el contexto de la conexión a la que pertenece",
+        "Trabaja exclusivamente en el nivel de aplicación",
+        "No permite definir reglas de denegación"
+      ],
+      "correctIndex": 1,
+      "explanation": "El cortafuegos de inspección de estado registra las conexiones establecidas y decide sobre cada paquete atendiendo a si pertenece a una conexión legítima ya iniciada, lo que evita tener que abrir reglas amplias para el tráfico de retorno.",
+      "source": {
+        "reference": "Cortafuegos: filtrado de paquetes e inspección de estado",
+        "publication": "Temario TAI, Bloque IV, tema 33"
+      },
+      "tags": ["seguridad", "cortafuegos", "redes"]
+    },
+    {
+      "id": "TAI-B4-T33-006",
+      "blockCode": "IV",
+      "topicNumber": 33,
+      "difficulty": 2,
+      "statement": "Un sistema SIEM tiene como función principal:",
+      "options": [
+        "Cifrar el tráfico entre las sedes de la organización",
+        "Recopilar, correlacionar y analizar eventos de seguridad procedentes de múltiples fuentes para detectar incidentes",
+        "Sustituir a las copias de seguridad periódicas",
+        "Gestionar el ciclo de vida de los certificados electrónicos"
+      ],
+      "correctIndex": 1,
+      "explanation": "Un SIEM (Security Information and Event Management) centraliza los registros y eventos de sistemas, aplicaciones y dispositivos de red, los normaliza y correlaciona para detectar patrones de ataque y dar soporte a la respuesta ante incidentes.",
+      "source": {
+        "reference": "Monitorización y gestión de incidentes de seguridad",
+        "publication": "Temario TAI, Bloque IV, tema 33"
+      },
+      "tags": ["seguridad", "siem", "monitorizacion"]
+    }
+  ]
+}

@@ -1,0 +1,441 @@
+{
+  "examCode": "TAI",
+  "questions": [
+    {
+      "id": "TAI-B2-T10-001",
+      "blockCode": "II",
+      "topicNumber": 10,
+      "difficulty": 1,
+      "statement": "¿Cuántos valores distintos pueden representarse con un byte de 8 bits?",
+      "options": ["128", "255", "256", "512"],
+      "correctIndex": 2,
+      "explanation": "Con n bits se representan 2^n combinaciones distintas. Para 8 bits son 2^8 = 256 valores, que en binario sin signo corresponden al rango de 0 a 255.",
+      "source": {
+        "reference": "Representación binaria de la información. Fundamentos de arquitectura de computadores",
+        "publication": "Temario TAI, Bloque II, tema 10"
+      },
+      "tags": ["representacion-de-la-informacion", "binario"]
+    },
+    {
+      "id": "TAI-B2-T10-002",
+      "blockCode": "II",
+      "topicNumber": 10,
+      "difficulty": 2,
+      "statement": "En la arquitectura de von Neumann, la característica diferencial respecto a la arquitectura Harvard es que:",
+      "options": [
+        "Utiliza memorias y buses separados para instrucciones y datos",
+        "Almacena instrucciones y datos en la misma memoria, accesible por un mismo bus",
+        "No dispone de unidad aritmético-lógica",
+        "Ejecuta siempre las instrucciones en paralelo"
+      ],
+      "correctIndex": 1,
+      "explanation": "La arquitectura de von Neumann se caracteriza por el concepto de programa almacenado: instrucciones y datos comparten la misma memoria y el mismo bus de acceso. La arquitectura Harvard separa físicamente ambas memorias y sus buses.",
+      "source": {
+        "reference": "Arquitectura de von Neumann. Fundamentos de arquitectura de computadores",
+        "publication": "Temario TAI, Bloque II, tema 10"
+      },
+      "tags": ["arquitectura-de-computadores", "von-neumann"]
+    },
+    {
+      "id": "TAI-B2-T10-003",
+      "blockCode": "II",
+      "topicNumber": 10,
+      "difficulty": 2,
+      "statement": "¿Qué unidad de la CPU se encarga de interpretar las instrucciones y generar las señales que gobiernan el resto de componentes?",
+      "options": [
+        "La unidad aritmético-lógica (ALU)",
+        "La unidad de control",
+        "El banco de registros",
+        "La memoria caché de nivel 1"
+      ],
+      "correctIndex": 1,
+      "explanation": "La unidad de control decodifica cada instrucción y emite las señales de control que coordinan la ALU, los registros y el acceso a memoria. La ALU realiza las operaciones aritméticas y lógicas propiamente dichas.",
+      "source": {
+        "reference": "Unidad central de proceso: unidad de control y unidad aritmético-lógica",
+        "publication": "Temario TAI, Bloque II, tema 10"
+      },
+      "tags": ["arquitectura-de-computadores", "cpu"]
+    },
+    {
+      "id": "TAI-B2-T10-004",
+      "blockCode": "II",
+      "topicNumber": 10,
+      "difficulty": 3,
+      "statement": "El estándar IEEE 754 define la representación de:",
+      "options": [
+        "Números enteros con signo en complemento a dos",
+        "Números en coma flotante de precisión simple y doble",
+        "Caracteres alfanuméricos en 8 bits",
+        "Direcciones de memoria virtual"
+      ],
+      "correctIndex": 1,
+      "explanation": "El estándar IEEE 754 especifica los formatos de representación de números en coma flotante binaria, incluyendo precisión simple (32 bits) y doble (64 bits), con sus campos de signo, exponente y mantisa, así como valores especiales como NaN o infinito.",
+      "source": {
+        "reference": "IEEE 754, Standard for Floating-Point Arithmetic",
+        "publication": "IEEE Standards Association",
+        "url": "https://standards.ieee.org/ieee/754/6210/"
+      },
+      "tags": ["representacion-de-la-informacion", "coma-flotante", "ieee-754"]
+    },
+    {
+      "id": "TAI-B2-T10-005",
+      "blockCode": "II",
+      "topicNumber": 10,
+      "difficulty": 2,
+      "statement": "El número binario 1011 0110 equivale, en hexadecimal, a:",
+      "options": ["A6", "B6", "C6", "D6"],
+      "correctIndex": 1,
+      "explanation": "Cada grupo de cuatro bits corresponde a un dígito hexadecimal: 1011 es B y 0110 es 6, de modo que 10110110 en binario equivale a B6 en hexadecimal (182 en decimal).",
+      "source": {
+        "reference": "Sistemas de numeración y conversión entre bases",
+        "publication": "Temario TAI, Bloque II, tema 10"
+      },
+      "tags": ["representacion-de-la-informacion", "hexadecimal"]
+    },
+    {
+      "id": "TAI-B2-T10-006",
+      "blockCode": "II",
+      "topicNumber": 10,
+      "difficulty": 3,
+      "statement": "UTF-8 es una codificación de caracteres que se caracteriza por:",
+      "options": [
+        "Usar siempre 2 bytes por carácter",
+        "Ser de longitud variable, de 1 a 4 bytes, y compatible con ASCII en su primer rango",
+        "Usar siempre 4 bytes por carácter",
+        "Codificar únicamente los caracteres del alfabeto latino"
+      ],
+      "correctIndex": 1,
+      "explanation": "UTF-8 codifica cada punto de código Unicode con una secuencia de 1 a 4 bytes. Los 128 primeros puntos de código coinciden byte a byte con ASCII, lo que le proporciona compatibilidad hacia atrás.",
+      "source": {
+        "reference": "RFC 3629, UTF-8, a transformation format of ISO 10646",
+        "publication": "IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc3629"
+      },
+      "tags": ["representacion-de-la-informacion", "unicode", "utf-8"]
+    },
+
+    {
+      "id": "TAI-B2-T11-001",
+      "blockCode": "II",
+      "topicNumber": 11,
+      "difficulty": 2,
+      "statement": "En un sistema RAID 1, la técnica empleada es:",
+      "options": [
+        "Distribución de datos en bandas sin redundancia",
+        "Duplicación en espejo de los datos en dos o más discos",
+        "Distribución en bandas con paridad distribuida",
+        "Distribución en bandas con doble paridad"
+      ],
+      "correctIndex": 1,
+      "explanation": "RAID 1 aplica mirroring o duplicación en espejo: cada dato se escribe íntegramente en dos o más discos. RAID 0 es distribución en bandas sin redundancia, RAID 5 usa paridad distribuida y RAID 6 doble paridad.",
+      "source": {
+        "reference": "Niveles RAID. Sistemas de almacenamiento redundante",
+        "publication": "Temario TAI, Bloque II, tema 11"
+      },
+      "tags": ["almacenamiento", "raid"]
+    },
+    {
+      "id": "TAI-B2-T11-002",
+      "blockCode": "II",
+      "topicNumber": 11,
+      "difficulty": 3,
+      "statement": "¿Cuántos discos como mínimo necesita un conjunto RAID 5 y cuál es su capacidad útil?",
+      "options": [
+        "Dos discos, con la capacidad de uno de ellos",
+        "Tres discos, con la capacidad equivalente a n-1 discos",
+        "Cuatro discos, con la capacidad equivalente a n-2 discos",
+        "Tres discos, con la capacidad de los n discos"
+      ],
+      "correctIndex": 1,
+      "explanation": "RAID 5 requiere un mínimo de tres discos y reserva el equivalente a la capacidad de un disco para la información de paridad, distribuida entre todos ellos. La capacidad útil es por tanto la de n-1 discos y tolera el fallo de uno.",
+      "source": {
+        "reference": "Niveles RAID. Sistemas de almacenamiento redundante",
+        "publication": "Temario TAI, Bloque II, tema 11"
+      },
+      "tags": ["almacenamiento", "raid"]
+    },
+    {
+      "id": "TAI-B2-T11-003",
+      "blockCode": "II",
+      "topicNumber": 11,
+      "difficulty": 2,
+      "statement": "La principal ventaja de una unidad SSD frente a un disco duro magnético tradicional es:",
+      "options": [
+        "Su mayor capacidad máxima por unidad",
+        "La ausencia de partes mecánicas móviles, con menor latencia de acceso",
+        "Su capacidad ilimitada de ciclos de escritura",
+        "Que no requiere sistema de ficheros"
+      ],
+      "correctIndex": 1,
+      "explanation": "Las unidades de estado sólido almacenan la información en memoria flash, sin cabezales ni platos giratorios. Esto elimina el tiempo de búsqueda y la latencia rotacional, reduciendo drásticamente el tiempo de acceso. Su número de ciclos de escritura es, en cambio, finito.",
+      "source": {
+        "reference": "Dispositivos de almacenamiento. Memoria flash y unidades de estado sólido",
+        "publication": "Temario TAI, Bloque II, tema 11"
+      },
+      "tags": ["almacenamiento", "ssd"]
+    },
+
+    {
+      "id": "TAI-B2-T12-001",
+      "blockCode": "II",
+      "topicNumber": 12,
+      "difficulty": 1,
+      "statement": "Una estructura de datos de tipo pila (stack) se caracteriza por seguir una política:",
+      "options": [
+        "FIFO, el primero en entrar es el primero en salir",
+        "LIFO, el último en entrar es el primero en salir",
+        "De acceso aleatorio por índice",
+        "De acceso ordenado por prioridad"
+      ],
+      "correctIndex": 1,
+      "explanation": "La pila es una estructura LIFO (Last In, First Out): las operaciones de inserción (push) y extracción (pop) actúan sobre el mismo extremo. La cola, en cambio, es FIFO.",
+      "source": {
+        "reference": "Estructuras de datos lineales: pilas y colas",
+        "publication": "Temario TAI, Bloque II, tema 12"
+      },
+      "tags": ["estructuras-de-datos", "pila"]
+    },
+    {
+      "id": "TAI-B2-T12-002",
+      "blockCode": "II",
+      "topicNumber": 12,
+      "difficulty": 3,
+      "statement": "¿Cuál es la complejidad temporal media de una búsqueda binaria sobre un vector ordenado de n elementos?",
+      "options": ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
+      "correctIndex": 1,
+      "explanation": "La búsqueda binaria descarta la mitad del espacio de búsqueda en cada comparación, por lo que su número de operaciones crece de forma logarítmica con el tamaño del vector: O(log n). Exige que el vector esté previamente ordenado.",
+      "source": {
+        "reference": "Algoritmos de búsqueda y análisis de complejidad",
+        "publication": "Temario TAI, Bloque II, tema 12"
+      },
+      "tags": ["algoritmos", "complejidad", "busqueda"]
+    },
+    {
+      "id": "TAI-B2-T12-003",
+      "blockCode": "II",
+      "topicNumber": 12,
+      "difficulty": 3,
+      "statement": "En una tabla hash, una colisión se produce cuando:",
+      "options": [
+        "La tabla se ha llenado por completo",
+        "Dos claves distintas producen el mismo valor de la función hash",
+        "La función hash devuelve un valor negativo",
+        "Se intenta insertar una clave nula"
+      ],
+      "correctIndex": 1,
+      "explanation": "Una colisión ocurre cuando dos claves diferentes se transforman en la misma posición de la tabla. Se resuelve mediante técnicas como el encadenamiento (listas enlazadas por cubeta) o el direccionamiento abierto (sondeo lineal, cuadrático o doble hash).",
+      "source": {
+        "reference": "Tablas de dispersión y tratamiento de colisiones",
+        "publication": "Temario TAI, Bloque II, tema 12"
+      },
+      "tags": ["estructuras-de-datos", "hash"]
+    },
+    {
+      "id": "TAI-B2-T12-004",
+      "blockCode": "II",
+      "topicNumber": 12,
+      "difficulty": 3,
+      "statement": "El algoritmo de ordenación por burbuja (bubble sort) presenta, en el caso peor, una complejidad de:",
+      "options": ["O(n)", "O(n log n)", "O(n²)", "O(2^n)"],
+      "correctIndex": 2,
+      "explanation": "La ordenación por burbuja compara y permuta elementos adyacentes recorriendo repetidamente el vector, lo que da lugar a un número de comparaciones del orden de n² en el caso peor y en el caso medio.",
+      "source": {
+        "reference": "Algoritmos de ordenación y análisis de complejidad",
+        "publication": "Temario TAI, Bloque II, tema 12"
+      },
+      "tags": ["algoritmos", "ordenacion", "complejidad"]
+    },
+    {
+      "id": "TAI-B2-T12-005",
+      "blockCode": "II",
+      "topicNumber": 12,
+      "difficulty": 2,
+      "statement": "En la organización de ficheros, un fichero de acceso directo o aleatorio se caracteriza por:",
+      "options": [
+        "Requerir la lectura secuencial de todos los registros anteriores al buscado",
+        "Permitir acceder a un registro concreto sin recorrer los precedentes, calculando su posición",
+        "Almacenar los registros siempre ordenados por clave primaria",
+        "No admitir operaciones de escritura una vez creado"
+      ],
+      "correctIndex": 1,
+      "explanation": "En la organización directa la posición del registro se obtiene a partir de su clave, normalmente mediante una función de transformación, lo que permite acceder a él sin recorrer los anteriores. En la organización secuencial sí es necesario ese recorrido.",
+      "source": {
+        "reference": "Organización de ficheros: secuencial, directa e indexada",
+        "publication": "Temario TAI, Bloque II, tema 12"
+      },
+      "tags": ["ficheros", "organizacion-de-ficheros"]
+    },
+
+    {
+      "id": "TAI-B2-T13-001",
+      "blockCode": "II",
+      "topicNumber": 13,
+      "difficulty": 2,
+      "statement": "En la gestión de procesos de un sistema operativo, un interbloqueo (deadlock) requiere que se cumplan simultáneamente cuatro condiciones. ¿Cuál de las siguientes NO es una de ellas?",
+      "options": [
+        "Exclusión mutua",
+        "Retención y espera",
+        "Expropiación de los recursos asignados",
+        "Espera circular"
+      ],
+      "correctIndex": 2,
+      "explanation": "Las condiciones de Coffman para el interbloqueo son exclusión mutua, retención y espera, NO expropiación y espera circular. Precisamente la ausencia de expropiación es una de las condiciones necesarias; si los recursos pudieran expropiarse, el interbloqueo no se produciría.",
+      "source": {
+        "reference": "Condiciones de Coffman para el interbloqueo. Gestión de procesos",
+        "publication": "Temario TAI, Bloque II, tema 13"
+      },
+      "tags": ["sistemas-operativos", "procesos", "interbloqueo"]
+    },
+    {
+      "id": "TAI-B2-T13-002",
+      "blockCode": "II",
+      "topicNumber": 13,
+      "difficulty": 3,
+      "statement": "La memoria virtual con paginación permite:",
+      "options": [
+        "Ejecutar procesos cuyo espacio de direcciones sea mayor que la memoria física disponible",
+        "Eliminar por completo el acceso a disco durante la ejecución",
+        "Garantizar que ningún proceso genere fallos de página",
+        "Asignar a cada proceso exactamente la misma cantidad de memoria física"
+      ],
+      "correctIndex": 0,
+      "explanation": "La memoria virtual divide el espacio de direcciones en páginas y mantiene en memoria física solo las necesarias, trasladando el resto a un dispositivo de intercambio. Eso permite ejecutar procesos mayores que la memoria física, a costa de los fallos de página.",
+      "source": {
+        "reference": "Gestión de memoria: paginación y memoria virtual",
+        "publication": "Temario TAI, Bloque II, tema 13"
+      },
+      "tags": ["sistemas-operativos", "memoria-virtual", "paginacion"]
+    },
+    {
+      "id": "TAI-B2-T13-003",
+      "blockCode": "II",
+      "topicNumber": 13,
+      "difficulty": 3,
+      "statement": "El algoritmo de planificación de procesos Round Robin se caracteriza por:",
+      "options": [
+        "Ejecutar siempre primero el proceso con menor tiempo estimado de ejecución",
+        "Asignar a cada proceso un quantum de tiempo de CPU, expropiándolo al agotarse",
+        "No permitir la expropiación una vez asignada la CPU",
+        "Ordenar los procesos exclusivamente por su prioridad estática"
+      ],
+      "correctIndex": 1,
+      "explanation": "Round Robin es un algoritmo expropiativo que reparte la CPU en rodajas de tiempo (quantum). Cuando un proceso agota su quantum se le retira la CPU y pasa al final de la cola de preparados, lo que garantiza un reparto equitativo.",
+      "source": {
+        "reference": "Algoritmos de planificación de procesos",
+        "publication": "Temario TAI, Bloque II, tema 13"
+      },
+      "tags": ["sistemas-operativos", "planificacion", "round-robin"]
+    },
+    {
+      "id": "TAI-B2-T13-004",
+      "blockCode": "II",
+      "topicNumber": 13,
+      "difficulty": 2,
+      "statement": "¿Qué estructura de datos del núcleo mantiene la información de control de un proceso, como su identificador, su estado y el contenido de sus registros?",
+      "options": [
+        "La tabla de páginas",
+        "El bloque de control de proceso (PCB)",
+        "El descriptor de fichero",
+        "La tabla de interrupciones"
+      ],
+      "correctIndex": 1,
+      "explanation": "El bloque de control de proceso o PCB (Process Control Block) almacena toda la información que el sistema operativo necesita para gestionar un proceso: identificador, estado, contador de programa, registros, información de planificación, memoria y ficheros abiertos.",
+      "source": {
+        "reference": "Gestión de procesos: el bloque de control de proceso",
+        "publication": "Temario TAI, Bloque II, tema 13"
+      },
+      "tags": ["sistemas-operativos", "procesos", "pcb"]
+    },
+
+    {
+      "id": "TAI-B2-T14-001",
+      "blockCode": "II",
+      "topicNumber": 14,
+      "difficulty": 2,
+      "statement": "En el modelo relacional, ¿qué garantiza la regla de integridad de entidad?",
+      "options": [
+        "Que ningún atributo de la clave primaria puede tomar valor nulo",
+        "Que toda clave ajena debe apuntar a una tupla existente",
+        "Que no puede haber tablas sin filas",
+        "Que todos los atributos deben ser atómicos"
+      ],
+      "correctIndex": 0,
+      "explanation": "La integridad de entidad exige que ningún atributo que forme parte de la clave primaria de una relación pueda tomar valor nulo, ya que la clave primaria debe identificar unívocamente cada tupla. La regla que obliga a que las claves ajenas apunten a tuplas existentes es la integridad referencial.",
+      "source": {
+        "reference": "Modelo relacional de Codd. Reglas de integridad",
+        "publication": "Temario TAI, Bloque II, tema 14"
+      },
+      "tags": ["bases-de-datos", "modelo-relacional", "integridad"]
+    },
+    {
+      "id": "TAI-B2-T14-002",
+      "blockCode": "II",
+      "topicNumber": 14,
+      "difficulty": 2,
+      "statement": "El acrónimo ACID, aplicado a las transacciones de un sistema gestor de bases de datos, corresponde a:",
+      "options": [
+        "Atomicidad, Consistencia, Aislamiento y Durabilidad",
+        "Acceso, Control, Integridad y Disponibilidad",
+        "Atomicidad, Concurrencia, Indexación y Distribución",
+        "Auditoría, Consistencia, Integridad y Dependencia"
+      ],
+      "correctIndex": 0,
+      "explanation": "ACID son las propiedades que garantizan la fiabilidad de las transacciones: Atomicidad (todo o nada), Consistencia (la base pasa de un estado válido a otro), Aislamiento (las transacciones concurrentes no interfieren) y Durabilidad (los cambios confirmados persisten).",
+      "source": {
+        "reference": "Propiedades ACID de las transacciones",
+        "publication": "Temario TAI, Bloque II, tema 14"
+      },
+      "tags": ["bases-de-datos", "transacciones", "acid"]
+    },
+    {
+      "id": "TAI-B2-T14-003",
+      "blockCode": "II",
+      "topicNumber": 14,
+      "difficulty": 3,
+      "statement": "¿Cuál de las siguientes NO es una categoría habitual de base de datos NoSQL?",
+      "options": [
+        "Clave-valor",
+        "Documental",
+        "Columnar",
+        "Jerárquica relacional normalizada"
+      ],
+      "correctIndex": 3,
+      "explanation": "Las familias habituales de bases de datos NoSQL son clave-valor, documentales, de familias de columnas y de grafos. El modelo jerárquico es anterior al relacional y no forma parte de la clasificación NoSQL.",
+      "source": {
+        "reference": "Bases de datos no relacionales. Clasificación de sistemas NoSQL",
+        "publication": "Temario TAI, Bloque II, tema 14"
+      },
+      "tags": ["bases-de-datos", "nosql"]
+    },
+    {
+      "id": "TAI-B2-T14-004",
+      "blockCode": "II",
+      "topicNumber": 14,
+      "difficulty": 3,
+      "statement": "En terminología del modelo relacional, el número de tuplas de una relación se denomina:",
+      "options": ["Grado", "Cardinalidad", "Dominio", "Aridad"],
+      "correctIndex": 1,
+      "explanation": "La cardinalidad de una relación es el número de tuplas (filas) que contiene, mientras que el grado o aridad es el número de atributos (columnas). El dominio es el conjunto de valores admisibles de un atributo.",
+      "source": {
+        "reference": "Modelo relacional: relaciones, tuplas, atributos y dominios",
+        "publication": "Temario TAI, Bloque II, tema 14"
+      },
+      "tags": ["bases-de-datos", "modelo-relacional"]
+    },
+    {
+      "id": "TAI-B2-T14-005",
+      "blockCode": "II",
+      "topicNumber": 14,
+      "difficulty": 2,
+      "statement": "En la arquitectura ANSI/SPARC de tres niveles de un sistema gestor de bases de datos, el nivel que describe cómo se almacenan físicamente los datos es:",
+      "options": ["El nivel externo", "El nivel conceptual", "El nivel interno", "El nivel lógico de usuario"],
+      "correctIndex": 2,
+      "explanation": "La arquitectura ANSI/SPARC distingue el nivel externo (las vistas de cada usuario), el nivel conceptual (la descripción global y lógica de los datos) y el nivel interno o físico (cómo se almacenan realmente).",
+      "source": {
+        "reference": "Arquitectura ANSI/SPARC de tres niveles",
+        "publication": "Temario TAI, Bloque II, tema 14"
+      },
+      "tags": ["bases-de-datos", "arquitectura", "ansi-sparc"]
+    }
+  ]
+}
