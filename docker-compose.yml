@@ -1,0 +1,76 @@
+# ------------------------------------------------------------------------------------------------
+# Entorno completo de desarrollo.
+#
+#   docker compose up api            -> Api sola, con el banco de preguntas en memoria. No necesita
+#                                       base de datos ni ningun paso previo.
+#   docker compose --profile sqlserver up
+#                                    -> Api contra SQL Server, con las migraciones y el contenido
+#                                       cargados automaticamente por el servicio 'db-init'.
+# ------------------------------------------------------------------------------------------------
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: oposiciones-api:local
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Persistence__Provider: ${PERSISTENCE_PROVIDER:-InMemory}
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=OposicionesTAI;User Id=sa;Password=${MSSQL_SA_PASSWORD:-Oposiciones!2026};TrustServerCertificate=True;Encrypt=False;"
+      Api__EnableSwaggerInProduction: "true"
+    restart: unless-stopped
+
+  sqlserver:
+    profiles: ["sqlserver"]
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-Oposiciones!2026}
+      MSSQL_PID: Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  # Crea la base de datos, aplica las migraciones en orden y carga el contenido generado desde
+  # content/. Es idempotente: puede volver a ejecutarse sobre una base ya cargada.
+  db-init:
+    profiles: ["sqlserver"]
+    image: mcr.microsoft.com/mssql-tools:latest
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    volumes:
+      - ./db:/db:ro
+    environment:
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-Oposiciones!2026}
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        set -euo pipefail
+        SQL="/opt/mssql-tools/bin/sqlcmd -S sqlserver,1433 -U sa -P $$MSSQL_SA_PASSWORD -b"
+        echo "Creando la base de datos si no existe..."
+        $$SQL -Q "IF DB_ID('OposicionesTAI') IS NULL CREATE DATABASE OposicionesTAI;"
+        for script in /db/migrations/*.sql; do
+          echo "Aplicando $$script"
+          $$SQL -d OposicionesTAI -i "$$script"
+        done
+        if [ -f /db/seed/content.sql ]; then
+          echo "Cargando contenido"
+          $$SQL -d OposicionesTAI -i /db/seed/content.sql
+        fi
+        echo "Base de datos lista."
+
+volumes:
+  sqlserver-data:

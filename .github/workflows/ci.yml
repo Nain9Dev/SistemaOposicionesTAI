@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build:
+    name: Compilar y probar
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restaurar paquetes
+        run: dotnet restore Oposiciones.sln
+
+      - name: Compilar
+        run: dotnet build Oposiciones.sln --configuration Release --no-restore
+
+      - name: Probar
+        run: dotnet test Oposiciones.sln --configuration Release --no-build --verbosity normal
+
+  content:
+    name: Validar el banco de preguntas
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      # Comprueba que ninguna pregunta se queda sin respuesta correcta, sin fuente o apuntando a un
+      # tema inexistente. Es la barrera que protege al banco cuando se anaden preguntas nuevas.
+      - name: Validar el contenido
+        run: dotnet run --project src/Oposiciones.Cli --configuration Release -- validate
+
+      - name: Informe de cobertura por tema
+        run: dotnet run --project src/Oposiciones.Cli --configuration Release -- coverage
+
+      # El guion de carga a SQL Server se genera desde content/. Si alguien edita el contenido y
+      # olvida regenerarlo, ambos quedarian desincronizados sin que nadie se entere.
+      - name: Comprobar que el guion SQL esta al dia
+        run: |
+          dotnet run --project src/Oposiciones.Cli --configuration Release -- sql --out db/seed/content.sql
+          if ! git diff --quiet -- db/seed/content.sql; then
+            echo "::error::db/seed/content.sql no coincide con content/. Regenerelo con:"
+            echo "::error::  dotnet run --project src/Oposiciones.Cli -- sql --out db/seed/content.sql"
+            git --no-pager diff --stat -- db/seed/content.sql
+            exit 1
+          fi
+
+  docker:
+    name: Construir la imagen
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Construir la imagen de la Api
+        run: docker build --tag oposiciones-api:ci .
