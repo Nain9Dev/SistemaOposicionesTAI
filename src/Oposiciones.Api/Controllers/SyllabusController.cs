@@ -1,32 +1,62 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Oposiciones.Domain.Interfaces;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.OutputCaching;
+using Oposiciones.Application.Contracts;
+using Oposiciones.Application.Services;
 
-namespace Oposiciones.Api.Controllers
+namespace Oposiciones.Api.Controllers;
+
+/// <summary>
+/// Rutas de temario de la primera version de la Api.
+/// <para>
+/// Se mantienen para no romper a los clientes ya desplegados. El catalogo completo, con soporte
+/// multi-convocatoria, vive en <c>/api/exams</c>; estas rutas asumen la convocatoria TAI.
+/// </para>
+/// </summary>
+[ApiController]
+[ApiVersion("1.0")]
+[Route("api/syllabus")]
+[Produces("application/json")]
+public sealed class SyllabusController : ControllerBase
 {
-	[ApiController]
-	[Route("api/syllabus")]
-	public class SyllabusController : ControllerBase
-	{
-		private readonly ISyllabusRepository _syllabusRepository;
+    private const string DefaultExamCode = "TAI";
 
-		public SyllabusController(ISyllabusRepository syllabusRepository)
-		{
-			_syllabusRepository = syllabusRepository;
-		}
+    private readonly ICatalogService _catalog;
 
-		[HttpGet("blocks")]
-		public async Task<IActionResult> GetBlocks()
-		{
-			var blocks = await _syllabusRepository.GetBlocksAsync();
-			return Ok(blocks);
-		}
+    public SyllabusController(ICatalogService catalog)
+    {
+        _catalog = catalog;
+    }
 
-		[HttpGet("topics")]
-		public async Task<IActionResult> GetTopicsByBlock([FromQuery] int blockId)
-		{
-			var topics = await _syllabusRepository.GetTopicsByBlockAsync(blockId);
-			return Ok(topics);
-		}
-	}
+    /// <summary>Bloques del temario.</summary>
+    [HttpGet("blocks")]
+    [OutputCache(PolicyName = "catalogo")]
+    [ProducesResponseType(typeof(IReadOnlyList<BlockDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IReadOnlyList<BlockDto>>> GetBlocks(
+        [FromQuery] string examCode = DefaultExamCode,
+        CancellationToken cancellationToken = default)
+        => Ok(await _catalog.GetBlocksAsync(examCode, cancellationToken).ConfigureAwait(false));
+
+    /// <summary>
+    /// Temas de un bloque. Admite el identificador numerico del bloque de la version anterior y
+    /// tambien su codigo (<c>I</c>, <c>II</c>, ...), que es el criterio estable entre despliegues.
+    /// </summary>
+    [HttpGet("topics")]
+    [OutputCache(PolicyName = "catalogo")]
+    [ProducesResponseType(typeof(IReadOnlyList<TopicDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IReadOnlyList<TopicDto>>> GetTopics(
+        [FromQuery] int? blockId,
+        [FromQuery] string? blockCode,
+        [FromQuery] string examCode = DefaultExamCode,
+        CancellationToken cancellationToken = default)
+    {
+        if (blockCode is null && blockId is int id)
+        {
+            IReadOnlyList<BlockDto> blocks =
+                await _catalog.GetBlocksAsync(examCode, cancellationToken).ConfigureAwait(false);
+            blockCode = blocks.FirstOrDefault(block => block.Id == id)?.Code;
+        }
+
+        return Ok(await _catalog.GetTopicsAsync(examCode, blockCode, cancellationToken).ConfigureAwait(false));
+    }
 }
