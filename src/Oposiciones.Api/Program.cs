@@ -44,6 +44,12 @@ builder.Services.AddCors(options =>
 });
 
 var cs = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Server=(local);Database=OposicionesTAI;Trusted_Connection=True;TrustServerCertificate=True;";
+if (cs.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) || cs.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+{
+    var uri = new Uri(cs);
+    var userInfo = uri.UserInfo.Split(':');
+    cs = $"Host={uri.Host};Port={(uri.Port > 0 ? uri.Port : 5432)};Database={uri.LocalPath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true;";
+}
 
 builder.Services.AddScoped<ISyllabusRepository>(_ => new SyllabusRepository(cs));
 builder.Services.AddScoped<ITestRepository>(_ => new TestRepository(cs));
