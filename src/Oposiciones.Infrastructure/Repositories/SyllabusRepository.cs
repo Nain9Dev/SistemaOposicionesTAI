@@ -1,5 +1,5 @@
 using Dapper;
-using Microsoft.Data.SqlClient;
+using Npgsql;
 using Oposiciones.Domain.Entities;
 using Oposiciones.Domain.Interfaces;
 using System.Collections.Generic;
@@ -18,8 +18,8 @@ namespace Oposiciones.Infrastructure.Repositories
 
 		public async Task<IEnumerable<SyllabusBlock>> GetBlocksAsync()
 		{
-			const string sql = "SELECT Id, Code, Name FROM dbo.SyllabusBlocks ORDER BY Code;";
-			using (var conn = new SqlConnection(_connectionString))
+			const string sql = "SELECT Id, Code, Name FROM SyllabusBlocks ORDER BY Code;";
+			using (var conn = new NpgsqlConnection(_connectionString))
 			{
 				return await conn.QueryAsync<SyllabusBlock>(sql);
 			}
@@ -27,12 +27,8 @@ namespace Oposiciones.Infrastructure.Repositories
 
 		public async Task<IEnumerable<SyllabusTopic>> GetTopicsByBlockAsync(int blockId)
 		{
-			const string sql = @"
-SELECT Id, BlockId, TopicNumber, Title
-FROM dbo.SyllabusTopics
-WHERE BlockId = @BlockId
-ORDER BY TopicNumber;";
-			using (var conn = new SqlConnection(_connectionString))
+			const string sql = "SELECT Id, BlockId, TopicNumber, Title FROM SyllabusTopics WHERE BlockId = @BlockId ORDER BY TopicNumber;";
+			using (var conn = new NpgsqlConnection(_connectionString))
 			{
 				return await conn.QueryAsync<SyllabusTopic>(sql, new { BlockId = blockId });
 			}

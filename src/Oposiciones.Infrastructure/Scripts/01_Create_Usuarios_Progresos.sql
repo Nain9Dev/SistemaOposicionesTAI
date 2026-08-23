@@ -1,0 +1,22 @@
+-- Script para crear tablas de Usuarios e IntentoUsuario (PostgreSQL)
+
+CREATE TABLE IF NOT EXISTS Usuarios (
+    Id SERIAL PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Email VARCHAR(200) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(500) NOT NULL,
+    Rol VARCHAR(50) NOT NULL DEFAULT 'User',
+    FechaRegistro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS IntentosUsuario (
+    Id SERIAL PRIMARY KEY,
+    UsuarioId INT NOT NULL,
+    Aciertos INT NOT NULL,
+    Fallos INT NOT NULL,
+    Total INT NOT NULL,
+    Nota DOUBLE PRECISION NOT NULL,
+    Bloque VARCHAR(100) NOT NULL,
+    Fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT FK_IntentosUsuario_Usuarios FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE CASCADE
+);

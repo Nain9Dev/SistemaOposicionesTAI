@@ -1,5 +1,5 @@
 using Dapper;
-using Microsoft.Data.SqlClient;
+using Npgsql;
 using Oposiciones.Domain.Interfaces;
 using System.Data;
 using System.Threading.Tasks;
@@ -30,7 +30,7 @@ namespace Oposiciones.Infrastructure.Repositories
                 };
 
                 return await conn.ExecuteScalarAsync<long>(
-                    "dbo.TestGenerate",
+                    "TestGenerate",
                     parameters,
                     commandType: CommandType.StoredProcedure
                 );
@@ -47,14 +47,14 @@ namespace Oposiciones.Infrastructure.Repositories
               ao.Id AS OptionId,
               ao.SortOrder,
               ao.OptionText
-            FROM dbo.Tests t
-            JOIN dbo.TestQuestions tq ON tq.TestId = t.Id
-            JOIN dbo.Questions q ON q.Id = tq.QuestionId
-            JOIN dbo.AnswerOptions ao ON ao.QuestionId = q.Id
+            FROM Tests t
+            JOIN TestQuestions tq ON tq.TestId = t.Id
+            JOIN Questions q ON q.Id = tq.QuestionId
+            JOIN AnswerOptions ao ON ao.QuestionId = q.Id
             WHERE t.Id = @TestId
             ORDER BY tq.SortOrder, ao.SortOrder;";
 
-            using (var conn = new SqlConnection(_connectionString))
+            using (var conn = new NpgsqlConnection(_connectionString))
             {
                 return await conn.QueryAsync<TestDetailRow>(sql, new { TestId = testId });
             }
