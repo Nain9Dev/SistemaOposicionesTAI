@@ -19,7 +19,7 @@ namespace Oposiciones.Infrastructure.Repositories
 
         public async Task<long> GenerateAsync(string title, int syllabusTopicId, byte difficulty, int totalQuestions)
         {
-            using (var conn = new SqlConnection(_connectionString))
+            using (var conn = new NpgsqlConnection(_connectionString))
             {
                 var parameters = new
                 {
