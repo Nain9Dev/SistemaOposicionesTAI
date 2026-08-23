@@ -88,6 +88,7 @@ builder.Services.AddScoped<IAttemptRepository>(_ => new AttemptRepository(cs));
 builder.Services.AddScoped<IUsuarioRepository>(_ => new UsuarioRepository(cs));
 builder.Services.AddScoped<IProgresoRepository>(_ => new ProgresoRepository(cs));
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<Oposiciones.Application.Interfaces.IProgresoService, Oposiciones.Application.Services.ProgresoService>();
 
 var app = builder.Build();
 

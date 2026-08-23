@@ -2,7 +2,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Oposiciones.Domain.Entities;
 using Oposiciones.Domain.Interfaces;
+using Oposiciones.Application.Interfaces;
 using System.Security.Claims;
+using System;
+using System.Threading.Tasks;
 
 namespace Oposiciones.Api.Controllers;
 
@@ -12,10 +15,12 @@ namespace Oposiciones.Api.Controllers;
 public class ProgresoController : ControllerBase
 {
     private readonly IProgresoRepository _progresoRepository;
+    private readonly IProgresoService _progresoService;
 
-    public ProgresoController(IProgresoRepository progresoRepository)
+    public ProgresoController(IProgresoRepository progresoRepository, IProgresoService progresoService)
     {
         _progresoRepository = progresoRepository;
+        _progresoService = progresoService;
     }
 
     private int GetCurrentUserId()
@@ -31,7 +36,10 @@ public class ProgresoController : ControllerBase
         if (userId == 0) return Unauthorized();
 
         intento.UsuarioId = userId;
-        intento.Fecha = DateTime.UtcNow;
+        if (intento.Fecha == default)
+        {
+            intento.Fecha = DateTime.UtcNow;
+        }
 
         var id = await _progresoRepository.AddIntentoAsync(intento);
         intento.Id = id;
@@ -55,30 +63,7 @@ public class ProgresoController : ControllerBase
         int userId = GetCurrentUserId();
         if (userId == 0) return Unauthorized();
 
-        var historial = (await _progresoRepository.GetHistorialAsync(userId)).ToList();
-
-        if (!historial.Any())
-        {
-            return Ok(new
-            {
-                TotalPreguntas = 0,
-                Aciertos = 0,
-                Fallos = 0,
-                NotaMedia = 0.0,
-                ProgresoPorBloque = new Dictionary<string, double>()
-            });
-        }
-
-        var stats = new
-        {
-            TotalPreguntas = historial.Sum(h => h.Total),
-            Aciertos = historial.Sum(h => h.Aciertos),
-            Fallos = historial.Sum(h => h.Fallos),
-            NotaMedia = historial.Average(h => h.Nota),
-            ProgresoPorBloque = historial.GroupBy(h => h.Bloque)
-                                         .ToDictionary(g => g.Key, g => g.Average(h => ((double)h.Aciertos / h.Total) * 100))
-        };
-
+        var stats = await _progresoService.GetEstadisticasAsync(userId);
         return Ok(stats);
     }
 }
