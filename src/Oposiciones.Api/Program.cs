@@ -36,7 +36,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "https://nain9dev.github.io", "https://tai-study-system.vercel.app", "https://tai-frontend.vercel.app")
+        policy.WithOrigins("http://localhost:5173", "https://nain9dev.github.io", "https://tai-study-system.vercel.app", "https://tai-frontend.vercel.app", "https://tai.naindev.com")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
