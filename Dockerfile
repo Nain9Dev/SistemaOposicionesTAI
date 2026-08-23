@@ -4,7 +4,6 @@ WORKDIR /app
 # Copiar la solución y restaurar dependencias
 COPY *.sln ./
 COPY src/Oposiciones.Api/*.csproj src/Oposiciones.Api/
-COPY src/Oposiciones.Application/*.csproj src/Oposiciones.Application/
 COPY src/Oposiciones.Domain/*.csproj src/Oposiciones.Domain/
 COPY src/Oposiciones.Infrastructure/*.csproj src/Oposiciones.Infrastructure/
 RUN dotnet restore
