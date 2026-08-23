@@ -91,8 +91,6 @@ builder.Services.AddScoped<AuthService>();
 
 var app = builder.Build();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseCors("DevelopmentCors");
@@ -103,6 +101,8 @@ else
 {
     app.UseCors("ProductionCors");
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
