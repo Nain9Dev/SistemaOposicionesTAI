@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Oposiciones.Api.DTOs;
-using Oposiciones.Api.Services;
+using Oposiciones.Application.Services;
 
 namespace Oposiciones.Api.Controllers;
 

@@ -7,7 +7,7 @@ using Oposiciones.Domain.Entities;
 using Oposiciones.Domain.Interfaces;
 using BCrypt.Net;
 
-namespace Oposiciones.Api.Services;
+namespace Oposiciones.Application.Services;
 
 public class AuthService
 {
