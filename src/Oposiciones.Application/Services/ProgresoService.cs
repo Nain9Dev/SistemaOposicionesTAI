@@ -17,21 +17,15 @@ public class ProgresoService : IProgresoService
 
     public async Task<EstadisticasDto> GetEstadisticasAsync(int userId)
     {
-        var historial = (await _progresoRepository.GetHistorialAsync(userId)).ToList();
-
-        if (!historial.Any())
-        {
-            return new EstadisticasDto();
-        }
+        var resumen = await _progresoRepository.GetEstadisticasResumidasAsync(userId);
 
         return new EstadisticasDto
         {
-            TotalPreguntas = historial.Sum(h => h.Total),
-            Aciertos = historial.Sum(h => h.Aciertos),
-            Fallos = historial.Sum(h => h.Fallos),
-            NotaMedia = historial.Average(h => h.Nota),
-            ProgresoPorBloque = historial.GroupBy(h => h.Bloque)
-                                         .ToDictionary(g => g.Key, g => g.Average(h => ((double)h.Aciertos / h.Total) * 100))
+            TotalPreguntas = resumen.TotalPreguntas,
+            Aciertos = resumen.Aciertos,
+            Fallos = resumen.Fallos,
+            NotaMedia = resumen.NotaMedia,
+            ProgresoPorBloque = resumen.ProgresoPorBloque
         };
     }
 }

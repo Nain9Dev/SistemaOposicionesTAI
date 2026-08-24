@@ -16,6 +16,7 @@ public class RegisterDto
 public class AuthResponseDto
 {
     public string Token { get; set; } = string.Empty;
+    public string CsrfToken { get; set; } = string.Empty;
     public UserProfileDto User { get; set; } = new UserProfileDto();
 }
 

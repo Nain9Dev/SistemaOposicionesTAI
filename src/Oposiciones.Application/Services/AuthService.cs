@@ -5,7 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Oposiciones.Domain.Entities;
 using Oposiciones.Domain.Interfaces;
-using BCrypt.Net;
+using Oposiciones.Application.Interfaces.Security;
+using Oposiciones.Domain.Constants;
 
 namespace Oposiciones.Application.Services;
 
@@ -13,11 +14,13 @@ public class AuthService
 {
     private readonly IUsuarioRepository _usuarioRepository;
     private readonly IConfiguration _config;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public AuthService(IUsuarioRepository usuarioRepository, IConfiguration config)
+    public AuthService(IUsuarioRepository usuarioRepository, IConfiguration config, IPasswordHasher passwordHasher)
     {
         _usuarioRepository = usuarioRepository;
         _config = config;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<Usuario?> RegisterAsync(string nombre, string email, string password)
@@ -26,13 +29,13 @@ public class AuthService
         var existente = await _usuarioRepository.GetByEmailAsync(email);
         if (existente != null) return null;
 
-        var hash = BCrypt.Net.BCrypt.HashPassword(password);
+        var hash = _passwordHasher.HashPassword(password);
         var usuario = new Usuario
         {
             Nombre = nombre,
             Email = email,
             PasswordHash = hash,
-            Rol = "User",
+            Rol = RoleConstants.User,
             FechaRegistro = DateTime.UtcNow
         };
 
@@ -46,7 +49,7 @@ public class AuthService
         var usuario = await _usuarioRepository.GetByEmailAsync(email);
         if (usuario == null) return (null, null);
 
-        if (!BCrypt.Net.BCrypt.Verify(password, usuario.PasswordHash))
+        if (!_passwordHasher.VerifyPassword(password, usuario.PasswordHash))
         {
             return (null, null);
         }
@@ -56,7 +59,11 @@ public class AuthService
 
     private string GenerateJwtToken(Usuario usuario)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? "ClaveSuperSecretaDeDesarrolloTAI2026!+*"));
+        var jwtKey = _config["Jwt:Key"];
+        if (string.IsNullOrWhiteSpace(jwtKey)) 
+            throw new InvalidOperationException("La clave JWT no está configurada.");
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]

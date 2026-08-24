@@ -32,4 +32,42 @@ public class ProgresoRepository : IProgresoRepository
         using var conn = new NpgsqlConnection(_connectionString);
         return await conn.QueryAsync<IntentoUsuario>(sql, new { UsuarioId = usuarioId });
     }
+
+    public async Task<EstadisticasResumen> GetEstadisticasResumidasAsync(int usuarioId)
+    {
+        var sql = @"
+            -- 1. Estadísticas globales
+            SELECT 
+                COALESCE(SUM(Total), 0) AS TotalPreguntas, 
+                COALESCE(SUM(Aciertos), 0) AS Aciertos, 
+                COALESCE(SUM(Fallos), 0) AS Fallos, 
+                COALESCE(AVG(Nota), 0) AS NotaMedia
+            FROM IntentosUsuario 
+            WHERE UsuarioId = @UsuarioId;
+
+            -- 2. Estadísticas por bloque
+            SELECT 
+                Bloque, 
+                AVG(CAST(Aciertos AS FLOAT) / NULLIF(Total, 0) * 100) AS PromedioAciertos
+            FROM IntentosUsuario
+            WHERE UsuarioId = @UsuarioId
+            GROUP BY Bloque;
+        ";
+
+        using var conn = new NpgsqlConnection(_connectionString);
+        using var multi = await conn.QueryMultipleAsync(sql, new { UsuarioId = usuarioId });
+
+        var resumen = await multi.ReadSingleOrDefaultAsync<EstadisticasResumen>() ?? new EstadisticasResumen();
+
+        var bloques = await multi.ReadAsync();
+        foreach (var row in bloques)
+        {
+            if (row.Bloque != null && row.PromedioAciertos != null)
+            {
+                resumen.ProgresoPorBloque[row.Bloque] = (double)row.PromedioAciertos;
+            }
+        }
+
+        return resumen;
+    }
 }

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.AspNetCore.RateLimiting;
 using Oposiciones.Api.DTOs;
 using Oposiciones.Application.Services;
 
@@ -7,13 +9,16 @@ namespace Oposiciones.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[EnableRateLimiting("AuthLimiter")]
 public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;
+    private readonly IDistributedCache _cache;
 
-    public AuthController(AuthService authService)
+    public AuthController(AuthService authService, IDistributedCache cache)
     {
         _authService = authService;
+        _cache = cache;
     }
 
     [HttpPost("login")]
@@ -24,8 +29,12 @@ public class AuthController : ControllerBase
         
         SetTokenCookie(token);
 
+        var csrfToken = Guid.NewGuid().ToString();
+        await _cache.SetStringAsync($"csrf_{user.Id}", csrfToken, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24) });
+
         return Ok(new AuthResponseDto { 
             Token = "", // Ya no se expone al frontend
+            CsrfToken = csrfToken,
             User = new UserProfileDto { Id = user.Id, Nombre = user.Nombre, Email = user.Email, Rol = user.Rol }
         });
     }
@@ -41,10 +50,17 @@ public class AuthController : ControllerBase
 
         var (token, user) = await _authService.LoginAsync(dto.Email, dto.Password);
         
-        if (token != null) SetTokenCookie(token);
+        var csrfToken = "";
+        if (token != null) 
+        {
+            SetTokenCookie(token);
+            csrfToken = Guid.NewGuid().ToString();
+            await _cache.SetStringAsync($"csrf_{user!.Id}", csrfToken, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24) });
+        }
 
         return Ok(new AuthResponseDto { 
             Token = "", 
+            CsrfToken = csrfToken,
             User = new UserProfileDto { Id = user!.Id, Nombre = user.Nombre, Email = user.Email, Rol = user.Rol }
         });
     }

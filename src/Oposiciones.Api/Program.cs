@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 using Oposiciones.Domain.Interfaces;
 using Oposiciones.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,8 +10,25 @@ using Oposiciones.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("AuthLimiter", opt =>
+    {
+        opt.PermitLimit = 5;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        opt.QueueLimit = 0;
+    });
+    
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+        await context.HttpContext.Response.WriteAsJsonAsync(new { message = "Demasiados intentos. Por favor, espere 1 minuto." }, cancellationToken: token);
+    };
+});
+
 builder.Services.AddControllers();
-builder.Services.AddMemoryCache();
+builder.Services.AddDistributedMemoryCache();
 
 var jwtKey = builder.Configuration["Jwt:Key"];
 if (string.IsNullOrWhiteSpace(jwtKey) || jwtKey == "REPLACE_WITH_YOUR_SECRET_KEY")
@@ -87,6 +106,7 @@ builder.Services.AddScoped<ITestRepository>(_ => new TestRepository(cs));
 builder.Services.AddScoped<IAttemptRepository>(_ => new AttemptRepository(cs));
 builder.Services.AddScoped<IUsuarioRepository>(_ => new UsuarioRepository(cs));
 builder.Services.AddScoped<IProgresoRepository>(_ => new ProgresoRepository(cs));
+builder.Services.AddScoped<Oposiciones.Application.Interfaces.Security.IPasswordHasher, Oposiciones.Infrastructure.Security.BcryptPasswordHasher>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<Oposiciones.Application.Interfaces.IProgresoService, Oposiciones.Application.Services.ProgresoService>();
 
@@ -105,8 +125,10 @@ else
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<CsrfValidationMiddleware>();
 
 app.MapControllers();
 

@@ -1,82 +1,69 @@
-CREATE OR ALTER PROCEDURE dbo.AttemptStart
-    @TestId BIGINT,
-    @UserName NVARCHAR(120)
-AS
+CREATE OR REPLACE FUNCTION AttemptStart(
+    p_TestId BIGINT,
+    p_UserName VARCHAR(120)
+)
+RETURNS BIGINT
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_AttemptId BIGINT;
 BEGIN
-    SET NOCOUNT ON;
+    INSERT INTO Attempts(TestId, UserName)
+    VALUES (p_TestId, p_UserName)
+    RETURNING Id INTO v_AttemptId;
+    
+    RETURN v_AttemptId;
+END;
+$$;
 
-    INSERT INTO dbo.Attempts(TestId, UserName)
-    VALUES (@TestId, @UserName);
-
-    SELECT CAST(SCOPE_IDENTITY() AS BIGINT) AS AttemptId;
-END
-GO
-
-CREATE OR ALTER PROCEDURE dbo.AttemptAnswerUpsert
-    @AttemptId BIGINT,
-    @QuestionId BIGINT,
-    @AnswerOptionId BIGINT
-AS
+CREATE OR REPLACE FUNCTION AttemptAnswerUpsert(
+    p_AttemptId BIGINT,
+    p_QuestionId BIGINT,
+    p_AnswerOptionId BIGINT
+)
+RETURNS INT
+LANGUAGE plpgsql
+AS $$
 BEGIN
-    SET NOCOUNT ON;
+    INSERT INTO AttemptAnswers(AttemptId, QuestionId, AnswerOptionId)
+    VALUES (p_AttemptId, p_QuestionId, p_AnswerOptionId)
+    ON CONFLICT (AttemptId, QuestionId)
+    DO UPDATE SET 
+        AnswerOptionId = EXCLUDED.AnswerOptionId,
+        AnsweredAt = CURRENT_TIMESTAMP;
+    
+    RETURN 1;
+END;
+$$;
 
-    IF EXISTS (SELECT 1 FROM dbo.AttemptAnswers WHERE AttemptId=@AttemptId AND QuestionId=@QuestionId)
-    BEGIN
-        UPDATE dbo.AttemptAnswers
-        SET AnswerOptionId = @AnswerOptionId,
-            AnsweredAt = SYSUTCDATETIME()
-        WHERE AttemptId=@AttemptId AND QuestionId=@QuestionId;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO dbo.AttemptAnswers(AttemptId, QuestionId, AnswerOptionId)
-        VALUES (@AttemptId, @QuestionId, @AnswerOptionId);
-    END
-
-    SELECT 1 AS Ok;
-END
-GO
-
-CREATE OR ALTER PROCEDURE dbo.AttemptFinish
-    @AttemptId BIGINT
-AS
+CREATE OR REPLACE FUNCTION AttemptFinish(
+    p_AttemptId BIGINT
+)
+RETURNS TABLE (AttemptId BIGINT, Score DECIMAL(5,2), FinishedAt TIMESTAMP)
+LANGUAGE plpgsql
+AS $$
 BEGIN
-    SET NOCOUNT ON;
+    UPDATE Attempts a
+    SET FinishedAt = CURRENT_TIMESTAMP,
+        Score = CASE 
+            WHEN tot.TotalQuestions = 0 THEN 0
+            ELSE (100.0 * COALESCE(c.CorrectCount, 0)) / tot.TotalQuestions 
+        END
+    FROM Tests tot
+    LEFT JOIN (
+        SELECT aa.AttemptId,
+               SUM(CASE WHEN ao.IsCorrect THEN 1 ELSE 0 END) AS CorrectCount
+        FROM AttemptAnswers aa
+        JOIN AnswerOptions ao ON ao.Id = aa.AnswerOptionId
+        WHERE aa.AttemptId = p_AttemptId
+        GROUP BY aa.AttemptId
+    ) c ON c.AttemptId = p_AttemptId
+    WHERE a.Id = p_AttemptId 
+      AND a.TestId = tot.Id;
 
-    ;WITH Answers AS
-    (
-        SELECT aa.AttemptId, aa.QuestionId, aa.AnswerOptionId
-        FROM dbo.AttemptAnswers aa
-        WHERE aa.AttemptId = @AttemptId
-    ),
-    Correct AS
-    (
-        SELECT a.AttemptId,
-               SUM(CASE WHEN ao.IsCorrect = 1 THEN 1 ELSE 0 END) AS CorrectCount,
-               COUNT(*) AS AnsweredCount
-        FROM Answers a
-        JOIN dbo.AnswerOptions ao ON ao.Id = a.AnswerOptionId
-        GROUP BY a.AttemptId
-    ),
-    Total AS
-    (
-        SELECT a.Id AS AttemptId, t.TotalQuestions
-        FROM dbo.Attempts a
-        JOIN dbo.Tests t ON t.Id = a.TestId
-        WHERE a.Id = @AttemptId
-    )
-    UPDATE a
-    SET FinishedAt = SYSUTCDATETIME(),
-        Score = CASE WHEN tot.TotalQuestions = 0 THEN 0
-                     ELSE CAST(100.0 * ISNULL(c.CorrectCount,0) / tot.TotalQuestions AS DECIMAL(5,2))
-                END
-    FROM dbo.Attempts a
-    JOIN Total tot ON tot.AttemptId = a.Id
-    LEFT JOIN Correct c ON c.AttemptId = a.Id
-    WHERE a.Id = @AttemptId;
-
-    SELECT Id AS AttemptId, Score, FinishedAt
-    FROM dbo.Attempts
-    WHERE Id = @AttemptId;
-END
-GO
+    RETURN QUERY
+    SELECT Id, a.Score, a.FinishedAt
+    FROM Attempts a
+    WHERE Id = p_AttemptId;
+END;
+$$;

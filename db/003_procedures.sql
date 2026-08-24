@@ -1,50 +1,52 @@
-CREATE OR ALTER PROCEDURE dbo.TestGenerate
-    @Title NVARCHAR(200),
-    @SyllabusTopicId INT,
-    @Difficulty TINYINT,
-    @TotalQuestions INT
-AS
+CREATE OR REPLACE FUNCTION TestGenerate(
+    p_Title VARCHAR(200),
+    p_SyllabusTopicId INT,
+    p_Difficulty SMALLINT,
+    p_TotalQuestions INT
+)
+RETURNS BIGINT
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_Seed INT := (random() * 2147483647)::INT;
+    v_Pivot INT := (random() * 2147483647)::INT;
+    v_TestId BIGINT;
 BEGIN
-    SET NOCOUNT ON;
+    INSERT INTO Tests (Title, TotalQuestions, Seed)
+    VALUES (p_Title, p_TotalQuestions, v_Seed)
+    RETURNING Id INTO v_TestId;
 
-    DECLARE @Seed INT = ABS(CHECKSUM(NEWID()));
-    DECLARE @Pivot INT = ABS(CHECKSUM(@Seed, SYSUTCDATETIME()));
-
-    INSERT INTO dbo.Tests (Title, TotalQuestions, Seed)
-    VALUES (@Title, @TotalQuestions, @Seed);
-
-    DECLARE @TestId BIGINT = SCOPE_IDENTITY();
-
-    ;WITH PickA AS
-    (
-        SELECT TOP (@TotalQuestions) q.Id
-        FROM dbo.Questions q WITH (INDEX(IX_Questions_SelectFast))
-        WHERE q.SyllabusTopicId = @SyllabusTopicId
-          AND q.Difficulty = @Difficulty
-          AND q.IsActive = 1
-          AND q.RandomKey >= @Pivot
-        ORDER BY q.RandomKey
+    WITH PickA AS (
+        SELECT Id
+        FROM Questions
+        WHERE SyllabusTopicId = p_SyllabusTopicId
+          AND Difficulty = p_Difficulty
+          AND IsActive = TRUE
+          AND RandomKey >= v_Pivot
+        ORDER BY RandomKey
+        LIMIT p_TotalQuestions
     ),
-    PickB AS
-    (
-        SELECT TOP (@TotalQuestions) q.Id
-        FROM dbo.Questions q WITH (INDEX(IX_Questions_SelectFast))
-        WHERE q.SyllabusTopicId = @SyllabusTopicId
-          AND q.Difficulty = @Difficulty
-          AND q.IsActive = 1
-          AND q.RandomKey < @Pivot
-          AND NOT EXISTS (SELECT 1 FROM PickA a WHERE a.Id = q.Id)
-        ORDER BY q.RandomKey
+    PickB AS (
+        SELECT Id
+        FROM Questions
+        WHERE SyllabusTopicId = p_SyllabusTopicId
+          AND Difficulty = p_Difficulty
+          AND IsActive = TRUE
+          AND RandomKey < v_Pivot
+          AND Id NOT IN (SELECT Id FROM PickA)
+        ORDER BY RandomKey
+        LIMIT p_TotalQuestions
     ),
-    FinalPick AS
-    (
+    FinalPick AS (
         SELECT Id FROM PickA
         UNION ALL
         SELECT Id FROM PickB
+        LIMIT p_TotalQuestions
     )
-    INSERT INTO dbo.TestQuestions (TestId, QuestionId, SortOrder)
-    SELECT @TestId, fp.Id, ROW_NUMBER() OVER (ORDER BY (SELECT 1))
+    INSERT INTO TestQuestions (TestId, QuestionId, SortOrder)
+    SELECT v_TestId, fp.Id, ROW_NUMBER() OVER ()
     FROM FinalPick fp;
 
-    SELECT @TestId AS TestId;
-END
+    RETURN v_TestId;
+END;
+$$;

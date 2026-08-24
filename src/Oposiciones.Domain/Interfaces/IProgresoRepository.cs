@@ -6,4 +6,5 @@ public interface IProgresoRepository
 {
     Task<IEnumerable<IntentoUsuario>> GetHistorialAsync(int usuarioId);
     Task<int> AddIntentoAsync(IntentoUsuario intento);
+    Task<EstadisticasResumen> GetEstadisticasResumidasAsync(int usuarioId);
 }
