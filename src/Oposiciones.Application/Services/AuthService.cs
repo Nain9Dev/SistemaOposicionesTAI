@@ -13,12 +13,14 @@ namespace Oposiciones.Application.Services;
 public class AuthService
 {
     private readonly IUsuarioRepository _usuarioRepository;
+    private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IConfiguration _config;
     private readonly IPasswordHasher _passwordHasher;
 
-    public AuthService(IUsuarioRepository usuarioRepository, IConfiguration config, IPasswordHasher passwordHasher)
+    public AuthService(IUsuarioRepository usuarioRepository, IRefreshTokenRepository refreshTokenRepository, IConfiguration config, IPasswordHasher passwordHasher)
     {
         _usuarioRepository = usuarioRepository;
+        _refreshTokenRepository = refreshTokenRepository;
         _config = config;
         _passwordHasher = passwordHasher;
     }
@@ -44,17 +46,57 @@ public class AuthService
         return usuario;
     }
 
-    public async Task<(string? token, Usuario? user)> LoginAsync(string email, string password)
+    public async Task<(string? token, string? refreshToken, Usuario? user)> LoginAsync(string email, string password)
     {
         var usuario = await _usuarioRepository.GetByEmailAsync(email);
-        if (usuario == null) return (null, null);
+        if (usuario == null) return (null, null, null);
 
         if (!_passwordHasher.VerifyPassword(password, usuario.PasswordHash))
         {
-            return (null, null);
+            return (null, null, null);
         }
 
-        return (GenerateJwtToken(usuario), usuario);
+        var jwt = GenerateJwtToken(usuario);
+        var refreshToken = await GenerateRefreshTokenAsync(usuario.Id);
+
+        return (jwt, refreshToken, usuario);
+    }
+
+    public async Task<(string? token, string? refreshToken, Usuario? user)> RefreshTokenAsync(string oldRefreshToken)
+    {
+        var rt = await _refreshTokenRepository.GetByTokenAsync(oldRefreshToken);
+        if (rt == null || !rt.IsActive) return (null, null, null);
+
+        var usuario = await _usuarioRepository.GetByIdAsync(rt.UsuarioId);
+        if (usuario == null) return (null, null, null);
+
+        // Revocar el token usado y generar uno nuevo
+        await _refreshTokenRepository.RevokeTokenAsync(oldRefreshToken);
+
+        var newJwt = GenerateJwtToken(usuario);
+        var newRefreshToken = await GenerateRefreshTokenAsync(usuario.Id);
+
+        return (newJwt, newRefreshToken, usuario);
+    }
+
+    public async Task RevokeRefreshTokenAsync(string token)
+    {
+        await _refreshTokenRepository.RevokeTokenAsync(token);
+    }
+
+    private async Task<string> GenerateRefreshTokenAsync(int usuarioId)
+    {
+        var token = Convert.ToBase64String(System.Security.Cryptography.RandomNumberGenerator.GetBytes(64));
+        var rt = new RefreshToken
+        {
+            Token = token,
+            UsuarioId = usuarioId,
+            ExpiresAt = DateTime.UtcNow.AddDays(7),
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await _refreshTokenRepository.CreateAsync(rt);
+        return token;
     }
 
     private string GenerateJwtToken(Usuario usuario)

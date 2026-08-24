@@ -7,6 +7,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Oposiciones.Application.Services;
 using Oposiciones.Api.Middleware;
+using Oposiciones.Infrastructure;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,12 +31,26 @@ builder.Services.AddRateLimiter(options =>
 });
 
 builder.Services.AddControllers();
-builder.Services.AddDistributedMemoryCache();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+var redisUrl = builder.Configuration["REDIS_URL"];
+if (!string.IsNullOrEmpty(redisUrl))
+{
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = redisUrl;
+        options.InstanceName = "OposicionesTAI_";
+    });
+}
+else
+{
+    builder.Services.AddDistributedMemoryCache();
+}
 
 var jwtKey = builder.Configuration["Jwt:Key"];
-if (string.IsNullOrWhiteSpace(jwtKey) || jwtKey == "REPLACE_WITH_YOUR_SECRET_KEY")
+if (string.IsNullOrWhiteSpace(jwtKey) || jwtKey == "REPLACE_WITH_YOUR_SECRET_KEY" || jwtKey.Length < 32)
 {
-    throw new InvalidOperationException("La clave secreta JWT no está configurada o es insegura.");
+    throw new InvalidOperationException("La clave secreta JWT no está configurada o es demasiado corta. Debe tener al menos 32 caracteres para ser segura.");
 }
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -101,12 +118,7 @@ else
     throw new InvalidOperationException("Solo se soporta conexión a PostgreSQL mediante URL (postgres://...).");
 }
 
-builder.Services.AddScoped<ISyllabusRepository>(_ => new SyllabusRepository(cs));
-builder.Services.AddScoped<ITestRepository>(_ => new TestRepository(cs));
-builder.Services.AddScoped<IAttemptRepository>(_ => new AttemptRepository(cs));
-builder.Services.AddScoped<IUsuarioRepository>(_ => new UsuarioRepository(cs));
-builder.Services.AddScoped<IProgresoRepository>(_ => new ProgresoRepository(cs));
-builder.Services.AddScoped<Oposiciones.Application.Interfaces.Security.IPasswordHasher, Oposiciones.Infrastructure.Security.BcryptPasswordHasher>();
+builder.Services.AddInfrastructureServices(cs);
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<Oposiciones.Application.Interfaces.IProgresoService, Oposiciones.Application.Services.ProgresoService>();
 

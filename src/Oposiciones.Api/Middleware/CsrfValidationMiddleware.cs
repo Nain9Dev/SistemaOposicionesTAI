@@ -23,7 +23,7 @@ public class CsrfValidationMiddleware
         {
             var path = context.Request.Path.Value?.ToLower();
             // Ignorar endpoints de autenticación porque aún no tienen sesión
-            if (path != null && (path.Contains("/api/auth/login") || path.Contains("/api/auth/register")))
+            if (path != null && (path.Contains("/api/auth/login") || path.Contains("/api/auth/register") || path.Contains("/api/auth/refresh")))
             {
                 await _next(context);
                 return;

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.AspNetCore.RateLimiting;
 using Oposiciones.Api.DTOs;
 using Oposiciones.Application.Services;
+using System.Security.Claims;
 
 namespace Oposiciones.Api.Controllers;
 
@@ -24,10 +25,11 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
-        var (token, user) = await _authService.LoginAsync(dto.Email, dto.Password);
-        if (token == null || user == null) return Unauthorized(new { message = "Email o contraseña incorrectos" });
+        var (token, refreshToken, user) = await _authService.LoginAsync(dto.Email, dto.Password);
+        if (token == null || refreshToken == null || user == null) return Unauthorized(new { message = "Email o contraseña incorrectos" });
         
         SetTokenCookie(token);
+        SetRefreshTokenCookie(refreshToken);
 
         var csrfToken = Guid.NewGuid().ToString();
         await _cache.SetStringAsync($"csrf_{user.Id}", csrfToken, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24) });
@@ -42,18 +44,16 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto dto)
     {
-        if (string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
-            return BadRequest(new { message = "Datos inválidos" });
-
         var createdUser = await _authService.RegisterAsync(dto.Nombre, dto.Email, dto.Password);
         if (createdUser == null) return Conflict(new { message = "El usuario ya existe" });
 
-        var (token, user) = await _authService.LoginAsync(dto.Email, dto.Password);
+        var (token, refreshToken, user) = await _authService.LoginAsync(dto.Email, dto.Password);
         
         var csrfToken = "";
-        if (token != null) 
+        if (token != null && refreshToken != null) 
         {
             SetTokenCookie(token);
+            SetRefreshTokenCookie(refreshToken);
             csrfToken = Guid.NewGuid().ToString();
             await _cache.SetStringAsync($"csrf_{user!.Id}", csrfToken, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24) });
         }
@@ -65,15 +65,46 @@ public class AuthController : ControllerBase
         });
     }
 
-    [HttpPost("logout")]
-    public IActionResult Logout()
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh()
     {
-        Response.Cookies.Delete("access_token", new CookieOptions
-        {
-            HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.None
+        if (!Request.Cookies.TryGetValue("refresh_token", out var oldRefreshToken))
+            return Unauthorized(new { message = "Refresh token missing" });
+
+        var (token, newRefreshToken, user) = await _authService.RefreshTokenAsync(oldRefreshToken);
+        if (token == null || newRefreshToken == null || user == null)
+            return Unauthorized(new { message = "Invalid refresh token" });
+
+        SetTokenCookie(token);
+        SetRefreshTokenCookie(newRefreshToken);
+
+        var csrfToken = Guid.NewGuid().ToString();
+        await _cache.SetStringAsync($"csrf_{user.Id}", csrfToken, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24) });
+
+        return Ok(new AuthResponseDto { 
+            Token = "", 
+            CsrfToken = csrfToken,
+            User = new UserProfileDto { Id = user.Id, Nombre = user.Nombre, Email = user.Email, Rol = user.Rol }
         });
+    }
+
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        if (Request.Cookies.TryGetValue("refresh_token", out var refreshToken))
+        {
+            await _authService.RevokeRefreshTokenAsync(refreshToken);
+        }
+
+        var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!string.IsNullOrEmpty(userIdStr))
+        {
+            await _cache.RemoveAsync($"csrf_{userIdStr}");
+        }
+
+        Response.Cookies.Delete("access_token", new CookieOptions { HttpOnly = true, Secure = true, SameSite = SameSiteMode.None });
+        Response.Cookies.Delete("refresh_token", new CookieOptions { HttpOnly = true, Secure = true, SameSite = SameSiteMode.None });
+
         return Ok(new { message = "Sesión cerrada correctamente" });
     }
 
@@ -84,8 +115,20 @@ public class AuthController : ControllerBase
             HttpOnly = true,
             Secure = true, // Requerido para SameSite=None
             SameSite = SameSiteMode.None, // Permite cross-site en producción si el frontend y backend están en dominios distintos
-            Expires = DateTime.UtcNow.AddHours(24)
+            Expires = DateTime.UtcNow.AddHours(24) // Coincide con vigencia del JWT
         };
         Response.Cookies.Append("access_token", token, cookieOptions);
+    }
+
+    private void SetRefreshTokenCookie(string token)
+    {
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true, 
+            SameSite = SameSiteMode.None, 
+            Expires = DateTime.UtcNow.AddDays(7) // Coincide con vigencia del Refresh Token
+        };
+        Response.Cookies.Append("refresh_token", token, cookieOptions);
     }
 }

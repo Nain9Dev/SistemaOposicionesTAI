@@ -26,11 +26,24 @@ public class ProgresoRepository : IProgresoRepository
         return await conn.ExecuteScalarAsync<int>(sql, intento);
     }
 
-    public async Task<IEnumerable<IntentoUsuario>> GetHistorialAsync(int usuarioId)
+    public async Task<(IEnumerable<IntentoUsuario> Items, int TotalCount)> GetHistorialAsync(int usuarioId, int page, int pageSize)
     {
-        var sql = "SELECT * FROM IntentosUsuario WHERE UsuarioId = @UsuarioId ORDER BY Fecha DESC";
+        var countSql = "SELECT COUNT(*) FROM IntentosUsuario WHERE UsuarioId = @UsuarioId";
+        var sql = @"
+            SELECT * FROM IntentosUsuario 
+            WHERE UsuarioId = @UsuarioId 
+            ORDER BY Fecha DESC 
+            OFFSET @Offset LIMIT @Limit";
+            
         using var conn = new NpgsqlConnection(_connectionString);
-        return await conn.QueryAsync<IntentoUsuario>(sql, new { UsuarioId = usuarioId });
+        var totalCount = await conn.ExecuteScalarAsync<int>(countSql, new { UsuarioId = usuarioId });
+        var items = await conn.QueryAsync<IntentoUsuario>(sql, new { 
+            UsuarioId = usuarioId, 
+            Offset = (page - 1) * pageSize, 
+            Limit = pageSize 
+        });
+        
+        return (items, totalCount);
     }
 
     public async Task<EstadisticasResumen> GetEstadisticasResumidasAsync(int usuarioId)

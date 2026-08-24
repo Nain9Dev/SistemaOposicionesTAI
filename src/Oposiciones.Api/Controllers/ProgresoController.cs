@@ -48,13 +48,19 @@ public class ProgresoController : ControllerBase
     }
 
     [HttpGet("historial")]
-    public async Task<IActionResult> GetHistorial()
+    public async Task<IActionResult> GetHistorial([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
     {
         int userId = GetCurrentUserId();
         if (userId == 0) return Unauthorized();
 
-        var historial = await _progresoRepository.GetHistorialAsync(userId);
-        return Ok(historial);
+        var (items, totalCount) = await _progresoRepository.GetHistorialAsync(userId, page, pageSize);
+        return Ok(new {
+            Items = items,
+            TotalCount = totalCount,
+            Page = page,
+            PageSize = pageSize,
+            TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+        });
     }
 
     [HttpGet("estadisticas")]

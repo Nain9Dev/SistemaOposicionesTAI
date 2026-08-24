@@ -4,7 +4,7 @@ namespace Oposiciones.Domain.Interfaces;
 
 public interface IProgresoRepository
 {
-    Task<IEnumerable<IntentoUsuario>> GetHistorialAsync(int usuarioId);
+    Task<(IEnumerable<IntentoUsuario> Items, int TotalCount)> GetHistorialAsync(int usuarioId, int page, int pageSize);
     Task<int> AddIntentoAsync(IntentoUsuario intento);
     Task<EstadisticasResumen> GetEstadisticasResumidasAsync(int usuarioId);
 }
