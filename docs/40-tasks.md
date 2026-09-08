@@ -21,6 +21,10 @@ Label legend: `[A]` agent completes it alone · `[M]` mixed, needs a human actio
 | T-012 | Single connection factory over `NpgsqlDataSource` | `[A]` | ✅ No repository builds its own connection string |
 | T-013 | Unit test project and end-to-end verification script | `[A]` | ✅ 70 unit tests and 48 assertions, all green |
 | T-016 | Seed the question bank from migrations | `[A]` | ✅ 30 questions, idempotent on replay |
+| T-021 | Fix the container build, broken by the test project joining the solution | `[A]` | ✅ `docker build` succeeds; the unit suite gates the image |
+| T-022 | Bind to the port the platform injects, at run time | `[A]` | ✅ `PORT=10000` produced `Now listening on: http://[::]:10000` |
+| T-023 | Accept both CORS configuration forms and report rejected origins | `[A]` | ✅ 11 tests; the allowlist is logged at start-up |
+| T-024 | Rewrite the deployment guide against the real migrations and variables | `[A]` | ✅ All eight migrations listed; a verification step that catches a stale deploy |
 
 ## Next
 
@@ -32,6 +36,8 @@ Label legend: `[A]` agent completes it alone · `[M]` mixed, needs a human actio
 | T-018 | Populate `Questions.Explanation` | `[H]` | The column exists and the API already returns it; the text has to be written by a human |
 | T-019 | `ForwardedHeaders` middleware for correct client IPs behind a proxy | `[M]` | Rate limiting partitions by real client IP in production. Needs to know the hosting topology |
 | T-020 | Structured logging with an aggregator | `[M]` | Correlation identifiers are searchable outside the console |
+| T-025 | Redeploy Render from `main` and apply the migrations to Neon | `[H]` | `scripts/verify-api.sh` passes against the production URL. Needs Render and Neon account access |
+| T-026 | Automate migrations on deploy, or add a start-up schema check | `[A]` | A deployment cannot start against a database missing its tables |
 
 ## Session handoff
 
@@ -43,5 +49,8 @@ Label legend: `[A]` agent completes it alone · `[M]` mixed, needs a human actio
 - **Verified:** by running both suites against a disposable container, not by inspection.
   The three bugs the end-to-end run surfaced (block ordinal, stale CSRF after rotation,
   logout not revoking the token) are fixed and now covered.
-- **Next:** T-014, then T-015.
-- **Blocked:** nothing in the backend. See [`41-blockers.md`](41-blockers.md).
+- **Next:** T-025 is the one that matters — production is still serving a build that
+  predates all of this, which is why the client sees 404 on every `/api/preguntas` call.
+  It needs account access, so it is `[H]`. Then T-026, T-014, T-015.
+- **Blocked:** nothing that can be done from the repository. See
+  [`41-blockers.md`](41-blockers.md).

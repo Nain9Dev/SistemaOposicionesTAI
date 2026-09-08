@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Oposiciones.Api\Oposiciones.Api.csproj" />
     <ProjectReference Include="..\..\src\Oposiciones.Application\Oposiciones.Application.csproj" />
     <ProjectReference Include="..\..\src\Oposiciones.Domain\Oposiciones.Domain.csproj" />
     <ProjectReference Include="..\..\src\Oposiciones.Infrastructure\Oposiciones.Infrastructure.csproj" />

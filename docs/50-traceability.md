@@ -5,10 +5,12 @@ whatever the code says.
 
 Two suites cover the system:
 
-- **Unit** — `dotnet test tests/Oposiciones.UnitTests` (70 tests). Business rules in
+- **Unit** — `dotnet test tests/Oposiciones.UnitTests` (81 tests). Business rules in
   isolation, no database.
 - **End to end** — `bash scripts/verify-api.sh` (48 assertions). The public contract against
-  a live instance with a freshly migrated database.
+  a live instance with a freshly migrated database. Also run against the published
+  container image in `Production` mode, which exercises the real cookie and CORS
+  configuration rather than the development one.
 
 ## Syllabus
 
@@ -91,6 +93,10 @@ Two suites cover the system:
 | REQ-061 | `PostgresConnectionStringTests` (7 tests) | Unit |
 | REQ-062 | `liveness probe responds`, `database is reachable` | E2E |
 | REQ-063 | Start-up warning in `Program.cs` | — (manual) |
+| REQ-064 | `CorsOriginsTests.Acepta_la_forma_indexada_de_variables_de_entorno`, `..._Acepta_una_lista_separada_por_comas` | Unit |
+| REQ-065 | `CorsOriginsTests.Elimina_la_barra_final_que_rompe_la_comparacion_del_navegador`, `..._Descarta_un_origen_con_ruta`, `..._Descarta_valores_que_no_son_un_origen_http`, `..._Informa_de_los_origenes_descartados_para_poder_diagnosticarlos` | Unit |
+| REQ-066 | `RUN dotnet test` in the build stage of the Dockerfile | Container build |
+| REQ-067 | Container run with `PORT=10000` logged `Now listening on: http://[::]:10000` | Container run |
 
 ## Coverage gaps
 

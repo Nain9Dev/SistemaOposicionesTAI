@@ -131,10 +131,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 const string CorsPolicy = "TaiClient";
-var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
-                     ?? (builder.Environment.IsDevelopment()
-                         ? ["http://localhost:5173", "http://localhost:4173"]
-                         : []);
+
+// Accepts both the indexed array form and a comma-separated value, because hosting
+// dashboards make the latter far more natural to enter and the former fails silently.
+var allowedOrigins = CorsOrigins.Resolve(builder.Configuration, builder.Environment.IsDevelopment());
+var invalidOrigins = CorsOrigins.FindInvalid(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
@@ -159,10 +160,23 @@ builder.Services.AddSingleton<AuthCookieWriter>();
 
 var app = builder.Build();
 
+if (invalidOrigins.Length > 0)
+{
+    // A trailing slash or a path makes the browser's origin comparison fail, and the only
+    // symptom is an opaque CORS error in the client. Naming them here saves that hunt.
+    app.Logger.LogWarning(
+        "Origenes CORS descartados por formato invalido: {Origins}. Use solo esquema, host y puerto (https://ejemplo.com).",
+        string.Join(", ", invalidOrigins));
+}
+
 if (allowedOrigins.Length == 0)
 {
     app.Logger.LogWarning(
         "No hay origenes CORS configurados (Cors:AllowedOrigins). El cliente web no podra consumir la API.");
+}
+else
+{
+    app.Logger.LogInformation("Origenes CORS permitidos: {Origins}.", string.Join(", ", allowedOrigins));
 }
 
 if (string.IsNullOrWhiteSpace(redisUrl) && !app.Environment.IsDevelopment())

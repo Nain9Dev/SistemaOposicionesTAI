@@ -1,0 +1,24 @@
+# Build output. Copying host artifacts into the image produces confusing failures
+# when they were compiled against a different SDK or runtime identifier.
+**/bin/
+**/obj/
+**/out/
+
+# Version control and editor state
+.git/
+.gitignore
+.vs/
+.vscode/
+.idea/
+
+# Documentation and scripts are not needed to build or run the API
+docs/
+specs/
+scripts/
+*.md
+
+# Local configuration that must never end up in an image
+**/appsettings.Development.json
+**/*.user
+.env
+.env.*
