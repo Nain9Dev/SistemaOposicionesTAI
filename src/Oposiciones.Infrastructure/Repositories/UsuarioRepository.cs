@@ -1,43 +1,54 @@
-using System.Data;
 using Dapper;
-using Npgsql;
 using Oposiciones.Domain.Entities;
 using Oposiciones.Domain.Interfaces;
+using Oposiciones.Infrastructure.Data;
 
 namespace Oposiciones.Infrastructure.Repositories;
 
 public class UsuarioRepository : IUsuarioRepository
 {
-    private readonly string _connectionString;
+    private const string ColumnList = "Id, Nombre, Email, PasswordHash, Rol, FechaRegistro";
 
-    public UsuarioRepository(string connectionString)
+    private readonly IDbConnectionFactory _connectionFactory;
+
+    public UsuarioRepository(IDbConnectionFactory connectionFactory)
     {
-        _connectionString = connectionString;
+        _connectionFactory = connectionFactory;
     }
 
-    public async Task<int> CreateAsync(Usuario usuario)
+    public async Task<int?> CreateAsync(Usuario usuario, CancellationToken cancellationToken = default)
     {
-        var sql = @"
+        // ON CONFLICT delega la unicidad del email en el indice: dos altas simultaneas con el
+        // mismo correo no pueden colarse entre el "comprobar" y el "insertar".
+        const string sql = """
             INSERT INTO Usuarios (Nombre, Email, PasswordHash, Rol, FechaRegistro)
             VALUES (@Nombre, @Email, @PasswordHash, @Rol, @FechaRegistro)
+            ON CONFLICT DO NOTHING
             RETURNING Id;
-        ";
-        
-        using var conn = new NpgsqlConnection(_connectionString);
-        return await conn.ExecuteScalarAsync<int>(sql, usuario);
+            """;
+
+        await using var conn = await _connectionFactory.OpenAsync(cancellationToken);
+        var id = await conn.ExecuteScalarAsync<int?>(
+            new CommandDefinition(sql, usuario, cancellationToken: cancellationToken));
+
+        return id;
     }
 
-    public async Task<Usuario?> GetByEmailAsync(string email)
+    public async Task<Usuario?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        var sql = "SELECT * FROM Usuarios WHERE Email = @Email";
-        using var conn = new NpgsqlConnection(_connectionString);
-        return await conn.QuerySingleOrDefaultAsync<Usuario>(sql, new { Email = email });
+        const string sql = $"SELECT {ColumnList} FROM Usuarios WHERE LOWER(Email) = LOWER(@Email);";
+
+        await using var conn = await _connectionFactory.OpenAsync(cancellationToken);
+        return await conn.QuerySingleOrDefaultAsync<Usuario>(
+            new CommandDefinition(sql, new { Email = email }, cancellationToken: cancellationToken));
     }
 
-    public async Task<Usuario?> GetByIdAsync(int id)
+    public async Task<Usuario?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        var sql = "SELECT * FROM Usuarios WHERE Id = @Id";
-        using var conn = new NpgsqlConnection(_connectionString);
-        return await conn.QuerySingleOrDefaultAsync<Usuario>(sql, new { Id = id });
+        const string sql = $"SELECT {ColumnList} FROM Usuarios WHERE Id = @Id;";
+
+        await using var conn = await _connectionFactory.OpenAsync(cancellationToken);
+        return await conn.QuerySingleOrDefaultAsync<Usuario>(
+            new CommandDefinition(sql, new { Id = id }, cancellationToken: cancellationToken));
     }
 }

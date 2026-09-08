@@ -1,96 +1,90 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Oposiciones.Api.DTOs;
+using Oposiciones.Domain.Entities;
 using Oposiciones.Domain.Interfaces;
-using System.Threading.Tasks;
-using System.Linq;
 
-namespace Oposiciones.Api.Controllers
+namespace Oposiciones.Api.Controllers;
+
+[ApiController]
+[Route("api/tests")]
+[Produces("application/json")]
+public class TestsController : ControllerBase
 {
-    [ApiController]
-    [Route("api/tests")]
-    public class TestsController : ControllerBase
+    private readonly ITestRepository _testRepository;
+
+    public TestsController(ITestRepository testRepository)
     {
-        private readonly ITestRepository _testRepository;
+        _testRepository = testRepository;
+    }
 
-        public TestsController(ITestRepository testRepository)
+    [HttpGet("{testId:long}")]
+    [ProducesResponseType(typeof(TestResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById(long testId, CancellationToken cancellationToken)
+    {
+        var rows = await _testRepository.GetTestDetailRowsAsync(testId, cancellationToken);
+        if (rows.Count == 0)
         {
-            _testRepository = testRepository;
+            return NotFound();
         }
 
-        public class GenerateTestRequest
-        {
-            public string Title { get; set; } = string.Empty;
-            public int SyllabusTopicId { get; set; }
-            public byte Difficulty { get; set; }
-            public int TotalQuestions { get; set; }
-        }
-        public class TestResponse
-        {
-            public long TestId { get; set; }
-            public string Title { get; set; } = string.Empty;
-            public List<QuestionResponse> Questions { get; set; } = new List<QuestionResponse>();
-        }
+        return Ok(Compose(rows));
+    }
 
-        public class QuestionResponse
-        {
-            public long QuestionId { get; set; }
-            public string Statement { get; set; } = string.Empty;
-            public List<OptionResponse> Options { get; set; } = new List<OptionResponse>();
-        }
+    /// <summary>
+    /// Genera un test persistido. Escribe en base de datos, por lo que exige sesion: antes
+    /// cualquier peticion anonima podia crear filas en Tests y TestQuestions sin limite.
+    /// </summary>
+    [HttpPost("generate")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Generate([FromBody] GenerateTestRequestDto request, CancellationToken cancellationToken)
+    {
+        var testId = await _testRepository.GenerateAsync(
+            request.Title,
+            request.SyllabusTopicId,
+            request.Difficulty,
+            request.TotalQuestions,
+            cancellationToken);
 
-        public class OptionResponse
-        {
-            public long Id { get; set; }
-            public byte SortOrder { get; set; }
-            public string Text { get; set; } = string.Empty;
-        }
+        return Ok(new { testId });
+    }
 
-        [HttpGet("{testId:long}")]
-        public async Task<IActionResult> GetById(long testId)
+    /// <summary>
+    /// Agrupa las filas planas en preguntas con sus opciones. Se recorre una sola vez y se
+    /// respeta el orden que ya trae la consulta, en lugar de reordenar en memoria.
+    /// </summary>
+    private static TestResponseDto Compose(IReadOnlyList<TestDetailRow> rows)
+    {
+        var response = new TestResponseDto
         {
-            var rows = (await _testRepository.GetTestDetailRowsAsync(testId)).ToList();
-            if (rows.Count == 0) return NotFound();
+            TestId = rows[0].TestId,
+            Title = rows[0].Title
+        };
 
-            var response = new TestResponse
+        TestQuestionDto? current = null;
+
+        foreach (var row in rows)
+        {
+            if (current is null || current.QuestionId != row.QuestionId)
             {
-                TestId = rows[0].TestId,
-                Title = rows[0].Title
-            };
-
-            var grouped = rows.GroupBy(r => new { r.QuestionId, r.Statement });
-            foreach (var g in grouped)
-            {
-                var q = new QuestionResponse
+                current = new TestQuestionDto
                 {
-                    QuestionId = g.Key.QuestionId,
-                    Statement = g.Key.Statement
+                    QuestionId = row.QuestionId,
+                    Statement = row.Statement
                 };
-
-                foreach (var r in g)
-                {
-                    q.Options.Add(new OptionResponse
-                    {
-                        Id = r.OptionId,
-                        SortOrder = r.SortOrder,
-                        Text = r.OptionText
-                    });
-                }
-
-                response.Questions.Add(q);
+                response.Questions.Add(current);
             }
 
-            return Ok(response);
+            current.Options.Add(new TestOptionDto
+            {
+                Id = row.OptionId,
+                SortOrder = row.SortOrder,
+                Text = row.OptionText
+            });
         }
 
-        [HttpPost("generate")]
-        public async Task<IActionResult> Generate([FromBody] GenerateTestRequest request)
-        {
-            var testId = await _testRepository.GenerateAsync(
-                request.Title,
-                request.SyllabusTopicId,
-                request.Difficulty,
-                request.TotalQuestions);
-
-            return Ok(new { testId });
-        }
+        return response;
     }
 }

@@ -1,75 +1,83 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Oposiciones.Domain.Entities;
-using Oposiciones.Domain.Interfaces;
+using Oposiciones.Api.Extensions;
+using Oposiciones.Application.DTOs;
 using Oposiciones.Application.Interfaces;
-using System.Security.Claims;
-using System;
-using System.Threading.Tasks;
 
 namespace Oposiciones.Api.Controllers;
 
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
 public class ProgresoController : ControllerBase
 {
-    private readonly IProgresoRepository _progresoRepository;
     private readonly IProgresoService _progresoService;
 
-    public ProgresoController(IProgresoRepository progresoRepository, IProgresoService progresoService)
+    public ProgresoController(IProgresoService progresoService)
     {
-        _progresoRepository = progresoRepository;
         _progresoService = progresoService;
     }
 
-    private int GetCurrentUserId()
-    {
-        var idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        return int.TryParse(idClaim, out var id) ? id : 0;
-    }
-
+    /// <summary>
+    /// Archiva un simulacro. El cuerpo es un DTO y no la entidad de dominio: antes el cliente
+    /// podia fijar Id y declarar su propia nota, que se guardaba tal cual.
+    /// </summary>
     [HttpPost]
-    public async Task<IActionResult> GuardarIntento([FromBody] IntentoUsuario intento)
+    [ProducesResponseType(typeof(IntentoResultadoDto), StatusCodes.Status201Created)]
+    public async Task<IActionResult> GuardarIntento([FromBody] IntentoDto intento, CancellationToken cancellationToken)
     {
-        int userId = GetCurrentUserId();
-        if (userId == 0) return Unauthorized();
-
-        intento.UsuarioId = userId;
-        if (intento.Fecha == default)
+        if (User.GetUserId() is not { } userId)
         {
-            intento.Fecha = DateTime.UtcNow;
+            return Unauthorized();
         }
 
-        var id = await _progresoRepository.AddIntentoAsync(intento);
-        intento.Id = id;
+        var resultado = await _progresoService.GuardarIntentoAsync(userId, intento, cancellationToken);
 
-        return Ok(intento);
+        return CreatedAtAction(nameof(GetHistorial), new { page = 1 }, resultado);
     }
 
     [HttpGet("historial")]
-    public async Task<IActionResult> GetHistorial([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    [ProducesResponseType(typeof(PagedResult<IntentoResultadoDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetHistorial(
+        [FromQuery] int page = PagingDefaults.DefaultPage,
+        [FromQuery] int pageSize = PagingDefaults.DefaultPageSize,
+        CancellationToken cancellationToken = default)
     {
-        int userId = GetCurrentUserId();
-        if (userId == 0) return Unauthorized();
+        if (User.GetUserId() is not { } userId)
+        {
+            return Unauthorized();
+        }
 
-        var (items, totalCount) = await _progresoRepository.GetHistorialAsync(userId, page, pageSize);
-        return Ok(new {
-            Items = items,
-            TotalCount = totalCount,
-            Page = page,
-            PageSize = pageSize,
-            TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
-        });
+        // La saturacion de pagina y tamano ocurre en el servicio: page=0 generaba un OFFSET
+        // negativo (error de SQL) y pageSize sin tope permitia volcar la tabla entera.
+        return Ok(await _progresoService.GetHistorialAsync(userId, page, pageSize, cancellationToken));
     }
 
     [HttpGet("estadisticas")]
-    public async Task<IActionResult> GetEstadisticas()
+    [ProducesResponseType(typeof(EstadisticasDto), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetEstadisticas(CancellationToken cancellationToken)
     {
-        int userId = GetCurrentUserId();
-        if (userId == 0) return Unauthorized();
+        if (User.GetUserId() is not { } userId)
+        {
+            return Unauthorized();
+        }
 
-        var stats = await _progresoService.GetEstadisticasAsync(userId);
-        return Ok(stats);
+        return Ok(await _progresoService.GetEstadisticasAsync(userId, cancellationToken));
+    }
+
+    /// <summary>Borra el historial del usuario autenticado.</summary>
+    [HttpDelete("historial")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> BorrarHistorial(CancellationToken cancellationToken)
+    {
+        if (User.GetUserId() is not { } userId)
+        {
+            return Unauthorized();
+        }
+
+        var eliminados = await _progresoService.BorrarHistorialAsync(userId, cancellationToken);
+
+        return Ok(new { eliminados });
     }
 }

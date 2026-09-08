@@ -1,40 +1,56 @@
-using Microsoft.AspNetCore.RateLimiting;
-using System.Threading.RateLimiting;
-using Oposiciones.Domain.Interfaces;
-using Oposiciones.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Oposiciones.Application.Services;
-using Oposiciones.Api.Middleware;
-using Oposiciones.Infrastructure;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Oposiciones.Api.Extensions;
+using Oposiciones.Api.Middleware;
+using Oposiciones.Api.Security;
+using Oposiciones.Application;
+using Oposiciones.Infrastructure;
+using Oposiciones.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRateLimiter(options =>
+// ---------------------------------------------------------------------------
+// Configuracion obligatoria: se valida al arrancar, no en la primera peticion.
+// ---------------------------------------------------------------------------
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrWhiteSpace(jwtKey) || jwtKey == "REPLACE_WITH_YOUR_SECRET_KEY" || jwtKey.Length < 32)
 {
-    options.AddFixedWindowLimiter("AuthLimiter", opt =>
-    {
-        opt.PermitLimit = 5;
-        opt.Window = TimeSpan.FromMinutes(1);
-        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        opt.QueueLimit = 0;
-    });
-    
-    options.OnRejected = async (context, token) =>
-    {
-        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
-        await context.HttpContext.Response.WriteAsJsonAsync(new { message = "Demasiados intentos. Por favor, espere 1 minuto." }, cancellationToken: token);
-    };
-});
+    throw new InvalidOperationException(
+        "La clave secreta JWT no esta configurada o es demasiado corta (minimo 32 caracteres). " +
+        "Definala en Jwt:Key o en la variable de entorno Jwt__Key.");
+}
 
+// El traductor de cadenas de conexion vive en Infrastructure y admite tanto el formato
+// URL de los proveedores gestionados como el formato clave=valor.
+var connectionString = PostgresConnectionString.Normalize(
+    builder.Configuration.GetConnectionString("DefaultConnection"));
+
+// ---------------------------------------------------------------------------
+// Servicios
+// ---------------------------------------------------------------------------
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddResponseCaching();
+builder.Services.AddProblemDetails();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new()
+    {
+        Title = "Sistema Oposiciones TAI API",
+        Version = "v1",
+        Description = "API .NET 10 para la preparacion de Oposiciones TAI (INAP) sobre PostgreSQL."
+    });
+});
+
+// Cache distribuida: Redis si esta configurado, memoria en caso contrario.
 var redisUrl = builder.Configuration["REDIS_URL"];
-if (!string.IsNullOrEmpty(redisUrl))
+if (!string.IsNullOrWhiteSpace(redisUrl))
 {
     builder.Services.AddStackExchangeRedisCache(options =>
     {
@@ -44,14 +60,26 @@ if (!string.IsNullOrEmpty(redisUrl))
 }
 else
 {
+    // Aviso explicito: con varias instancias los tokens CSRF no se comparten entre ellas.
     builder.Services.AddDistributedMemoryCache();
 }
 
-var jwtKey = builder.Configuration["Jwt:Key"];
-if (string.IsNullOrWhiteSpace(jwtKey) || jwtKey == "REPLACE_WITH_YOUR_SECRET_KEY" || jwtKey.Length < 32)
+var rateLimitSettings = builder.Configuration
+    .GetSection(RateLimitPolicies.Settings.SectionName)
+    .Get<RateLimitPolicies.Settings>() ?? new RateLimitPolicies.Settings();
+
+builder.Services.AddRateLimiter(options => RateLimitPolicies.Configure(options, rateLimitSettings));
+
+// Las cookies cross-site solo tienen sentido cuando cliente y API viven en dominios distintos.
+// En desarrollo sobre http://localhost, Secure + SameSite=None hace que el navegador las descarte.
+builder.Services.Configure<AuthCookieOptions>(builder.Configuration.GetSection(AuthCookieOptions.SectionName));
+builder.Services.PostConfigure<AuthCookieOptions>(options =>
 {
-    throw new InvalidOperationException("La clave secreta JWT no está configurada o es demasiado corta. Debe tener al menos 32 caracteres para ser segura.");
-}
+    if (!builder.Configuration.GetSection(AuthCookieOptions.SectionName).Exists())
+    {
+        options.CrossSite = !builder.Environment.IsDevelopment();
+    }
+});
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -60,13 +88,32 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             OnMessageReceived = context =>
             {
-                if (context.Request.Cookies.ContainsKey("access_token"))
+                // El token no viaja en Authorization: se lee de la cookie HttpOnly.
+                if (context.Request.Cookies.TryGetValue(AuthCookieOptions.AccessTokenCookie, out var token))
                 {
-                    context.Token = context.Request.Cookies["access_token"];
+                    context.Token = token;
                 }
+
                 return Task.CompletedTask;
+            },
+
+            OnTokenValidated = async context =>
+            {
+                // La firma y la caducidad son validas, pero la sesion puede haberse cerrado.
+                var sessionId = context.Principal?.GetSessionId();
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    return;
+                }
+
+                var revocations = context.HttpContext.RequestServices.GetRequiredService<ISessionRevocationStore>();
+                if (await revocations.IsRevokedAsync(sessionId, context.HttpContext.RequestAborted))
+                {
+                    context.Fail("La sesion se ha cerrado.");
+                }
             }
         };
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -75,68 +122,76 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "OposicionesTAI",
             ValidAudience = builder.Configuration["Jwt:Audience"] ?? "OposicionesTAIUsers",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            // Sin margen de holgura: una caducidad de 60 minutos no debe durar 65.
+            ClockSkew = TimeSpan.Zero
         };
     });
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new() { Title = "Sistema Oposiciones TAI API", Version = "v1", Description = "API Backend en .NET 10 para la preparación de Oposiciones TAI (INAP) con PostgreSQL." });
-});
+const string CorsPolicy = "TaiClient";
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+                     ?? (builder.Environment.IsDevelopment()
+                         ? ["http://localhost:5173", "http://localhost:4173"]
+                         : []);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("DevelopmentCors", policy =>
+    options.AddPolicy(CorsPolicy, policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        // AllowCredentials es imprescindible para las cookies y prohibe el comodin de origen:
+        // la lista blanca se declara en configuracion, no en codigo.
+        policy.WithOrigins(allowedOrigins)
               .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials();
-    });
-    
-    options.AddPolicy("ProductionCors", policy =>
-    {
-        policy.WithOrigins("https://tai.naindev.com", "https://tai-study-system.vercel.app", "https://tai-frontend.vercel.app", "https://nain9dev.github.io")
-              .AllowAnyMethod()
-              .AllowAnyHeader()
+              .WithHeaders("Content-Type", "Accept", CsrfValidationMiddleware.HeaderName, "X-Correlation-Id")
+              .WithExposedHeaders("X-Correlation-Id")
               .AllowCredentials();
     });
 });
 
-var cs = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
-if (cs.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) || cs.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
-{
-    var uri = new Uri(cs);
-    var userInfo = uri.UserInfo.Split(':');
-    cs = $"Host={uri.Host};Port={(uri.Port > 0 ? uri.Port : 5432)};Database={uri.LocalPath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true;";
-}
-else
-{
-    throw new InvalidOperationException("Solo se soporta conexión a PostgreSQL mediante URL (postgres://...).");
-}
+builder.Services.AddInfrastructureServices(connectionString);
+builder.Services.AddApplicationServices();
 
-builder.Services.AddInfrastructureServices(cs);
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<Oposiciones.Application.Interfaces.IProgresoService, Oposiciones.Application.Services.ProgresoService>();
+builder.Services.AddSingleton<ICsrfTokenService, CsrfTokenService>();
+builder.Services.AddSingleton<ISessionRevocationStore, SessionRevocationStore>();
+builder.Services.AddSingleton<AuthCookieWriter>();
 
 var app = builder.Build();
 
+if (allowedOrigins.Length == 0)
+{
+    app.Logger.LogWarning(
+        "No hay origenes CORS configurados (Cors:AllowedOrigins). El cliente web no podra consumir la API.");
+}
+
+if (string.IsNullOrWhiteSpace(redisUrl) && !app.Environment.IsDevelopment())
+{
+    app.Logger.LogWarning(
+        "REDIS_URL no configurado: la cache es local al proceso. Con mas de una instancia, " +
+        "los tokens CSRF emitidos por una no seran validos en las demas.");
+}
+
+// ---------------------------------------------------------------------------
+// Canalizacion. El orden importa:
+//   errores -> CORS -> limitador -> autenticacion -> autorizacion -> CSRF -> endpoints
+// El manejador de errores va primero para envolver todo lo demas; CORS antes del limitador
+// para que un 429 tambien llegue al navegador con las cabeceras correctas.
+// ---------------------------------------------------------------------------
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
-    app.UseCors("DevelopmentCors");
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Oposiciones TAI v1"));
 }
 else
 {
-    app.UseCors("ProductionCors");
+    app.UseHsts();
 }
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
+app.UseCors(CorsPolicy);
+app.UseResponseCaching();
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -145,3 +200,6 @@ app.UseMiddleware<CsrfValidationMiddleware>();
 app.MapControllers();
 
 app.Run();
+
+/// <summary>Expuesto para las pruebas de integracion con WebApplicationFactory.</summary>
+public partial class Program;

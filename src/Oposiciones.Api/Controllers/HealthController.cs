@@ -1,40 +1,72 @@
+using System.Diagnostics;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
+using Oposiciones.Infrastructure.Data;
 
-namespace Oposiciones.Api.Controllers
+namespace Oposiciones.Api.Controllers;
+
+/// <summary>
+/// Sondas de disponibilidad. Antes reconstruia la cadena de conexion por su cuenta,
+/// duplicando el traductor de URL de PostgreSQL y devolviendo el error crudo al cliente.
+/// </summary>
+[ApiController]
+[Route("api/health")]
+[Produces("application/json")]
+public class HealthController : ControllerBase
 {
-    [ApiController]
-    [Route("api/health")]
-    public class HealthController : ControllerBase
+    private readonly IDbConnectionFactory _connectionFactory;
+    private readonly ILogger<HealthController> _logger;
+
+    public HealthController(IDbConnectionFactory connectionFactory, ILogger<HealthController> logger)
     {
-        private readonly IConfiguration _configuration;
+        _connectionFactory = connectionFactory;
+        _logger = logger;
+    }
 
-        public HealthController(IConfiguration configuration)
+    /// <summary>Sonda de vida: responde sin tocar dependencias externas.</summary>
+    [HttpGet]
+    public IActionResult Get() => Ok(new
+    {
+        status = "ok",
+        service = "Oposiciones.Api",
+        utc = DateTime.UtcNow
+    });
+
+    /// <summary>Sonda de disponibilidad: comprueba que la base de datos responde.</summary>
+    [HttpGet("db")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+    public async Task<IActionResult> Db(CancellationToken cancellationToken)
+    {
+        var stopwatch = Stopwatch.StartNew();
+
+        try
         {
-            _configuration = configuration;
+            await using var connection = await _connectionFactory.OpenAsync(cancellationToken);
+            await connection.ExecuteScalarAsync<int>(
+                new CommandDefinition("SELECT 1;", cancellationToken: cancellationToken));
+
+            stopwatch.Stop();
+
+            return Ok(new
+            {
+                status = "ok",
+                database = "postgresql",
+                latencyMs = stopwatch.ElapsedMilliseconds
+            });
         }
-
-        [HttpGet("db")]
-        public async Task<IActionResult> Db()
+        catch (Exception exception) when (exception is not OperationCanceledException)
         {
-            var cs = _configuration.GetConnectionString("DefaultConnection") ?? "";
-            if (cs.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) || cs.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+            stopwatch.Stop();
+            _logger.LogError(exception, "La sonda de base de datos ha fallado.");
+
+            // El detalle del fallo se queda en el log: expone host, usuario y esquema.
+            return StatusCode(StatusCodes.Status503ServiceUnavailable, new
             {
-                var uri = new Uri(cs);
-                var userInfo = uri.UserInfo.Split(':');
-                cs = $"Host={uri.Host};Port={(uri.Port > 0 ? uri.Port : 5432)};Database={uri.LocalPath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true;";
-            }
-            
-            using (var connection = new Npgsql.NpgsqlConnection(cs))
-            {
-                await connection.OpenAsync();
-                using (var command = new Npgsql.NpgsqlCommand("SELECT 1", connection))
-                {
-                    var result = await command.ExecuteScalarAsync();
-                    return Ok(new { ok = true, result });
-                }
-            }
+                status = "unavailable",
+                database = "postgresql",
+                latencyMs = stopwatch.ElapsedMilliseconds
+            });
         }
     }
 }
