@@ -1,5 +1,45 @@
 # 90 — Changelog
 
+## 2026-09-08 — Deployment fixes
+
+Production was still serving a build that predated the backend hardening release, so every
+`/api/preguntas` call from the web client returned 404. Investigating why a redeploy had
+not happened turned up the reason it could not: the container build was broken.
+
+### Fixed
+
+- **The container build failed.** Adding the test project to the solution meant
+  `dotnet restore` could no longer resolve the graph from the layer that copies only the
+  four `src/` project files. Every build died with `MSB3202`, and the image had not been
+  rebuilt since — ADR-0007.
+- **The port was baked in at build time.** `ENV ASPNETCORE_URLS=http://+:$PORT` resolves
+  when the image is built, where `PORT` is unset, producing `http://+:`. Docker had been
+  warning about it. Now resolved at start-up, verified by running the image with
+  `PORT=10000` — ADR-0007.
+- **The CORS configuration in the deployment guide could never have worked.**
+  `Cors:AllowedOrigins` binds to `string[]`, which from environment variables needs the
+  indexed form; the guide specified a comma-separated value under the wrong key. Both forms
+  are now accepted, entries are validated, and the resolved allowlist is logged — ADR-0008.
+- **The deployment guide pointed at a migration script that is not in the repository**, and
+  never mentioned the eight that are. A deployment following it would come up against a
+  database with no `IntentosUsuario` table.
+
+### Changed
+
+- The unit suite runs inside the container build, so a failing business rule stops the image
+  rather than reaching production.
+- Added `.dockerignore`; `COPY . ./` was pulling host `bin/` and `obj/` into the image.
+- The container runs as the runtime image's non-root account.
+- `DEPLOYMENT.md` rewritten: every migration listed in order, a verification step that
+  catches a stale deployment, and a checklist.
+
+### Verification
+
+- `docker build` succeeds and runs 81 unit tests as part of the build.
+- The image, run in `Production` mode against a freshly migrated PostgreSQL 16, passes
+  all 48 end-to-end assertions. The previous run had been in `Development`, so this is the
+  first time the production cookie and CORS configuration has been exercised.
+
 ## 2026-09-08 — Backend rewrite
 
 The study flow never reached the database. `/api/preguntas` had no controller, the table

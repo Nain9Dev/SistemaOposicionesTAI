@@ -79,3 +79,7 @@ Status legend: `Implemented` · `Partial` · `Planned`.
 | REQ-061 | When the connection string is supplied as a `postgres://` URL, the system shall translate it to the driver format, honouring the `sslmode` in the query string and requiring TLS when absent. | Implemented |
 | REQ-062 | When the readiness probe is called, the system shall verify the database actually responds and shall report latency without leaking connection details. | Implemented |
 | REQ-063 | When no CORS origins are configured, the system shall log a warning at start-up, because the web client will be unable to reach the API. | Implemented |
+| REQ-064 | When CORS origins are supplied, the system shall accept both a comma-separated value and the indexed array form, and shall log the allowlist it resolved. | Implemented |
+| REQ-065 | When a CORS origin carries a trailing slash, a path or a non-HTTP scheme, the system shall reject it and name it in the start-up log, rather than adding an entry the browser can never match. | Implemented |
+| REQ-066 | When the container image is built, the system shall run the unit suite and fail the build if any test fails. | Implemented |
+| REQ-067 | When the hosting platform injects a port, the container shall bind to it at start-up rather than to a value fixed when the image was built. | Implemented |
