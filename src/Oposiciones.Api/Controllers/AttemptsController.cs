@@ -1,51 +1,80 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Oposiciones.Api.DTOs;
+using Oposiciones.Api.Extensions;
+using Oposiciones.Application.Interfaces;
 using Oposiciones.Domain.Interfaces;
-using System.Threading.Tasks;
 
-namespace Oposiciones.Api.Controllers
+namespace Oposiciones.Api.Controllers;
+
+/// <summary>
+/// Ciclo de vida de un intento sobre un test generado.
+///
+/// Antes era completamente anonimo y aceptaba el propietario como texto en el cuerpo, de modo
+/// que cualquiera podia responder o cerrar el intento de otra persona. Ahora el propietario se
+/// deriva del token y el servicio comprueba la pertenencia en cada operacion.
+/// </summary>
+[Authorize]
+[ApiController]
+[Route("api/attempts")]
+[Produces("application/json")]
+public class AttemptsController : ControllerBase
 {
-    [ApiController]
-    [Route("api/attempts")]
-    public class AttemptsController : ControllerBase
+    private readonly IAttemptService _attemptService;
+
+    public AttemptsController(IAttemptService attemptService)
     {
-        private readonly IAttemptRepository _attemptRepository;
+        _attemptService = attemptService;
+    }
 
-        public AttemptsController(IAttemptRepository attemptRepository)
+    [HttpPost("start")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Start([FromBody] StartAttemptRequestDto request, CancellationToken cancellationToken)
+    {
+        if (User.GetAttemptOwner() is not { } owner)
         {
-            _attemptRepository = attemptRepository;
+            return Unauthorized();
         }
 
-        public class StartAttemptRequest
+        var attemptId = await _attemptService.StartAsync(request.TestId, owner, cancellationToken);
+
+        return Ok(new { attemptId });
+    }
+
+    [HttpPost("{attemptId:long}/answer")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Answer(
+        long attemptId,
+        [FromBody] AnswerRequestDto request,
+        CancellationToken cancellationToken)
+    {
+        if (User.GetAttemptOwner() is not { } owner)
         {
-            public long TestId { get; set; }
-            public string UserName { get; set; } = "demo";
+            return Unauthorized();
         }
 
-        public class AnswerRequest
+        await _attemptService.RegisterAnswerAsync(
+            attemptId, owner, request.QuestionId, request.AnswerOptionId, cancellationToken);
+
+        return Ok(new { ok = true });
+    }
+
+    [HttpPost("{attemptId:long}/finish")]
+    [ProducesResponseType(typeof(FinishAttemptResult), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Finish(long attemptId, CancellationToken cancellationToken)
+    {
+        if (User.GetAttemptOwner() is not { } owner)
         {
-            public long QuestionId { get; set; }
-            public long AnswerOptionId { get; set; }
+            return Unauthorized();
         }
 
-        [HttpPost("start")]
-        public async Task<IActionResult> Start([FromBody] StartAttemptRequest request)
-        {
-            var attemptId = await _attemptRepository.StartAsync(request.TestId, request.UserName);
-            return Ok(new { attemptId });
-        }
-
-        [HttpPost("{attemptId:long}/answer")]
-        public async Task<IActionResult> Answer(long attemptId, [FromBody] AnswerRequest request)
-        {
-            var ok = await _attemptRepository.AnswerAsync(attemptId, request.QuestionId, request.AnswerOptionId);
-            return Ok(new { ok = ok == 1 });
-        }
-
-        [HttpPost("{attemptId:long}/finish")]
-        public async Task<IActionResult> Finish(long attemptId)
-        {
-            var result = await _attemptRepository.FinishAsync(attemptId);
-            return Ok(result);
-        }
+        return Ok(await _attemptService.FinishAsync(attemptId, owner, cancellationToken));
     }
 }

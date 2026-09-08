@@ -1,134 +1,156 @@
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.AspNetCore.RateLimiting;
 using Oposiciones.Api.DTOs;
-using Oposiciones.Application.Services;
-using System.Security.Claims;
+using Oposiciones.Api.Extensions;
+using Oposiciones.Api.Security;
+using Oposiciones.Application.DTOs;
+using Oposiciones.Application.Interfaces;
 
 namespace Oposiciones.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[EnableRateLimiting("AuthLimiter")]
+[EnableRateLimiting(RateLimitPolicies.Auth)]
+[Produces("application/json")]
 public class AuthController : ControllerBase
 {
-    private readonly AuthService _authService;
-    private readonly IDistributedCache _cache;
+    private readonly IAuthService _authService;
+    private readonly ICsrfTokenService _csrfTokenService;
+    private readonly ISessionRevocationStore _sessionRevocationStore;
+    private readonly AuthCookieWriter _cookieWriter;
 
-    public AuthController(AuthService authService, IDistributedCache cache)
+    public AuthController(
+        IAuthService authService,
+        ICsrfTokenService csrfTokenService,
+        ISessionRevocationStore sessionRevocationStore,
+        AuthCookieWriter cookieWriter)
     {
         _authService = authService;
-        _cache = cache;
+        _csrfTokenService = csrfTokenService;
+        _sessionRevocationStore = sessionRevocationStore;
+        _cookieWriter = cookieWriter;
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginDto dto)
+    [ProducesResponseType(typeof(AuthResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> Login([FromBody] LoginDto dto, CancellationToken cancellationToken)
     {
-        var (token, refreshToken, user) = await _authService.LoginAsync(dto.Email, dto.Password);
-        if (token == null || refreshToken == null || user == null) return Unauthorized(new { message = "Email o contraseña incorrectos" });
-        
-        SetTokenCookie(token);
-        SetRefreshTokenCookie(refreshToken);
+        var result = await _authService.LoginAsync(dto.Email, dto.Password, cancellationToken);
+        if (result is null)
+        {
+            // Mismo mensaje para email inexistente y contrasena incorrecta: no se filtra
+            // que direcciones estan dadas de alta.
+            return Unauthorized(new { message = "Email o contrasena incorrectos." });
+        }
 
-        var csrfToken = Guid.NewGuid().ToString();
-        await _cache.SetStringAsync($"csrf_{user.Id}", csrfToken, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24) });
-
-        return Ok(new AuthResponseDto { 
-            Token = "", // Ya no se expone al frontend
-            CsrfToken = csrfToken,
-            User = new UserProfileDto { Id = user.Id, Nombre = user.Nombre, Email = user.Email, Rol = user.Rol }
-        });
+        return Ok(await EstablishSessionAsync(result, cancellationToken));
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterDto dto)
+    [ProducesResponseType(typeof(AuthResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Register([FromBody] RegisterDto dto, CancellationToken cancellationToken)
     {
-        var createdUser = await _authService.RegisterAsync(dto.Nombre, dto.Email, dto.Password);
-        if (createdUser == null) return Conflict(new { message = "El usuario ya existe" });
-
-        var (token, refreshToken, user) = await _authService.LoginAsync(dto.Email, dto.Password);
-        
-        var csrfToken = "";
-        if (token != null && refreshToken != null) 
+        var result = await _authService.RegisterAsync(dto.Nombre, dto.Email, dto.Password, cancellationToken);
+        if (result is null)
         {
-            SetTokenCookie(token);
-            SetRefreshTokenCookie(refreshToken);
-            csrfToken = Guid.NewGuid().ToString();
-            await _cache.SetStringAsync($"csrf_{user!.Id}", csrfToken, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24) });
+            return Conflict(new { message = "Ya existe una cuenta con ese email." });
         }
 
-        return Ok(new AuthResponseDto { 
-            Token = "", 
-            CsrfToken = csrfToken,
-            User = new UserProfileDto { Id = user!.Id, Nombre = user.Nombre, Email = user.Email, Rol = user.Rol }
-        });
+        return Ok(await EstablishSessionAsync(result, cancellationToken));
     }
 
     [HttpPost("refresh")]
-    public async Task<IActionResult> Refresh()
+    [ProducesResponseType(typeof(AuthResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> Refresh(CancellationToken cancellationToken)
     {
-        if (!Request.Cookies.TryGetValue("refresh_token", out var oldRefreshToken))
-            return Unauthorized(new { message = "Refresh token missing" });
+        if (!Request.Cookies.TryGetValue(AuthCookieOptions.RefreshTokenCookie, out var oldRefreshToken)
+            || string.IsNullOrWhiteSpace(oldRefreshToken))
+        {
+            return Unauthorized(new { message = "No hay sesion que renovar." });
+        }
 
-        var (token, newRefreshToken, user) = await _authService.RefreshTokenAsync(oldRefreshToken);
-        if (token == null || newRefreshToken == null || user == null)
-            return Unauthorized(new { message = "Invalid refresh token" });
+        var result = await _authService.RefreshTokenAsync(oldRefreshToken, cancellationToken);
+        if (result is null)
+        {
+            // Token invalido, caducado o reutilizado: se limpian las cookies para que el
+            // cliente no reintente en bucle con una credencial muerta.
+            _cookieWriter.Clear(Response);
+            return Unauthorized(new { message = "La sesion ha expirado. Inicie sesion de nuevo." });
+        }
 
-        SetTokenCookie(token);
-        SetRefreshTokenCookie(newRefreshToken);
+        return Ok(await EstablishSessionAsync(result, cancellationToken));
+    }
 
-        var csrfToken = Guid.NewGuid().ToString();
-        await _cache.SetStringAsync($"csrf_{user.Id}", csrfToken, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24) });
+    /// <summary>Perfil de la sesion activa. Permite al cliente rehidratar sin exponer el JWT.</summary>
+    [HttpGet("me")]
+    [Authorize]
+    [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
+    public IActionResult Me()
+    {
+        var userId = User.GetUserId();
+        if (userId is null)
+        {
+            return Unauthorized();
+        }
 
-        return Ok(new AuthResponseDto { 
-            Token = "", 
-            CsrfToken = csrfToken,
-            User = new UserProfileDto { Id = user.Id, Nombre = user.Nombre, Email = user.Email, Rol = user.Rol }
+        return Ok(new UserProfileDto
+        {
+            Id = userId.Value,
+            Nombre = User.Identity?.Name ?? string.Empty,
+            Email = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value ?? string.Empty,
+            Rol = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? string.Empty
         });
     }
 
     [HttpPost("logout")]
-    public async Task<IActionResult> Logout()
+    public async Task<IActionResult> Logout(CancellationToken cancellationToken)
     {
-        if (Request.Cookies.TryGetValue("refresh_token", out var refreshToken))
+        if (Request.Cookies.TryGetValue(AuthCookieOptions.RefreshTokenCookie, out var refreshToken)
+            && !string.IsNullOrWhiteSpace(refreshToken))
         {
-            await _authService.RevokeRefreshTokenAsync(refreshToken);
+            await _authService.RevokeRefreshTokenAsync(refreshToken, cancellationToken);
         }
 
-        var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (!string.IsNullOrEmpty(userIdStr))
+        if (User.GetSessionId() is { } sessionId)
         {
-            await _cache.RemoveAsync($"csrf_{userIdStr}");
+            await _csrfTokenService.RevokeAsync(sessionId, cancellationToken);
+
+            // Borrar la cookie no invalida el JWT, que es autocontenido y sigue vigente hasta
+            // su caducidad. La sesion se anota en la lista de revocacion para que un token
+            // copiado antes del cierre deje de servir de inmediato.
+            await _sessionRevocationStore.RevokeAsync(
+                sessionId,
+                User.GetAccessTokenExpiry() ?? DateTimeOffset.UtcNow.AddHours(1),
+                cancellationToken);
         }
 
-        Response.Cookies.Delete("access_token", new CookieOptions { HttpOnly = true, Secure = true, SameSite = SameSiteMode.None });
-        Response.Cookies.Delete("refresh_token", new CookieOptions { HttpOnly = true, Secure = true, SameSite = SameSiteMode.None });
+        _cookieWriter.Clear(Response);
 
-        return Ok(new { message = "Sesión cerrada correctamente" });
+        return Ok(new { message = "Sesion cerrada correctamente." });
     }
 
-    private void SetTokenCookie(string token)
+    private async Task<AuthResponseDto> EstablishSessionAsync(AuthResult result, CancellationToken cancellationToken)
     {
-        var cookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Secure = true, // Requerido para SameSite=None
-            SameSite = SameSiteMode.None, // Permite cross-site en producción si el frontend y backend están en dominios distintos
-            Expires = DateTime.UtcNow.AddHours(24) // Coincide con vigencia del JWT
-        };
-        Response.Cookies.Append("access_token", token, cookieOptions);
-    }
+        _cookieWriter.WriteAccessToken(Response, result.AccessToken, result.AccessTokenExpiresAt);
+        _cookieWriter.WriteRefreshToken(Response, result.RefreshToken, result.RefreshTokenExpiresAt);
 
-    private void SetRefreshTokenCookie(string token)
-    {
-        var cookieOptions = new CookieOptions
+        var csrfToken = await _csrfTokenService.IssueAsync(result.SessionId, cancellationToken);
+
+        return new AuthResponseDto
         {
-            HttpOnly = true,
-            Secure = true, 
-            SameSite = SameSiteMode.None, 
-            Expires = DateTime.UtcNow.AddDays(7) // Coincide con vigencia del Refresh Token
+            CsrfToken = csrfToken,
+            ExpiresAt = result.AccessTokenExpiresAt,
+            User = new UserProfileDto
+            {
+                Id = result.User.Id,
+                Nombre = result.User.Nombre,
+                Email = result.User.Email,
+                Rol = result.User.Rol
+            }
         };
-        Response.Cookies.Append("refresh_token", token, cookieOptions);
     }
 }

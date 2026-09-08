@@ -12,7 +12,11 @@ BEGIN
      ('III','Desarrollo de sistemas'),
      ('IV','Sistemas y comunicaciones')
     ) AS v(Code, Name)
-    WHERE NOT EXISTS (SELECT 1 FROM SyllabusBlocks b WHERE b.Code = v.Code);
+    WHERE NOT EXISTS (SELECT 1 FROM SyllabusBlocks b WHERE b.Code = v.Code)
+    -- El orden de insercion fija los identificadores IDENTITY. Sin ORDER BY explicito
+    -- PostgreSQL puede materializar el VALUES en cualquier orden y los Id dejan de
+    -- corresponderse con la secuencia del temario.
+    ORDER BY CASE v.Code WHEN 'I' THEN 1 WHEN 'II' THEN 2 WHEN 'III' THEN 3 WHEN 'IV' THEN 4 ELSE 99 END;
 
     SELECT Id INTO v_BlockI FROM SyllabusBlocks WHERE Code='I';
     SELECT Id INTO v_BlockII FROM SyllabusBlocks WHERE Code='II';
